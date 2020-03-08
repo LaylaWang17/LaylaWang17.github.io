@@ -119,10 +119,9 @@
   <entry>
     <title>Python虚拟环境</title>
     <url>/2020/02/07/Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>虚拟环境是保持项目依赖独立的一种方式，避免项目间的依赖互相干扰</p>
 <a id="more"></a>
 
-<p>虚拟环境是保持项目依赖独立的一种方式，避免项目间的依赖互相干扰</p>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ul>
 <li><p>创建虚拟环境</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">python -m venv test_env</span><br></pre></td></tr></table></figure>
@@ -215,7 +214,7 @@
   <entry>
     <title>.bash_profile、.profile、.bashrc 文件的区别</title>
     <url>/2020/02/06/bash-profile%E3%80%81profile%E3%80%81bashrc%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>Mac 的.bash_profile、.profile、.bashrc 三个配置文件的区别</p>
 <a id="more"></a>
 
 <h2 id="配置文件的分类"><a href="#配置文件的分类" class="headerlink" title="配置文件的分类"></a>配置文件的分类</h2><ul>
@@ -522,10 +521,9 @@
   <entry>
     <title>Webpack打包原理</title>
     <url>/2019/12/16/Webpack%E6%89%93%E5%8C%85%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>Webpack 是一个打包模块的机制，它做的是分析代码、编译代码。</p>
 <a id="more"></a>
 
-<p>Webpack 是一个打包模块的机制，它做的是分析代码、编译代码。</p>
 <h2 id="构建流程"><a href="#构建流程" class="headerlink" title="构建流程"></a>构建流程</h2><ol>
 <li>解析配置参数</li>
 <li>注册所有配置的插件，好让插件监听 webpack 构建生命周期的事件节点，以做出对应的反应</li>
@@ -653,7 +651,7 @@
   <entry>
     <title>Postman用法总结</title>
     <url>/2019/04/22/Postman%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>Postman 快速上手<br>…</p>
 <a id="more"></a>
 
 <h2 id="界面介绍"><a href="#界面介绍" class="headerlink" title="界面介绍"></a>界面介绍</h2><p><img src="http://upload-images.jianshu.io/upload_images/14805043-4d29ae87bc8dca2b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
@@ -916,10 +914,9 @@
   <entry>
     <title>SQL规范总结</title>
     <url>/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>遵循一定的规范有助于提高代码的可读性和可移植性，对 SQL 来说规范中最主要的是命名规范和代码规范，这里给出了一些通用的规范，具体应该遵循的规范需要依据项目要求来确定。</p>
 <a id="more"></a>
 
-<p>遵循一定的规范有助于提高代码的可读性和可移植性，对 SQL 来说规范中最主要的是命名规范和代码规范，这里给出了一些通用的规范，具体应该遵循的规范需要依据项目要求来确定。</p>
 <h2 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h2><h3 id="可用字符"><a href="#可用字符" class="headerlink" title="可用字符"></a>可用字符</h3><ul>
 <li><p>对 SQL 来说，命名可用的字符包括 A-Z、a-z、0-9 及下划线。</p>
 </li>
@@ -1084,10 +1081,9 @@
   <entry>
     <title>MySQL中的索引用法总结</title>
     <url>/2019/03/28/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>索引作为一种数据结构，其用途是用于提升检索数据的效率。</p>
 <a id="more"></a>
 
-<p>索引作为一种数据结构，其用途是用于提升检索数据的效率。</p>
 <h2 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h2><p>MySQL 中的索引共分为：</p>
 <ul>
 <li>普通索引（INDEX）：索引列值可重复</li>
@@ -1297,7 +1293,7 @@
     <content><![CDATA[<p>…</p>
 <a id="more"></a>
 
-<h1 id="SQL-中常用的文本处理函数和日期时间处理函数"><a href="#SQL-中常用的文本处理函数和日期时间处理函数" class="headerlink" title="SQL 中常用的文本处理函数和日期时间处理函数"></a>SQL 中常用的文本处理函数和日期时间处理函数</h1><h2 id="常用文本处理函数"><a href="#常用文本处理函数" class="headerlink" title="常用文本处理函数"></a>常用文本处理函数</h2><ul>
+<h2 id="常用文本处理函数"><a href="#常用文本处理函数" class="headerlink" title="常用文本处理函数"></a>常用文本处理函数</h2><ul>
 <li><p><code>CONCAT(str1, str2, ...)</code>：拼接字符串</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql&gt; SELECT CONCAT('There', ' is', ' an', ' apple.');</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br><span class="line">| CONCAT('There', ' is', ' an', ' apple.') |</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br><span class="line">| There is an apple.                       |</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -1418,10 +1414,7 @@
   <entry>
     <title>MySQL中的JSON数据类型</title>
     <url>/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
-    <content><![CDATA[<p>…</p>
-<a id="more"></a>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>MySQL 支持原生<code>JSON</code>类型，使用<code>JSON</code>数据类型相较于将 JSON 格式的字符串存储在 String 型中的优势有：</p>
+    <content><![CDATA[<p>MySQL 支持原生<code>JSON</code>类型，使用<code>JSON</code>数据类型相较于将 JSON 格式的字符串存储在 String 型中的优势有：</p>
 <ul>
 <li><p>存储时会自动验证 JSON 文本；</p>
 </li>
@@ -1429,6 +1422,8 @@
 </li>
 </ul>
 <p><code>JSON</code>型中可存储的 JSON 文本的大小不会超过<code>mysql.ini</code>配置文件中设置的<code>max_allowed_packet</code>的值。</p>
+<a id="more"></a>
+
 <h2 id="JSON-值的局部更新"><a href="#JSON-值的局部更新" class="headerlink" title="JSON 值的局部更新"></a>JSON 值的局部更新</h2><p>MySQL 从 8.0 开始支持对<code>JSON</code>型中存储的数据进行局部更新，而不需要清除原有数据并写入新值。</p>
 <p>局部更新按照下述规则执行：</p>
 <ul>
@@ -1644,16 +1639,15 @@
   <entry>
     <title>MySQL中CHAR和VARCHAR的区别</title>
     <url>/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<p>…</p>
-<a id="more"></a>
-
-<p>CHAR 和 VARCHAR 的主要区别有三方面：</p>
+    <content><![CDATA[<p>CHAR 和 VARCHAR 的主要区别有三方面：</p>
 <ul>
 <li>最大长度</li>
 <li>有效长度</li>
 <li>存储方式</li>
 <li>是否保留末尾空格</li>
 </ul>
+<a id="more"></a>
+
 <h2 id="最大长度"><a href="#最大长度" class="headerlink" title="最大长度"></a>最大长度</h2><ul>
 <li>CHAR 的长的范围为 0~255</li>
 <li>VARCHAR 的长度范围为 0~65535</li>
@@ -1850,7 +1844,7 @@
   <entry>
     <title>Java学习中一些遗漏的知识点</title>
     <url>/2019/03/16/Java%E5%AD%A6%E4%B9%A0%E4%B8%AD%E4%B8%80%E4%BA%9B%E9%81%97%E6%BC%8F%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>最近回顾 Java 时发现之前遗漏了一些知识点，整理在这里。</p>
 <a id="more"></a>
 
 <ul>
@@ -1988,7 +1982,7 @@
   <entry>
     <title>【转】Java编程学习之反射技术及其应用</title>
     <url>/2019/03/12/%E3%80%90%E8%BD%AC%E3%80%91Java%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%8D%E5%B0%84%E6%8A%80%E6%9C%AF%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>看到一篇关于 Java 中反射技术相关知识总结的很好的文章，但是原文中给出的代码示例由于格式问题不易阅读，本文进行了整理，并修改了部分例子。</p>
 <a id="more"></a>
 
 <p>（原文链接：<a href="https://www.jianshu.com/p/2072013aa577" target="_blank" rel="noopener">java 编程学习之反射技术及其应用</a>)</p>
@@ -2069,7 +2063,7 @@
   <entry>
     <title>Java中equals和==的区别和联系</title>
     <url>/2019/03/11/Java%E4%B8%ADequals%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>在 Java 中使用<code>equals()</code>和相等操作符<code>==</code>是不一样的，适用于不同数据类型和不同场景</p>
 <a id="more"></a>
 
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="相等操作符"><a href="#相等操作符" class="headerlink" title="相等操作符=="></a>相等操作符==</h3><ul>
@@ -2199,7 +2193,7 @@
     <content><![CDATA[<p>…</p>
 <a id="more"></a>
 
-<h1 id="thenApply-和-thenCompose-的异同"><a href="#thenApply-和-thenCompose-的异同" class="headerlink" title="thenApply()和 thenCompose()的异同"></a>thenApply()和 thenCompose()的异同</h1><h2 id="相同之处"><a href="#相同之处" class="headerlink" title="相同之处"></a>相同之处</h2><p><code>thenApply()</code>和<code>themCompose()</code>都是用于连接多个<code>CompletableFuture</code>调用，通过类似于流的操作来处理<code>CompletableFutrue</code>的结果</p>
+<h2 id="相同之处"><a href="#相同之处" class="headerlink" title="相同之处"></a>相同之处</h2><p><code>thenApply()</code>和<code>themCompose()</code>都是用于连接多个<code>CompletableFuture</code>调用，通过类似于流的操作来处理<code>CompletableFutrue</code>的结果</p>
 <h2 id="不同之处"><a href="#不同之处" class="headerlink" title="不同之处"></a>不同之处</h2><ul>
 <li><p><code>thenApply()</code>接收一个函数作为参数，使用该函数处理上一个<code>CompletableFuture</code>调用的结果，并返回一个具有处理结果的<code>Future</code>对象</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">CompletableFuture&lt;String&gt; completableFuture = CompletableFuture.supplyAsync(() -&gt; <span class="string">"Hello"</span>).thenApply(string -&gt; string + <span class="string">" world"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println(completableFuture.get());</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -2224,7 +2218,7 @@
   <entry>
     <title>使用Runable接口和Thread类实现线程的异同</title>
     <url>/2019/03/05/%E4%BD%BF%E7%94%A8Runable%E6%8E%A5%E5%8F%A3%E5%92%8CThread%E7%B1%BB%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%BC%82%E5%90%8C/</url>
-    <content><![CDATA[<p>Java 中使用 Runable 接口和 Thread 类实现线程的异同</p>
+    <content><![CDATA[<p>…</p>
 <a id="more"></a>
 
 <h2 id="相同之处"><a href="#相同之处" class="headerlink" title="相同之处"></a>相同之处</h2><ul>
@@ -2265,7 +2259,7 @@
   <entry>
     <title>Java Optional的orElse()和orElseGet()的区别</title>
     <url>/2019/03/04/Java-Optional%E7%9A%84orElse-%E5%92%8CorElseGet-%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<p>orElse()和 orElseGet()的区别</p>
+    <content><![CDATA[<p>从接受参数、执行过程、性能三个方面总结了一下 orElse()和 orElseGet()的区别</p>
 <a id="more"></a>
 
 <h3 id="1-接收的参数不同"><a href="#1-接收的参数不同" class="headerlink" title="1. 接收的参数不同"></a>1. 接收的参数不同</h3><p><code>orElse()</code>方法以一个自定义类型的数据作为参数</p>
@@ -2372,6 +2366,10 @@
     <title>Externalizable的用法</title>
     <url>/2019/02/26/Externalizable%E7%9A%84%E7%94%A8%E6%B3%95/</url>
     <content><![CDATA[<p>总结了 Java 中 Externalizable 接口的使用方法</p>
+<ol>
+<li>序列化与反序列化</li>
+<li>Externalizable 接口和 Serializable 接口的区别</li>
+</ol>
 <a id="more"></a>
 
 <p>实现了 Externalizable 接口的类需要重写<code>wirteExternal()</code>方法和<code>readExternal()</code>方法，，这样可以实现自定义方式的序列化和反序列化，而不受限于 JVM。</p>
@@ -2425,10 +2423,7 @@
   <entry>
     <title>字符串拼接操作concat和+的区别</title>
     <url>/2019/02/26/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E6%93%8D%E4%BD%9Cconcat%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<p>…</p>
-<a id="more"></a>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">a += b;</span><br><span class="line">a.concat(b);</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">a += b;</span><br><span class="line">a.concat(b);</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>concat</code>只能接收字符串参数，而<code>+</code>操作符在会对其他数据类型做<code>toString()</code>转换再运算</li>
@@ -2638,7 +2633,7 @@
   <entry>
     <title>Java面向对象的四大特性</title>
     <url>/2019/02/20/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7/</url>
-    <content><![CDATA[<p>面向对象的四大特性总结</p>
+    <content><![CDATA[<p>总结面向对象的四大特性：封装、抽象、继承、多态</p>
 <a id="more"></a>
 
 <h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><ul>
@@ -2700,10 +2695,9 @@
   <entry>
     <title>Java数组</title>
     <url>/2019/02/18/Java%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>数组是<strong>固定长度</strong>的、存储<strong>相同类型变量</strong>的<strong>有序</strong>集合</p>
 <a id="more"></a>
 
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>数组是<strong>固定长度</strong>的、存储<strong>相同类型变量</strong>的<strong>有序</strong>集合</p>
 <h2 id="声明数组"><a href="#声明数组" class="headerlink" title="声明数组"></a>声明数组</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dataType[] arrayRefVar; <span class="comment">// 推荐</span></span><br><span class="line">dataType arrayRefVar[]; <span class="comment">// 不推荐</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 二维数组</span></span><br><span class="line">dataType[][] arrayRefVar;</span><br></pre></td></tr></table></figure>
 
 <h2 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h2><p>即指定数组的大小，为数组开辟内存空间</p>
@@ -2738,7 +2732,7 @@
   <entry>
     <title>Java中String类的常用方法</title>
     <url>/2019/02/18/Java%E4%B8%ADString%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>总结 Java 中 String 类的常用方法</p>
 <a id="more"></a>
 
 <h2 id="compareTo-方法"><a href="#compareTo-方法" class="headerlink" title="compareTo 方法"></a>compareTo 方法</h2><ul>
@@ -2841,7 +2835,7 @@
   <entry>
     <title>Java中Object类的常用方法</title>
     <url>/2019/02/18/Java%E4%B8%ADObject%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>…</p>
+    <content><![CDATA[<p>总结 Java 中 Object 类的常用方法</p>
 <a id="more"></a>
 
 <h2 id="clone-方法"><a href="#clone-方法" class="headerlink" title="clone 方法"></a>clone 方法</h2><ul>
@@ -2940,7 +2934,7 @@
   <entry>
     <title>类、抽象类、接口之间的区别</title>
     <url>/2019/02/16/%E7%B1%BB%E3%80%81%E6%8A%BD%E8%B1%A1%E7%B1%BB%E3%80%81%E6%8E%A5%E5%8F%A3%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<p>从含义、语法上总结了类、抽象类、接口之间的区别</p>
+    <content><![CDATA[<p>…</p>
 <a id="more"></a>
 
 <h2 id="从含义上讲区别"><a href="#从含义上讲区别" class="headerlink" title="从含义上讲区别"></a>从含义上讲区别</h2><ul>
@@ -2980,7 +2974,7 @@
 </blockquote>
 </li>
 </ul>
-<h3 id="从使用上讲区别"><a href="#从使用上讲区别" class="headerlink" title="从使用上讲区别"></a>从使用上讲区别</h3><ul>
+<h2 id="从使用上讲区别"><a href="#从使用上讲区别" class="headerlink" title="从使用上讲区别"></a>从使用上讲区别</h2><ul>
 <li>接口/类可以继承多个接口以组成新接口、但抽象类只能继承一个抽象类。</li>
 <li>Java 的单继承性决定了类只能继承一个类、但可以实现多个接口。因此接口可以使一个类除继承的主类的行为外、还能具有一些其他类具有的行为，实现了类型的多重继承。</li>
 <li>抽象类里可以有普通方法，因此在抽象类中添加一个方法，其所有子类均具有了该方法；而若在接口里添加一个新方法，其所有子类需要首先先实现该方法。</li>
@@ -3011,13 +3005,12 @@
   <entry>
     <title>Java中的自动装箱和拆箱机制</title>
     <url>/2019/02/14/Java%E4%B8%AD%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<p>Java 自动装箱和拆箱机制总结</p>
-<a id="more"></a>
-
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+    <content><![CDATA[<ul>
 <li>自动装箱：将基本数据类型转换为包装器类型</li>
 <li>自动拆箱：将包装器类型转换为基本数据类型</li>
 </ul>
+<a id="more"></a>
+
 <h2 id="包装器类型"><a href="#包装器类型" class="headerlink" title="包装器类型"></a>包装器类型</h2><p>包装器类型即基本数据类型对应的对象类型，对应关系如下：</p>
 <table>
 <thead>
@@ -3084,7 +3077,7 @@
   <entry>
     <title>Java数据类型的自动转换和强制转换</title>
     <url>/2019/02/14/Java%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E5%92%8C%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2/</url>
-    <content><![CDATA[<p>Java 数据类型的自动转换和强制转换知识点总结</p>
+    <content><![CDATA[<p>自动转换适用于低位数类型向高位数类型的转换<br>强制转换适用于高位类型向低位类型的转换。</p>
 <a id="more"></a>
 
 <h2 id="自动转换"><a href="#自动转换" class="headerlink" title="自动转换"></a>自动转换</h2><p>自动转换适用于低位数类型向高位数类型的转换</p>
@@ -3114,7 +3107,10 @@
   <entry>
     <title>Java中的this和super关键字</title>
     <url>/2019/02/12/Java%E4%B8%AD%E7%9A%84this%E5%92%8Csuper%E5%85%B3%E9%94%AE%E5%AD%97/</url>
-    <content><![CDATA[<p>Java 中的 this 和 super 相关知识点总结</p>
+    <content><![CDATA[<ul>
+<li><code>this</code>指向的是当前对象，是当前对象的引用，利用<code>this</code>关键字可以访问当前对象的字段和方法</li>
+<li><code>super</code>指向的是父类对象，是父类对象的引用</li>
+</ul>
 <a id="more"></a>
 
 <h2 id="this-的用法"><a href="#this-的用法" class="headerlink" title="this 的用法"></a>this 的用法</h2><p><code>this</code>指向的是当前对象，是当前对象的引用，利用<code>this</code>关键字可以访问当前对象的字段和方法，其用法为：</p>
@@ -3159,10 +3155,9 @@
   <entry>
     <title>Java中的final关键字</title>
     <url>/2019/01/31/Java%E4%B8%AD%E7%9A%84final%E5%85%B3%E9%94%AE%E5%AD%97/</url>
-    <content><![CDATA[<p>final 关键字知识点总结</p>
+    <content><![CDATA[<p><code>final</code>关键字可以用来修饰变量、方法、类。<br>被声明为<code>final</code>的变量是只读的，如果希望变量在程序运行的过程中保持不变，可将其声明为<code>final</code>，可以与<code>static</code>关键字结合来声明一个常量。<br>被<code>final</code>修饰的方法不可被子类重写，如果不希望子类改变某个方法，则可将其声明为<code>final</code>。例如，Object 类的方法都被声明为<code>final</code>。<br>被<code>final</code>修饰的类不能被继承，例如，String、和 Integer、Float 等不可变类。</p>
 <a id="more"></a>
 
-<p><code>final</code>关键字可以用来修饰变量、方法、类。</p>
 <h2 id="final-变量"><a href="#final-变量" class="headerlink" title="final 变量"></a>final 变量</h2><p>被声明为<code>final</code>的变量是只读的，如果希望变量在程序运行的过程中保持不变，可将其声明为<code>final</code>，可以与<code>static</code>关键字结合来声明一个常量，即</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOAN = <span class="string">"loan"</span>;</span><br><span class="line">LOAN = <span class="keyword">new</span> String(<span class="string">"loan"</span>); <span class="comment">//invalid compilation error</span></span><br></pre></td></tr></table></figure>
 
@@ -3205,10 +3200,9 @@
   <entry>
     <title>Java中的访问控制修饰符</title>
     <url>/2019/01/17/Java%E4%B8%AD%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6/</url>
-    <content><![CDATA[<p>访问控制修饰符用法总结</p>
+    <content><![CDATA[<p>访问控制修饰符一共四类：<code>default</code>、<code>public</code>、<code>private</code>、<code>protected</code></p>
 <a id="more"></a>
 
-<p>访问控制修饰符一共四类：<code>default</code>、<code>public</code>、<code>private</code>、<code>protected</code></p>
 <h2 id="default"><a href="#default" class="headerlink" title="default"></a>default</h2><ul>
 <li><p>关键字：无。不写访问控制修饰符即为<code>default</code></p>
 </li>
@@ -3251,13 +3245,12 @@
   <entry>
     <title>Java异常总结</title>
     <url>/2019/01/11/Java%E5%BC%82%E5%B8%B8%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>Java 中异常相关知识点总结</p>
-<a id="more"></a>
-
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>异常是程序运行过程中可能发生的一类事件。</p>
+    <content><![CDATA[<p>异常是程序运行过程中可能发生的一类事件。</p>
 <p>当方法中发生错误时，该方法会创建一个对象——异常对象——并将其交给 runtime system（该过程称为 <strong>抛出异常</strong>）。</p>
 <p>异常对象包含了错误信息，包括错误发生时的类型和程序状态。</p>
 <p>当异常被抛出时，runtime system 会从调用堆栈里寻找可以处理该异常的方法（exception handler)，当找到合适的 exception handler 时，即称为 catch the exception；如果 runtime system 找不到合适的 exception handler，则程序终止。</p>
+<a id="more"></a>
+
 <h2 id="异常的处理与声明规则"><a href="#异常的处理与声明规则" class="headerlink" title="异常的处理与声明规则"></a>异常的处理与声明规则</h2><ul>
 <li><p>使用<code>try-catch-finally</code>语句来捕获和处理异常</p>
 <ul>
@@ -3383,20 +3376,19 @@
   <entry>
     <title>理解单一职责原则</title>
     <url>/2019/01/08/%E7%90%86%E8%A7%A3%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</url>
-    <content><![CDATA[<p>…</p>
-<a id="more"></a>
-
-<p>单一职责原则就是让一个方法 / 类 / 文件只干一件事。</p>
+    <content><![CDATA[<p>单一职责原则就是让一个方法 / 类 / 文件只干一件事。</p>
 <p>（查了很多相关的资料，都是从类或接口的角度来讲的，不过从我的理解来说，这个职责不仅仅针对这两个维度）</p>
 <p>从自己写思沃影院的体会来讲讲理解。</p>
-<h3 id="文件的单一职责原则"><a href="#文件的单一职责原则" class="headerlink" title="文件的单一职责原则"></a>文件的单一职责原则</h3><p>首先这个项目需要完成一个思沃影院的网页，提供查询电影信息的功能。项目包含了 html（即网页布局）、css（样式与布局）、js（业务与展示逻辑）三部分工作。</p>
+<a id="more"></a>
+
+<h2 id="文件的单一职责原则"><a href="#文件的单一职责原则" class="headerlink" title="文件的单一职责原则"></a>文件的单一职责原则</h2><p>首先这个项目需要完成一个思沃影院的网页，提供查询电影信息的功能。项目包含了 html（即网页布局）、css（样式与布局）、js（业务与展示逻辑）三部分工作。</p>
 <p>实际上我们都知道 html 可以通过<code>&lt;style&gt;</code>标签和<code>&lt;script&gt;</code>标签之间将 css 和 js 部分的代码写进 html 里，但是对于一个内容较多且具有较为复杂的逻辑的网页来说，其 html、css、js 部分的代码都可能达到上百行（也许更多），因此这种方式会致使整个 html 体量庞大、难以维护。</p>
 <p>因此，更好的做法是通过外部引用来添加 css 和 js，做到 html 文件、css 文件、js 文件只负责其本身需要负责的事情。</p>
 <p>同样的，对 css 文件来说，当网页内容较多时，css 代码也是非常多的，如果把整个网页的 css 全部写在一个文件里会给调试与后续维护工作带来不必要的麻烦。</p>
 <p>例如思沃影院这个项目包含了主页和详情页两个网页，这两个网页中有一部分元素实际上是相同的，如果能够把相同部分的 css 提取出来作为单独的 css 文件，不仅可以减少重复代码，还方面后续样式的调整。因此我们当时提取了一个<code>basic.css</code>文件控制基础样式、一个<code>navigation.css</code>文件控制两个网页的导航栏样式、一个<code>movie_card.css</code>文件控制电影卡片的样式，而主页和详情页主要的 css 样式文件仅控制其整体布局和其余不重复的元素。</p>
 <p>对于 js 代码也是同样的道理，js 是对项目业务逻辑与展示逻辑的实现，这两部分工作如果能做到低耦合会大大增添代码的可读性、便于维护。</p>
 <p>同样以思沃影院这个项目为例，在最初的设计时我们将 js 部分划分成了数据处理、底层服务、业务逻辑、和页面渲染这四个部分，因此我们写了 4 个 js 文件来分别实现各部分的功能，实际实现的过程中我们也发现这四个部分实际上的耦合程度是非常低的，在业务逻辑部分分别调用其他部分相关方法即可实现整体的功能。而数据处理、底层服务、和页面渲染这几部分的方法也是可以在主页的业务逻辑和详情页的业务逻辑里复用的。</p>
-<h3 id="类的单一职责原则"><a href="#类的单一职责原则" class="headerlink" title="类的单一职责原则"></a>类的单一职责原则</h3><p>引用一个例子，比如一个创建一个手机类，需要它具有拨通电话、通话、结束通话三个方法，那直观的写法当然是</p>
+<h2 id="类的单一职责原则"><a href="#类的单一职责原则" class="headerlink" title="类的单一职责原则"></a>类的单一职责原则</h2><p>引用一个例子，比如一个创建一个手机类，需要它具有拨通电话、通话、结束通话三个方法，那直观的写法当然是</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Phone</span> </span>&#123;</span><br><span class="line">  dial(phoneNuber) &#123;&#125;</span><br><span class="line">  chat() &#123;&#125;</span><br><span class="line">  hangUp() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这种写法的问题在于将建立通信、数据传送这两件事混在了一起，因此可能更好的做法是分成两个类来实现</p>
@@ -3408,7 +3400,7 @@
 <li>一个<code>CallApi</code>类，包含调用不同 api 的方法</li>
 <li>一个<code>Search</code>类，包含根据不同分类、或关键词等信息筛选电影的方法</li>
 </ul>
-<h3 id="方法的单一职责原则"><a href="#方法的单一职责原则" class="headerlink" title="方法的单一职责原则"></a>方法的单一职责原则</h3><p>这个说起来就比较简单了，比如在思沃影院项目的<code>view.js</code>中我们写了很多方法，比如</p>
+<h2 id="方法的单一职责原则"><a href="#方法的单一职责原则" class="headerlink" title="方法的单一职责原则"></a>方法的单一职责原则</h2><p>这个说起来就比较简单了，比如在思沃影院项目的<code>view.js</code>中我们写了很多方法，比如</p>
 <ul>
 <li><p><code>renderGuideItemActive()</code></p>
 </li>
@@ -3422,7 +3414,7 @@
 </ul>
 <p>每个方法只负责页面一个特定元素的渲染、互不影响，当页面元素结构发生改变时，也只需要修改对应元素的渲染方法。</p>
 <p>遵循这样的原则使我们在开发的时候无论是面对自己还是小伙伴写的代码都可以非常快速的定位和修复 bug，对提高开发效率也是非常有帮助的。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>那么就总结一下单一职责原则的好处：</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>那么就总结一下单一职责原则的好处：</p>
 <ul>
 <li>简化的代码的复杂度</li>
 <li>提高了代码的可读性</li>
@@ -3434,7 +3426,7 @@
   <entry>
     <title>JDK、JRE、JVM之间的关系</title>
     <url>/2019/01/02/JDK%E3%80%81JRE%E3%80%81JVM%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB/</url>
-    <content><![CDATA[<p>总结了对 JDK、JRE、JVM 的理解</p>
+    <content><![CDATA[<p>…</p>
 <a id="more"></a>
 
 <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><p>Java Development Kit 是用于开发 Java 应用程序的软件开发工具，包括了 Java 运行时的环境（JRE）、解释器（Java）、编译器（javac）、Java 归档（jar ——一种软件包文件格式）、文档生成器（Javadoc）等工具。</p>
@@ -3475,10 +3467,7 @@
   <entry>
     <title>HTML本地存储</title>
     <url>/2018/12/27/HTML%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8/</url>
-    <content><![CDATA[<p>HTML 如何实现本地存储</p>
-<a id="more"></a>
-
-<p>本地存储有两类存储对象：</p>
+    <content><![CDATA[<p>本地存储有两类存储对象：</p>
 <ul>
 <li><code>window.localStorage</code>：用于存储没有截至日期的数据</li>
 <li><code>window.sessionStroage</code>：针对一个 session 来存储数据（当关闭浏览器标签页时数据会丢失）</li>
@@ -3501,10 +3490,9 @@
   <entry>
     <title>JavaScript-JSON</title>
     <url>/2018/12/21/JavaScript-JSON/</url>
-    <content><![CDATA[<p>总结了 JavaScript 中 JSON 相关的知识点</p>
+    <content><![CDATA[<p>JSON（JavaScript Object Notation）是一种 <strong>轻量级数据交换格式</strong>，用来序列化对象、数组、数值、字符串、布尔值和 <code>null</code>。</p>
 <a id="more"></a>
 
-<p>JSON（JavaScript Object Notation）是一种 <strong>轻量级数据交换格式</strong>，用来序列化对象、数组、数值、字符串、布尔值和 <code>null</code>。</p>
 <h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
 <li>JSON 是纯文本</li>
 <li>JSON 具有“自我描述性”（人类可读）</li>
@@ -3553,10 +3541,9 @@
   <entry>
     <title>JavaScript-Object</title>
     <url>/2018/12/17/JavaScript-Object/</url>
-    <content><![CDATA[<p>总结了 JavaScript 中的数据类型 Object 相关的知识点</p>
+    <content><![CDATA[<p>由一系列 <strong>键值对</strong> 组成的变量。其基本形式为：</p>
 <a id="more"></a>
 
-<p>由一系列 <strong>键值对</strong> 组成的变量。其基本形式为：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> object = &#123;</span><br><span class="line">  key1: value1,</span><br><span class="line">  key2: value2,</span><br><span class="line">  key3: value3</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>键值对的值可以是任何数据类型，包括：number, string, array, boolean, object, function 等。这些键值对称为对象的 <strong>属性</strong>，其中 function 也称为对象的 <strong>方法</strong>。对象的名字称为 <strong>命名空间</strong>。</p>
@@ -3651,7 +3638,7 @@
   <entry>
     <title>JS中的undefined和null</title>
     <url>/2018/12/16/JS%E4%B8%AD%E7%9A%84undefined%E5%92%8Cnull/</url>
-    <content><![CDATA[<p>对比了 undefined 和 null 的区别</p>
+    <content><![CDATA[<p>undefined 是 JavaScript 中的一个数据类型，表示“缺少值”，即——此变量应有值，但未定义。<br>null 也是 JavaScript 中的一个数据类型，表示一个空对象指针，指示变量未指向任何对象。</p>
 <a id="more"></a>
 
 <h2 id="1-undefined"><a href="#1-undefined" class="headerlink" title="1. undefined"></a>1. undefined</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>undefined 是 JavaScript 中的一个数据类型。</p>
@@ -3816,10 +3803,7 @@
   <entry>
     <title>Ajax请求中的回调</title>
     <url>/2018/12/13/Ajax%E8%AF%B7%E6%B1%82%E4%B8%AD%E7%9A%84%E5%9B%9E%E8%B0%83/</url>
-    <content><![CDATA[<p>总结了 Ajax 请求中的回调</p>
-<a id="more"></a>
-
-<ol>
+    <content><![CDATA[<ol>
 <li><p>创建 Ajax 对象（可以通过函数创建）</p>
 </li>
 <li><p>指定结果处理器</p>
@@ -3842,10 +3826,9 @@
   <entry>
     <title>JavaScript中的数据类型</title>
     <url>/2018/12/08/JavaScript%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
-    <content><![CDATA[<p>总结了 JavaScript 中的基本数据类型</p>
+    <content><![CDATA[<p>JavaScript 是一种弱类型语言，在 JavaScript 中一共有 7 种数据类型，分别是：</p>
 <a id="more"></a>
 
-<p>JavaScript 是一种弱类型语言，在 JavaScript 中一共有 7 种数据类型，分别是：</p>
 <ul>
 <li>原始数据类型（6 种）：<ul>
 <li>Boolean</li>
@@ -3927,10 +3910,7 @@
   <entry>
     <title>CSS中实现块级元素水平居中的N种方法</title>
     <url>/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>前自增运算符和后自增运算符的区别</p>
-<a id="more"></a>
-
-<p>最近写作业的时候遇到这么一道题：</p>
+    <content><![CDATA[<p>最近写作业的时候遇到这么一道题：</p>
 <blockquote>
 <p>网页由 box1、box2、box3、box4 四个盒子组成，请实现如下效果：</p>
 <ul>
@@ -3944,6 +3924,8 @@
 <p>另一种想法是，三个盒子排在一行可以用 float 实现，第四个盒子用绝对定位，但是依然存在上述问题。</p>
 <p>因此如果能让这些盒子自己在页面居中，那无论盒子的尺寸和数目如何改变均可轻松实现想要的效果了。</p>
 <p>学习了一下网上大牛们给出的方法，发现块级元素的水平居中可以通过 N 种方式实现！</p>
+<a id="more"></a>
+
 <h2 id="1-利用-margin-left-amp-right-auto-实现元素居中"><a href="#1-利用-margin-left-amp-right-auto-实现元素居中" class="headerlink" title="1. 利用 margin-left&amp;right=auto 实现元素居中"></a>1. 利用 margin-left&amp;right=auto 实现元素居中</h2><p>对于单个块级元素的水平居中可以通过将<code>margin-left</code>和<code>margin-left</code>设置为<code>auto</code>来实现。</p>
 <p>以一个 box 为例，CSS 部分具体代码为：</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">margin-left</span>: auto;</span><br><span class="line">  <span class="attribute">margin-right</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -4040,10 +4022,9 @@
   <entry>
     <title>JavaScript中的Math对象</title>
     <url>/2018/12/01/JavaScript%E4%B8%AD%E7%9A%84Math%E5%AF%B9%E8%B1%A1/</url>
-    <content><![CDATA[<p>JavaScript 的 Math 对象</p>
+    <content><![CDATA[<p><code>Math</code>是一个内置对象， 它具有数学常数和函数的属性和方法。不是一个函数对象。</p>
 <a id="more"></a>
 
-<p><code>Math</code>是一个内置对象， 它具有数学常数和函数的属性和方法。不是一个函数对象。</p>
 <h2 id="Math-的属性"><a href="#Math-的属性" class="headerlink" title="Math 的属性"></a>Math 的属性</h2><ul>
 <li><code>Math.E</code>欧拉常数，也是自然对数的底数, 约等于 2.718.</li>
 <li><code>Math.LN2</code>2 的自然对数, 约等于 0.693.</li>
@@ -4076,10 +4057,7 @@
   <entry>
     <title>自增运算符</title>
     <url>/2018/11/30/%E8%87%AA%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/</url>
-    <content><![CDATA[<p>前自增运算符和后自增运算符的区别</p>
-<a id="more"></a>
-
-<ul>
+    <content><![CDATA[<ul>
 <li>前自增运算符：先自增再做其他操作；</li>
 <li>后自增运算符：先做其他操作再自增。</li>
 </ul>
@@ -4093,10 +4071,9 @@
   <entry>
     <title>通过Chrome DevTools进行CSS样式调试</title>
     <url>/2018/11/23/%E9%80%9A%E8%BF%87Chrome-DevTools%E8%BF%9B%E8%A1%8CCSS%E6%A0%B7%E5%BC%8F%E8%B0%83%E8%AF%95/</url>
-    <content><![CDATA[<p>总结了通过 Chrome DevTools 调试 CSS 的基本方法</p>
+    <content><![CDATA[<p>可以按照<strong>评估和快速修复</strong>、<strong>还原和重现</strong>、<strong>定位根源和修复</strong>这样的步骤进行调试。</p>
 <a id="more"></a>
 
-<p>可以按照<strong>评估和快速修复</strong>、<strong>还原和重现</strong>、<strong>定位根源和修复</strong>这样的步骤进行调试。</p>
 <h2 id="1-评估和快速修复"><a href="#1-评估和快速修复" class="headerlink" title="1. 评估和快速修复"></a>1. 评估和快速修复</h2><p>首先针对能够快速解决的错误进行修复。</p>
 <p>这一步的关键是要 <code>深刻理解CSS各种属性的内涵和效果</code>，以避免当页面样式不符合预期时无法定位问题。</p>
 <h2 id="2-还原和重现"><a href="#2-还原和重现" class="headerlink" title="2. 还原和重现"></a>2. 还原和重现</h2><p>初步定位问题后需要对问题进行复现。</p>
@@ -4124,7 +4101,11 @@
   <entry>
     <title>CSS中字体相关知识点总结</title>
     <url>/2018/11/22/CSS%E4%B8%AD%E5%AD%97%E4%BD%93%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>总结了 CSS 中字体相关的知识点</p>
+    <content><![CDATA[<ol>
+<li>CSS 中物种通用字体系列</li>
+<li>怎样设置多个字体</li>
+<li>px、em、rem 的不同</li>
+</ol>
 <a id="more"></a>
 
 <h2 id="1-CSS-中物种通用字体系列"><a href="#1-CSS-中物种通用字体系列" class="headerlink" title="1. CSS 中物种通用字体系列"></a>1. CSS 中物种通用字体系列</h2><ul>
@@ -4155,7 +4136,8 @@
   <entry>
     <title>Git部分指令理解</title>
     <url>/2018/11/21/Git%E9%83%A8%E5%88%86%E6%8C%87%E4%BB%A4%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<p>总结了 git config / revert / checkout / pull 这几个指令</p>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global&#x2F;local</span><br><span class="line">git revert&#x2F;reset&#x2F;reflog</span><br><span class="line">git checkout --filename&#x2F;branch</span><br><span class="line">git pull origin &#x2F; git pull --rebase &#x2F; git fetch</span><br></pre></td></tr></table></figure>
+
 <a id="more"></a>
 
 <h3 id="git-config-–global-local"><a href="#git-config-–global-local" class="headerlink" title="git config –global/local"></a>git config –global/local</h3><p>git 的配置数据分 local 级、global 级、system 级三类。</p>
@@ -4189,11 +4171,10 @@
   <entry>
     <title>Markdown基本语法总结</title>
     <url>/2018/11/04/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>总结了 Markdown 基础语法</p>
+    <content><![CDATA[<p>看了很多 Markdown 简明教程，感觉使用 Markdown 最大的优势就是<strong>可以完全使用键盘完成排版</strong>。但是这个听起来没有什么优势啊，那想象一下传统的排版方式，比如我们想给一段文字加粗，那就需要选择段落、右键、点击加粗按钮。但是在 Markdown 里只需要在这段文字的首尾各加上两个 <code>**</code> 号就可以了，是不是灰常方便！对于更负责的排版操作，比如标题、列表来说就更是 so easy 啦！</p>
+<p>So，为了练习&amp;记忆，自己来整理一下</p>
 <a id="more"></a>
 
-<p>看了很多 Markdown 简明教程，感觉使用 Markdown 最大的优势就是<strong>可以完全使用键盘完成排版</strong>。但是这个听起来没有什么优势啊，那想象一下传统的排版方式，比如我们想给一段文字加粗，那就需要选择段落、右键、点击加粗按钮。但是在 Markdown 里只需要在这段文字的首尾各加上两个 <code>**</code> 号就可以了，是不是灰常方便！对于更负责的排版操作，比如标题、列表来说就更是 so easy 啦！</p>
-<p>So，为了练习&amp;记忆，自己来整理一下，嘿喂狗~</p>
 <hr>
 <h3 id="首先我们需要一个标题"><a href="#首先我们需要一个标题" class="headerlink" title="首先我们需要一个标题"></a>首先我们需要一个标题</h3><p>标题是分隔文章层次的好方法，因此 Markdown 也为我们提供了 6 级标题以供使用，而且用法非常简单，只要在文字前加上 <code>#</code> 就可以了。</p>
 <p>标题的层级与 <code>#</code> 的数目对应。</p>

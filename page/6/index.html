@@ -100,16 +100,26 @@
                                             
 
                                                 
-                                                    <p>总结了 Ajax 请求中的回调</p>
-                                                        
-                                                            <a class="article-more-link" href="/2018/12/13/Ajax%E8%AF%B7%E6%B1%82%E4%B8%AD%E7%9A%84%E5%9B%9E%E8%B0%83/">
-                                                                Read More...
-                                                            </a>
-                                                            
-                                                                
+                                                                    <ol>
+<li><p>创建 Ajax 对象（可以通过函数创建）</p>
+</li>
+<li><p>指定结果处理器</p>
+<p><code>ajax.onreadystatechange = [函数名];</code></p>
+</li>
+<li><p>发送数据</p>
+<p><code>ajax.open(&#39;GET&#39;/&#39;POST&#39;, [url], true);</code></p>
+<p><code>ajax.setRequestHeader([报头], [值])</code></p>
+<p><code>ajax.send([data]);</code></p>
+</li>
+<li><p>中止请求</p>
+<p><code>ajax.abort();</code></p>
+</li>
+</ol>
+
+                                                                        
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/12/13/Ajax%E8%AF%B7%E6%B1%82%E4%B8%AD%E7%9A%84%E5%9B%9E%E8%B0%83/" data-id="ck7j32j6z0001f30117if7qyh" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/12/13/Ajax%E8%AF%B7%E6%B1%82%E4%B8%AD%E7%9A%84%E5%9B%9E%E8%B0%83/" data-id="ck7j48wrn0000q601ftfthbso" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -162,7 +172,7 @@
                                             
 
                                                 
-                                                    <p>总结了 JavaScript 中的基本数据类型</p>
+                                                    <p>JavaScript 是一种弱类型语言，在 JavaScript 中一共有 7 种数据类型，分别是：</p>
                                                         
                                                             <a class="article-more-link" href="/2018/12/08/JavaScript%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
                                                                 Read More...
@@ -171,7 +181,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/12/08/JavaScript%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" data-id="ck7j32j7f000tf301c36k3f5f" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/12/08/JavaScript%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" data-id="ck7j48ws3000rq601d1db44xi" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -224,7 +234,20 @@
                                             
 
                                                 
-                                                    <p>前自增运算符和后自增运算符的区别</p>
+                                                    <p>最近写作业的时候遇到这么一道题：</p>
+<blockquote>
+<p>网页由 box1、box2、box3、box4 四个盒子组成，请实现如下效果：</p>
+<ul>
+<li><p>1、2、3 号盒子在一行；</p>
+</li>
+<li><p>4 号盒子在 2 号盒子的正下方。</p>
+</li>
+</ul>
+</blockquote>
+<p>最简单的想法是四个盒子均用绝对定位，但是这种实现方法代码量大、需要计算每个盒子的位置、不灵活（如果盒子的大小改变了难以修改）。</p>
+<p>另一种想法是，三个盒子排在一行可以用 float 实现，第四个盒子用绝对定位，但是依然存在上述问题。</p>
+<p>因此如果能让这些盒子自己在页面居中，那无论盒子的尺寸和数目如何改变均可轻松实现想要的效果了。</p>
+<p>学习了一下网上大牛们给出的方法，发现块级元素的水平居中可以通过 N 种方式实现！</p>
                                                         
                                                             <a class="article-more-link" href="/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/">
                                                                 Read More...
@@ -233,7 +256,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/" data-id="ck7j32j710003f3011vmkbcri" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/" data-id="ck7j48wrs0002q601am9caw1q" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -286,7 +309,7 @@
                                             
 
                                                 
-                                                    <p>JavaScript 的 Math 对象</p>
+                                                    <p><code>Math</code>是一个内置对象， 它具有数学常数和函数的属性和方法。不是一个函数对象。</p>
                                                         
                                                             <a class="article-more-link" href="/2018/12/01/JavaScript%E4%B8%AD%E7%9A%84Math%E5%AF%B9%E8%B1%A1/">
                                                                 Read More...
@@ -295,7 +318,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/12/01/JavaScript%E4%B8%AD%E7%9A%84Math%E5%AF%B9%E8%B1%A1/" data-id="ck7j32j7e000rf301b55d06rp" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/12/01/JavaScript%E4%B8%AD%E7%9A%84Math%E5%AF%B9%E8%B1%A1/" data-id="ck7j48ws5000vq6017xpr2zcx" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -348,16 +371,17 @@
                                             
 
                                                 
-                                                    <p>前自增运算符和后自增运算符的区别</p>
-                                                        
-                                                            <a class="article-more-link" href="/2018/11/30/%E8%87%AA%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/">
-                                                                Read More...
-                                                            </a>
-                                                            
-                                                                
+                                                                    <ul>
+<li>前自增运算符：先自增再做其他操作；</li>
+<li>后自增运算符：先做其他操作再自增。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a, b, c &#x3D; 0;</span><br><span class="line">a &#x3D; c++; &#x2F;&#x2F; a &#x3D; 0;</span><br><span class="line">b &#x3D; ++c; &#x2F;&#x2F; b &#x3D; 2;</span><br></pre></td></tr></table></figure>
+
+                                                                        
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/11/30/%E8%87%AA%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/" data-id="ck7j32j8c003ef3012ka60aqf" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/11/30/%E8%87%AA%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/" data-id="ck7j48wsy003dq601bsw05plj" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -410,7 +434,7 @@
                                             
 
                                                 
-                                                    <p>总结了通过 Chrome DevTools 调试 CSS 的基本方法</p>
+                                                    <p>可以按照<strong>评估和快速修复</strong>、<strong>还原和重现</strong>、<strong>定位根源和修复</strong>这样的步骤进行调试。</p>
                                                         
                                                             <a class="article-more-link" href="/2018/11/23/%E9%80%9A%E8%BF%87Chrome-DevTools%E8%BF%9B%E8%A1%8CCSS%E6%A0%B7%E5%BC%8F%E8%B0%83%E8%AF%95/">
                                                                 Read More...
@@ -419,7 +443,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/11/23/%E9%80%9A%E8%BF%87Chrome-DevTools%E8%BF%9B%E8%A1%8CCSS%E6%A0%B7%E5%BC%8F%E8%B0%83%E8%AF%95/" data-id="ck7j32j8d003if3014p643w00" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/11/23/%E9%80%9A%E8%BF%87Chrome-DevTools%E8%BF%9B%E8%A1%8CCSS%E6%A0%B7%E5%BC%8F%E8%B0%83%E8%AF%95/" data-id="ck7j48wsy003fq6018nq69udb" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -470,7 +494,11 @@
                                             
 
                                                 
-                                                    <p>总结了 CSS 中字体相关的知识点</p>
+                                                    <ol>
+<li>CSS 中物种通用字体系列</li>
+<li>怎样设置多个字体</li>
+<li>px、em、rem 的不同</li>
+</ol>
                                                         
                                                             <a class="article-more-link" href="/2018/11/22/CSS%E4%B8%AD%E5%AD%97%E4%BD%93%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
                                                                 Read More...
@@ -479,7 +507,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/11/22/CSS%E4%B8%AD%E5%AD%97%E4%BD%93%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" data-id="ck7j32j740005f301300vbpk6" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/11/22/CSS%E4%B8%AD%E5%AD%97%E4%BD%93%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" data-id="ck7j48wrv0005q601gi67cdm4" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -532,7 +560,7 @@
                                             
 
                                                 
-                                                    <p>总结了 git config / revert / checkout / pull 这几个指令</p>
+                                                    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global&#x2F;local</span><br><span class="line">git revert&#x2F;reset&#x2F;reflog</span><br><span class="line">git checkout --filename&#x2F;branch</span><br><span class="line">git pull origin &#x2F; git pull --rebase &#x2F; git fetch</span><br></pre></td></tr></table></figure>
                                                         
                                                             <a class="article-more-link" href="/2018/11/21/Git%E9%83%A8%E5%88%86%E6%8C%87%E4%BB%A4%E7%90%86%E8%A7%A3/">
                                                                 Read More...
@@ -541,7 +569,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/11/21/Git%E9%83%A8%E5%88%86%E6%8C%87%E4%BB%A4%E7%90%86%E8%A7%A3/" data-id="ck7j32j740006f3019datbjr7" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/11/21/Git%E9%83%A8%E5%88%86%E6%8C%87%E4%BB%A4%E7%90%86%E8%A7%A3/" data-id="ck7j48wrw0009q601c3fadgqa" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -594,7 +622,8 @@
                                             
 
                                                 
-                                                    <p>总结了 Markdown 基础语法</p>
+                                                    <p>看了很多 Markdown 简明教程，感觉使用 Markdown 最大的优势就是<strong>可以完全使用键盘完成排版</strong>。但是这个听起来没有什么优势啊，那想象一下传统的排版方式，比如我们想给一段文字加粗，那就需要选择段落、右键、点击加粗按钮。但是在 Markdown 里只需要在这段文字的首尾各加上两个 <code>**</code> 号就可以了，是不是灰常方便！对于更负责的排版操作，比如标题、列表来说就更是 so easy 啦！</p>
+<p>So，为了练习&amp;记忆，自己来整理一下</p>
                                                         
                                                             <a class="article-more-link" href="/2018/11/04/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/">
                                                                 Read More...
@@ -603,7 +632,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/11/04/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/" data-id="ck7j32j7s001pf3019l64g8gj" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/11/04/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/" data-id="ck7j48wsf001nq6017z3k6vyf" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -663,7 +692,7 @@
                                                                 
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/11/01/%E5%A6%82%E4%BD%95%E6%8F%90%E9%97%AE/" data-id="ck7j32j880031f301g4de8hg0" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/11/01/%E5%A6%82%E4%BD%95%E6%8F%90%E9%97%AE/" data-id="ck7j48wst002yq6018v0c749n" class="article-share-link">
                                             分享
                                         </a>
                                         

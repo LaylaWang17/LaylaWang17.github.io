@@ -75,10 +75,7 @@
                                             
 
                                                 
-                                                                    <p>前自增运算符和后自增运算符的区别</p>
-<a id="more"></a>
-
-<p>最近写作业的时候遇到这么一道题：</p>
+                                                                    <p>最近写作业的时候遇到这么一道题：</p>
 <blockquote>
 <p>网页由 box1、box2、box3、box4 四个盒子组成，请实现如下效果：</p>
 <ul>
@@ -92,6 +89,8 @@
 <p>另一种想法是，三个盒子排在一行可以用 float 实现，第四个盒子用绝对定位，但是依然存在上述问题。</p>
 <p>因此如果能让这些盒子自己在页面居中，那无论盒子的尺寸和数目如何改变均可轻松实现想要的效果了。</p>
 <p>学习了一下网上大牛们给出的方法，发现块级元素的水平居中可以通过 N 种方式实现！</p>
+<a id="more"></a>
+
 <h2 id="1-利用-margin-left-amp-right-auto-实现元素居中"><a href="#1-利用-margin-left-amp-right-auto-实现元素居中" class="headerlink" title="1. 利用 margin-left&amp;right=auto 实现元素居中"></a>1. 利用 margin-left&amp;right=auto 实现元素居中</h2><p>对于单个块级元素的水平居中可以通过将<code>margin-left</code>和<code>margin-left</code>设置为<code>auto</code>来实现。</p>
 <p>以一个 box 为例，CSS 部分具体代码为：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">margin-left</span>: auto;</span><br><span class="line">  <span class="attribute">margin-right</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -184,7 +183,7 @@
                                                                         
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/" data-id="ck7j32j710003f3011vmkbcri" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/" data-id="ck7j48wrs0002q601am9caw1q" class="article-share-link">
                                             分享
                                         </a>
                                         
