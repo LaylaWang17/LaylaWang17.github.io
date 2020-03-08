@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Webpack打包原理 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Webpack打包原理" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Webpack打包原理
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/12/16/Webpack%E6%89%93%E5%8C%85%E5%8E%9F%E7%90%86/" class="article-date">
+  <time datetime="2019-12-16T13:31:18.000Z" itemprop="datePublished">2019-12-16</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<p>Webpack 是一个打包模块的机制，它做的是分析代码、编译代码。</p>
+<h2 id="构建流程"><a href="#构建流程" class="headerlink" title="构建流程"></a>构建流程</h2><ol>
+<li>解析配置参数</li>
+<li>注册所有配置的插件，好让插件监听 webpack 构建生命周期的事件节点，以做出对应的反应</li>
+<li>从配置的入口文件开始解析文件构建 AST 语法树，递归找出每个文件所依赖的文件</li>
+<li>在解析文件的过程中根据文件类型和 loader 配置对文件进行转换</li>
+<li>递归并转换完后生成代码块，即 chunk</li>
+<li>输出所有 chunk 到文件系统，形成 bundle 文件</li>
+</ol>
+<h2 id="输出文件分析"><a href="#输出文件分析" class="headerlink" title="输出文件分析"></a>输出文件分析</h2><p>以一个简单的项目为例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = add;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">const</span> add = <span class="built_in">require</span>(<span class="string">'./add.js'</span>);</span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Webpack 打包后的输出文件为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpackBootstrap 启动函数</span></span><br><span class="line"><span class="comment">// modules 即为存放所有模块的数组，数组中的每一个元素都是一个函数</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">modules</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 安装过的模块都存放在这里面</span></span><br><span class="line">  <span class="comment">// 作用是把已经加载过的模块缓存在内存中，提升性能</span></span><br><span class="line">  <span class="keyword">var</span> installedModules = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 去数组中加载一个模块，moduleId 为要加载模块在数组中的 index</span></span><br><span class="line">  <span class="comment">// 作用和 Node.js 中 require 语句相似</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">__webpack_require__</span>(<span class="params">moduleId</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 如果需要加载的模块已经被加载过，就直接从内存缓存中返回</span></span><br><span class="line">    <span class="keyword">if</span> (installedModules[moduleId]) &#123;</span><br><span class="line">      <span class="keyword">return</span> installedModules[moduleId].exports;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果缓存中不存在需要加载的模块，就新建一个模块，并把它存在缓存中</span></span><br><span class="line">    <span class="keyword">var</span> <span class="built_in">module</span> = (installedModules[moduleId] = &#123;</span><br><span class="line">      <span class="comment">// 模块在数组中的 index</span></span><br><span class="line">      i: moduleId,</span><br><span class="line">      <span class="comment">// 该模块是否已经加载完毕</span></span><br><span class="line">      l: <span class="literal">false</span>,</span><br><span class="line">      <span class="comment">// 该模块的导出值</span></span><br><span class="line">      exports: &#123;&#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从 modules 中获取 index 为 moduleId 的模块对应的函数</span></span><br><span class="line">    <span class="comment">// 再调用这个函数，同时把函数需要的参数传入</span></span><br><span class="line">    modules[moduleId].call(</span><br><span class="line">      <span class="built_in">module</span>.exports,</span><br><span class="line">      <span class="built_in">module</span>,</span><br><span class="line">      <span class="built_in">module</span>.exports,</span><br><span class="line">      __webpack_require__</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把这个模块标记为已加载</span></span><br><span class="line">    <span class="built_in">module</span>.l = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回这个模块的导出值</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Webpack 配置中的 publicPath，用于加载被分割出去的异步代码</span></span><br><span class="line">  __webpack_require__.p = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用 __webpack_require__ 去加载 index 为 0 的模块，并且返回该模块导出的内容</span></span><br><span class="line">  <span class="comment">// index 为 0 的模块就是入口模块</span></span><br><span class="line">  <span class="comment">// __webpack_require__.s 的含义是启动模块对应的 index</span></span><br><span class="line">  <span class="keyword">return</span> __webpack_require__((__webpack_require__.s = <span class="number">0</span>));</span><br><span class="line">&#125;)(</span><br><span class="line">  <span class="comment">// 所有的模块都存放在了一个数组里，根据每个模块在数组的 index 来区分和定位模块</span></span><br><span class="line">  [</span><br><span class="line">    <span class="comment">/* 0 */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">module, exports, __webpack_require__</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 执行第 1 个模块</span></span><br><span class="line">      __webpack_require__(<span class="number">1</span>)(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">/* 1 */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">module, exports</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>上述代码可以简写为一个立即执行函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">modules</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 模拟 require 语句</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">__webpack_require__</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 执行存放所有模块数组中的第0个模块</span></span><br><span class="line">  __webpack_require__(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">&#125;)([<span class="comment">/*存放所有模块的数组*/</span>])</span><br></pre></td></tr></table></figure>
+
+<p>Webpack 将独立的模块文件合并到一个单独的 bundle 文件的原因在于浏览器必须通过网络请求加载文件。 如果模块数量较多，加载时间会很长，因此 webpack 把所有模块都存放在了数组中，通过执行一次网络请求来提高加载速率。</p>
+<p>Webpack 在打包过程中还做了缓存优化： 加载过的模块会缓存在内存中，当某个模块第二次被访问时会直接去内存中读取被缓存的返回值。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.jianshu.com/p/e24ed38d89fd" target="_blank" rel="noopener">webpack 打包原理</a></li>
+<li><a href="https://imweb.io/topic/59324940b9b65af940bf58ae" target="_blank" rel="noopener">webpack 原理与实战</a></li>
+<li><a href="https://imweb.io/topic/5a4cce35a192c3b460fce39b" target="_blank" rel="noopener">Webpack 原理-输出文件分析</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/12/16/Webpack%E6%89%93%E5%8C%85%E5%8E%9F%E7%90%86/" data-id="ck7j32j82002kf30110153b7n" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/12/16/Webpack%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            Webpack的基本使用
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/07/14/%E6%95%8F%E6%8D%B7%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E7%AB%99%E4%BC%9A/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">敏捷实践——站会</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

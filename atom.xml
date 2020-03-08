@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://laylawang17.github.io/"/>
-  <updated>2020-03-08T11:35:54.818Z</updated>
+  <updated>2020-03-08T13:37:47.347Z</updated>
   <id>https://laylawang17.github.io/</id>
   
   <author>
@@ -17,15 +17,25 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Markdown基本语法总结</title>
-    <link href="https://laylawang17.github.io/2020/03/08/Markdown%20%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/"/>
-    <id>https://laylawang17.github.io/2020/03/08/Markdown%20%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</id>
-    <published>2020-03-08T11:24:19.000Z</published>
-    <updated>2020-03-08T11:35:54.818Z</updated>
+    <title>Vue中计算属性和方法的区别</title>
+    <link href="https://laylawang17.github.io/2020/03/08/Vue%E4%B8%AD%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>https://laylawang17.github.io/2020/03/08/Vue%E4%B8%AD%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
+    <published>2020-03-08T13:37:26.000Z</published>
+    <updated>2020-03-08T13:37:47.347Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;总结了 Markdown 基础语法&lt;/p&gt;
+      
+      
+        
+        
+          &lt;ul&gt;
+&lt;li&gt;计算属性：计算属性是基于它们的响应式依赖进行缓存的。只在相关响应式依赖发生改变时它们才会重新求值。&lt;/li&gt;
+&lt;li&gt;方法：每当触发重新渲染时，调用方法将总会再次执行函数。&lt;/li&gt;
+&lt;/ul&gt;
+
+        
+      
     
     </summary>
     
@@ -34,19 +44,355 @@
   </entry>
   
   <entry>
-    <title>如何提问</title>
-    <link href="https://laylawang17.github.io/2018/11/01/%E5%A6%82%E4%BD%95%E6%8F%90%E9%97%AE/"/>
-    <id>https://laylawang17.github.io/2018/11/01/%E5%A6%82%E4%BD%95%E6%8F%90%E9%97%AE/</id>
-    <published>2018-11-01T12:14:05.000Z</published>
-    <updated>2020-03-08T10:13:14.416Z</updated>
+    <title>Python的包管理工具</title>
+    <link href="https://laylawang17.github.io/2020/02/08/Python%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/"/>
+    <id>https://laylawang17.github.io/2020/02/08/Python%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</id>
+    <published>2020-02-08T13:36:35.000Z</published>
+    <updated>2020-03-08T13:37:02.237Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;总结了怎么提问能帮助自己更快获得帮助&lt;/p&gt;
+      &lt;p&gt;…&lt;/p&gt;
     
     </summary>
     
     
+    
+      <category term="python" scheme="https://laylawang17.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python虚拟环境</title>
+    <link href="https://laylawang17.github.io/2020/02/07/Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"/>
+    <id>https://laylawang17.github.io/2020/02/07/Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/</id>
+    <published>2020-02-07T13:35:44.000Z</published>
+    <updated>2020-03-08T13:36:13.948Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="python" scheme="https://laylawang17.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>.bash_profile、.profile、.bashrc 文件的区别</title>
+    <link href="https://laylawang17.github.io/2020/02/06/bash-profile%E3%80%81profile%E3%80%81bashrc%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>https://laylawang17.github.io/2020/02/06/bash-profile%E3%80%81profile%E3%80%81bashrc%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
+    <published>2020-02-06T13:34:11.000Z</published>
+    <updated>2020-03-08T13:35:19.873Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Webpack和Parcel的区别</title>
+    <link href="https://laylawang17.github.io/2019/12/17/Webpack%E5%92%8CParcel%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>https://laylawang17.github.io/2019/12/17/Webpack%E5%92%8CParcel%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
+    <published>2019-12-17T13:32:18.000Z</published>
+    <updated>2020-03-08T13:32:52.437Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="webpack" scheme="https://laylawang17.github.io/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Webpack的基本使用</title>
+    <link href="https://laylawang17.github.io/2019/12/16/Webpack%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <id>https://laylawang17.github.io/2019/12/16/Webpack%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</id>
+    <published>2019-12-16T13:33:16.000Z</published>
+    <updated>2020-03-08T13:33:54.002Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="webpack" scheme="https://laylawang17.github.io/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Webpack打包原理</title>
+    <link href="https://laylawang17.github.io/2019/12/16/Webpack%E6%89%93%E5%8C%85%E5%8E%9F%E7%90%86/"/>
+    <id>https://laylawang17.github.io/2019/12/16/Webpack%E6%89%93%E5%8C%85%E5%8E%9F%E7%90%86/</id>
+    <published>2019-12-16T13:31:18.000Z</published>
+    <updated>2020-03-08T13:31:47.664Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="webpack" scheme="https://laylawang17.github.io/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>敏捷实践——站会</title>
+    <link href="https://laylawang17.github.io/2019/07/14/%E6%95%8F%E6%8D%B7%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E7%AB%99%E4%BC%9A/"/>
+    <id>https://laylawang17.github.io/2019/07/14/%E6%95%8F%E6%8D%B7%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E7%AB%99%E4%BC%9A/</id>
+    <published>2019-07-14T13:30:12.000Z</published>
+    <updated>2020-03-08T13:30:42.841Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Maven相关概念总结</title>
+    <link href="https://laylawang17.github.io/2019/04/30/Maven%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/"/>
+    <id>https://laylawang17.github.io/2019/04/30/Maven%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/</id>
+    <published>2019-04-30T13:27:56.000Z</published>
+    <updated>2020-03-08T13:28:32.301Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Postman用法总结</title>
+    <link href="https://laylawang17.github.io/2019/04/22/Postman%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>https://laylawang17.github.io/2019/04/22/Postman%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/</id>
+    <published>2019-04-22T13:26:50.000Z</published>
+    <updated>2020-03-08T13:28:21.807Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JSP和MVC的异同</title>
+    <link href="https://laylawang17.github.io/2019/04/20/JSP%E5%92%8CMVC%E7%9A%84%E5%BC%82%E5%90%8C/"/>
+    <id>https://laylawang17.github.io/2019/04/20/JSP%E5%92%8CMVC%E7%9A%84%E5%BC%82%E5%90%8C/</id>
+    <published>2019-04-20T13:25:12.000Z</published>
+    <updated>2020-03-08T13:25:51.652Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="java" scheme="https://laylawang17.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解事务的隔离特性</title>
+    <link href="https://laylawang17.github.io/2019/04/03/%E7%90%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%89%B9%E6%80%A7/"/>
+    <id>https://laylawang17.github.io/2019/04/03/%E7%90%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%89%B9%E6%80%A7/</id>
+    <published>2019-04-03T13:24:28.000Z</published>
+    <updated>2020-03-08T13:24:52.650Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL规范总结</title>
+    <link href="https://laylawang17.github.io/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/"/>
+    <id>https://laylawang17.github.io/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</id>
+    <published>2019-04-01T13:23:34.000Z</published>
+    <updated>2020-03-08T13:24:07.547Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL中的索引用法总结</title>
+    <link href="https://laylawang17.github.io/2019/03/28/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>https://laylawang17.github.io/2019/03/28/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/</id>
+    <published>2019-03-28T13:29:18.000Z</published>
+    <updated>2020-03-08T13:30:39.531Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>子查询、联结查询、组合查询用法总结</title>
+    <link href="https://laylawang17.github.io/2019/03/27/%E5%AD%90%E6%9F%A5%E8%AF%A2%E3%80%81%E8%81%94%E7%BB%93%E6%9F%A5%E8%AF%A2%E3%80%81%E7%BB%84%E5%90%88%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>https://laylawang17.github.io/2019/03/27/%E5%AD%90%E6%9F%A5%E8%AF%A2%E3%80%81%E8%81%94%E7%BB%93%E6%9F%A5%E8%AF%A2%E3%80%81%E7%BB%84%E5%90%88%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/</id>
+    <published>2019-03-27T13:21:59.000Z</published>
+    <updated>2020-03-08T13:22:27.682Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL的GROUP BY用法小结</title>
+    <link href="https://laylawang17.github.io/2019/03/26/MySQL%E7%9A%84GROUP-BY%E7%94%A8%E6%B3%95%E5%B0%8F%E7%BB%93/"/>
+    <id>https://laylawang17.github.io/2019/03/26/MySQL%E7%9A%84GROUP-BY%E7%94%A8%E6%B3%95%E5%B0%8F%E7%BB%93/</id>
+    <published>2019-03-26T13:21:12.000Z</published>
+    <updated>2020-03-08T13:21:39.288Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL中常用的文本处理函数和日期时间处理函数</title>
+    <link href="https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/"/>
+    <id>https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</id>
+    <published>2019-03-25T13:20:14.000Z</published>
+    <updated>2020-03-08T13:20:47.308Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL中的JSON数据类型</title>
+    <link href="https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    <id>https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</id>
+    <published>2019-03-25T13:19:17.000Z</published>
+    <updated>2020-03-08T13:19:48.059Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL中CHAR和VARCHAR的区别</title>
+    <link href="https://laylawang17.github.io/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>https://laylawang17.github.io/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
+    <published>2019-03-21T13:17:38.000Z</published>
+    <updated>2020-03-08T13:18:40.810Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>事务及其处理机制</title>
+    <link href="https://laylawang17.github.io/2019/03/20/%E4%BA%8B%E5%8A%A1%E5%8F%8A%E5%85%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/"/>
+    <id>https://laylawang17.github.io/2019/03/20/%E4%BA%8B%E5%8A%A1%E5%8F%8A%E5%85%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</id>
+    <published>2019-03-20T13:22:43.000Z</published>
+    <updated>2020-03-08T13:23:14.855Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;…&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
     
   </entry>
   

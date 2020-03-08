@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    MySQL中常用的文本处理函数和日期时间处理函数 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-MySQL中常用的文本处理函数和日期时间处理函数" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL中常用的文本处理函数和日期时间处理函数
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/" class="article-date">
+  <time datetime="2019-03-25T13:20:14.000Z" itemprop="datePublished">2019-03-25</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h1 id="SQL-中常用的文本处理函数和日期时间处理函数"><a href="#SQL-中常用的文本处理函数和日期时间处理函数" class="headerlink" title="SQL 中常用的文本处理函数和日期时间处理函数"></a>SQL 中常用的文本处理函数和日期时间处理函数</h1><h2 id="常用文本处理函数"><a href="#常用文本处理函数" class="headerlink" title="常用文本处理函数"></a>常用文本处理函数</h2><ul>
+<li><p><code>CONCAT(str1, str2, ...)</code>：拼接字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CONCAT('There', ' is', ' an', ' apple.');</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br><span class="line">| CONCAT('There', ' is', ' an', ' apple.') |</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br><span class="line">| There is an apple.                       |</span><br><span class="line">+<span class="comment">------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>CONCAT_WS(separator, str1, str2, ...)</code>：使用指定分隔符连接字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CONCAT_WS('-', 'There', 'is', 'an', 'apple');</span><br><span class="line">+<span class="comment">----------------------------------------------+</span></span><br><span class="line">| CONCAT_WS('-', 'There', 'is', 'an', 'apple') |</span><br><span class="line">+<span class="comment">----------------------------------------------+</span></span><br><span class="line">| There-is-an-apple                            |</span><br><span class="line">+<span class="comment">----------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>LEFT(str, length)</code>：从左截取指定长度的子字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT LEFT('ZHANG SAN', 5);</span><br><span class="line">+<span class="comment">----------------------+</span></span><br><span class="line">| LEFT('ZHANG SAN', 5) |</span><br><span class="line">+<span class="comment">----------------------+</span></span><br><span class="line">| ZHANG                |</span><br><span class="line">+<span class="comment">----------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>RIGHT(str, length)</code>：从右截取指定长度的子字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT RIGHT('ZHANG SAN', 3);</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">| RIGHT('ZHANG SAN', 3) |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">| SAN                   |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>SUBSTRING(str, index, length)</code>：从指定位置处开始截取指定长度的子字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT SUBSTRING(&#39;ABCDEFG&#39;, 3, 4);</span><br><span class="line">+----------------------------+</span><br><span class="line">| SUBSTRING(&#39;ABCDEFG&#39;, 3, 4) |</span><br><span class="line">+----------------------------+</span><br><span class="line">| CDEF                       |</span><br><span class="line">+----------------------------+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>LENGTH(str)</code>：返回字符串的长度</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT LENGTH('ZHANG SAN');</span><br><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">| LENGTH('ZHANG SAN') |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">|                   9 |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>LOWER(str)</code>：将字符串转换为小写格式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT LOWER('ZHANG SAN');</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| LOWER('ZHANG SAN') |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| zhang san          |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>UPPER(str)</code>：将字符串转换为大写格式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT UPPER('zhang san');</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| UPPER('zhang san') |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| ZHANG SAN          |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>LTRIM(str)</code>：去除字符串左侧的空格</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CONCAT('(', LTRIM('   LEFT'), ')');</span><br><span class="line">+<span class="comment">------------------------------------+</span></span><br><span class="line">| CONCAT('(', LTRIM('   LEFT'), ')') |</span><br><span class="line">+<span class="comment">------------------------------------+</span></span><br><span class="line">| (LEFT)                             |</span><br><span class="line">+<span class="comment">------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>RTRIM(str)</code>：去除字符串右侧的空格</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CONCAT('(', RTRIM('RIGHT   '), ')');</span><br><span class="line">+<span class="comment">-------------------------------------+</span></span><br><span class="line">| CONCAT('(', RTRIM('RIGHT   '), ')') |</span><br><span class="line">+<span class="comment">-------------------------------------+</span></span><br><span class="line">| (RIGHT)                             |</span><br><span class="line">+<span class="comment">-------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>TRIM(str)</code>：去除字符串两侧的空格</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CONCAT('(', TRIM('   MIDDLE   '), ')');</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| CONCAT('(', TRIM('   MIDDLE   '), ')') |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| (MIDDLE)                               |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ELT(index, str1, str2, ...)</code>：返回字符串序列中指定位置的字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT ELT(3, 'A', 'B', 'C', 'D');</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br><span class="line">| ELT(3, 'A', 'B', 'C', 'D') |</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br><span class="line">| C                          |</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>FIELD(str, str1, str2, ...)</code>：返回指定字符串 str 在字符串序列中的位置，找不到返回 0</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT FIELD('C', 'A', 'B', 'C', 'D');</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br><span class="line">| FIELD('C', 'A', 'B', 'C', 'D') |</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br><span class="line">|                              3 |</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>FIND_IN_SET(str, stringList)</code>：返回指定字符串 str 在由“<code>,</code>”分割的字符串序列中的位置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT FIND_IN_SET('C', 'A,B,C,D');</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">| FIND_IN_SET('C', 'A,B,C,D') |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">|                           3 |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>FORMAT(X, D)</code>：按照指定的小数位数 D 将数值 X 转化为字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT FORMAT(123.45678, 2);</span><br><span class="line">+<span class="comment">----------------------+</span></span><br><span class="line">| FORMAT(123.45678, 2) |</span><br><span class="line">+<span class="comment">----------------------+</span></span><br><span class="line">| 123.46               |</span><br><span class="line">+<span class="comment">----------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>INSERT(str, index, length, newString)</code>：从指定位置开始用新字符串替换原字符串中指定长度的字符，index 超出原字符串范围时返回原字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT INSERT('ABCDEF', 3, 3, '123');</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line">| <span class="keyword">INSERT</span>(<span class="string">'ABCDEF'</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="string">'123'</span>) |</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line">| AB123F                        |</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>LOCATE(substr, str)</code>：返回子字符串在指定字符串中第一次出现的位置</p>
+<p><code>LOCATE(substr, str, index)</code>：从指定字符串的指定位置处开始查找子字符串出现的位置</p>
+<p>找不到返回 0</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT LOCATE('a', 'banana');</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">| LOCATE('a', 'banana') |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">|                     2 |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT LOCATE('a', 'banana', 3);</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">| LOCATE('a', 'banana', 3) |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">|                        4 |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>LPAD(str, length, padStr)</code>：在字符串左侧用 padStr 将原字符串填充至指定长度，当指定长度小于原字符串长度时，截断原字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT LPAD('HELLO', 8, '!');</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">| LPAD('HELLO', 8, '!') |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">| !!!HELLO              |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>RPAD(str, length, padStr)</code>：在字符串右侧用 padStr 将原字符串填充至指定长度，当指定长度小于原字符串长度时，截断原字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT RPAD('HELLO', 8, '!');</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">| RPAD('HELLO', 8, '!') |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br><span class="line">| HELLO!!!              |</span><br><span class="line">+<span class="comment">-----------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>REPEAT(str, times)</code>：按照指定次数重复字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT REPEAT('LA', 3);</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">| REPEAT('LA', 3) |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">| LALALA          |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>REPLACE(str, from_str, to_str)</code>：将字符串中的所有匹配的字符串替换为新字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT REPLACE('LALALA', 'L', 'B');</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">| <span class="keyword">REPLACE</span>(<span class="string">'LALALA'</span>, <span class="string">'L'</span>, <span class="string">'B'</span>) |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">| BABABA                      |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>REVERSE(str)</code>：将字符串逆序输出</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT REVERSE('ABC');</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">| REVERSE('ABC') |</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">| CBA            |</span><br><span class="line">+<span class="comment">----------------+</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="常用日期和时间处理函数"><a href="#常用日期和时间处理函数" class="headerlink" title="常用日期和时间处理函数"></a>常用日期和时间处理函数</h2><ul>
+<li><p><code>NOW()</code>：返回当前的时间和日期</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT NOW();</span><br><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">| NOW()               |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">| 2019-03-25 18:01:47 |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>CURDATE()</code>：返回当前的日期</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CURDATE();</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">| CURDATE()  |</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">| 2019-03-25 |</span><br><span class="line">+<span class="comment">------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>CURTIME()</code>：返回当前时间</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CURTIME();</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| CURTIME() |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| 18:05:02  |</span><br><span class="line">+<span class="comment">-----------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>DATE(dateAndTime)</code>：提取日期时间表达式中的日期部分</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT DATE(NOW());</span><br><span class="line">+<span class="comment">-------------+</span></span><br><span class="line">| DATE(NOW()) |</span><br><span class="line">+<span class="comment">-------------+</span></span><br><span class="line">| 2019-03-25  |</span><br><span class="line">+<span class="comment">-------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>DAY()</code>：返回日期时间表达式中的天数部分</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT DAY(NOW());</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">| DAY(NOW()) |</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">|         25 |</span><br><span class="line">+<span class="comment">------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>YEAR()</code>：返回日期时间表达式中的年部分</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT YEAR(NOW());</span><br><span class="line">+<span class="comment">-------------+</span></span><br><span class="line">| YEAR(NOW()) |</span><br><span class="line">+<span class="comment">-------------+</span></span><br><span class="line">|        2019 |</span><br><span class="line">+<span class="comment">-------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>EXTRACT(unit FROM date)</code>：按照指定的时间单位从日期时间表达式中提取年、月、日、时间等部分</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT EXTRACT(YEAR FROM NOW());</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">| EXTRACT(YEAR FROM NOW()) |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">|                     2019 |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT EXTRACT(WEEK FROM NOW());</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">| EXTRACT(WEEK FROM NOW()) |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line">|                       12 |</span><br><span class="line">+<span class="comment">--------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT EXTRACT(HOUR_MICROSECOND FROM NOW());</span><br><span class="line">+<span class="comment">--------------------------------------+</span></span><br><span class="line">| EXTRACT(HOUR_MICROSECOND FROM NOW()) |</span><br><span class="line">+<span class="comment">--------------------------------------+</span></span><br><span class="line">|                         191218000000 |</span><br><span class="line">+<span class="comment">--------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>时间单位的值可参考<a href="https://dev.mysql.com/doc/refman/8.0/en/expressions.html#temporal-intervals" target="_blank" rel="noopener">Temporal Intervals</a>文档</p>
+</li>
+<li><p><code>DATE_FORMAT(date, format)</code>：按照指定格式显示时间日期</p>
+<p>可选的格式可参考<a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html#function_date-format" target="_blank" rel="noopener">Date and time functions</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT DATE_FORMAT(NOW(), '%W %M %Y');</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br><span class="line">| DATE_FORMAT(NOW(), '%W %M %Y') |</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br><span class="line">| Monday March 2019              |</span><br><span class="line">+<span class="comment">--------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>DATE_ADD(date, INTERVAL exp unit)</code>、<code>DATE_SUB(date, INTERVAL exp unit)</code>：日期和时间的加减操作。返回值是否包含时间取决于给定的时间日期的表达式和时间单位。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT DATE_ADD('2018-03-25', INTERVAL 1 DAY);</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| DATE_ADD('2018-03-25', INTERVAL 1 DAY) |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| 2018-03-26                             |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT DATE_SUB('2018-03-25 19:26:47', INTERVAL 1 HOUR);</span><br><span class="line">+<span class="comment">--------------------------------------------------+</span></span><br><span class="line">| DATE_SUB('2018-03-25 19:26:47', INTERVAL 1 HOUR) |</span><br><span class="line">+<span class="comment">--------------------------------------------------+</span></span><br><span class="line">| 2018-03-25 18:26:47                              |</span><br><span class="line">+<span class="comment">--------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>DATEDIFF(date1, date2)</code>：返回两个日期的差值，会忽略表达式中的时间，仅对日期进行运算</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT DATEDIFF('2018-4-30', NOW());</span><br><span class="line">+<span class="comment">------------------------------+</span></span><br><span class="line">| DATEDIFF('2018-4-30', NOW()) |</span><br><span class="line">+<span class="comment">------------------------------+</span></span><br><span class="line">|                         -329 |</span><br><span class="line">+<span class="comment">------------------------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ADDDATE(date, INTERVAL exp unit)</code>：等同于<code>DATE_ADD()</code></p>
+<p><code>ADDDATE(date, days)</code>：在给定的日期上加上给定的天数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT ADDDATE(NOW(), 31);</span><br><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">| ADDDATE(NOW(), 31)  |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">| 2019-04-25 19:39:53 |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ADDTIME(time1, time2)</code>：将两个时间表达式相加</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT ADDTIME('10:33:24', '22:23:22');</span><br><span class="line">+<span class="comment">---------------------------------+</span></span><br><span class="line">| ADDTIME('10:33:24', '22:23:22') |</span><br><span class="line">+<span class="comment">---------------------------------+</span></span><br><span class="line">| 32:56:46                        |</span><br><span class="line">+<span class="comment">---------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/" data-id="ck7j32j7t001tf3015j7x6x2p" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/03/26/MySQL%E7%9A%84GROUP-BY%E7%94%A8%E6%B3%95%E5%B0%8F%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            MySQL的GROUP BY用法小结
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">MySQL中的JSON数据类型</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

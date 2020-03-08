@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Postman用法总结 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Postman用法总结" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Postman用法总结
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/04/22/Postman%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2019-04-22T13:26:50.000Z" itemprop="datePublished">2019-04-22</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h2 id="界面介绍"><a href="#界面介绍" class="headerlink" title="界面介绍"></a>界面介绍</h2><p><img src="http://upload-images.jianshu.io/upload_images/14805043-4d29ae87bc8dca2b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="发送-GET-请求"><a href="#发送-GET-请求" class="headerlink" title="发送 GET 请求"></a>发送 GET 请求</h2><ol>
+<li>选择 GET 方式</li>
+<li>输入 URL</li>
+<li>在 Params 里填项所需参数，填写的参数会出现在 URL 上</li>
+<li>点击 Send 发送请求</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-cbe32d173812df45.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>相应状态为 <code>200</code>表明请求被成功响应</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-dd13dfcf421d61d1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="发送-POST-请求"><a href="#发送-POST-请求" class="headerlink" title="发送 POST 请求"></a>发送 POST 请求</h2><h3 id="表单提交"><a href="#表单提交" class="headerlink" title="表单提交"></a>表单提交</h3><ol>
+<li>选择 POST 方式</li>
+<li>输入 URL</li>
+<li>在 Body 中选择 <code>x-www-form-urlencoded</code>方式，并输入参数，Postman 会自动设置相应的 Header</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-ebaacf07764a9d33.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-258e8c710269c8a0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h3 id="JSON-提交"><a href="#JSON-提交" class="headerlink" title="JSON 提交"></a>JSON 提交</h3><ol>
+<li>选择 POST 方式</li>
+<li>输入 URL</li>
+<li>在 Body 中选择 <code>raw</code>方式，设置格式为 <code>JSON(application/json)</code></li>
+<li>输入参数，Postman 会自动设置相应的 Header</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-9f72d643d9ce1e16.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-ef000e0cce5e77f8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h3 id="XML-提交"><a href="#XML-提交" class="headerlink" title="XML 提交"></a>XML 提交</h3><ol>
+<li>选择 POST 方式</li>
+<li>输入 URL</li>
+<li>在 Body 中选择 <code>raw</code>方式，设置格式为 <code>XML(text/xml)</code></li>
+<li>输入参数，Postman 会自动设置相应的 Header</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-bf195ac1f712a753.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-f6c5966b9d79855c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h3 id="二进制文件提交"><a href="#二进制文件提交" class="headerlink" title="二进制文件提交"></a>二进制文件提交</h3><ol>
+<li>选择 POST 方式</li>
+<li>输入 URL</li>
+<li>在 Body 中选择 <code>binary</code>方式</li>
+<li>上传二进制文件</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-74cb5e38e33ab5bd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="测试请求"><a href="#测试请求" class="headerlink" title="测试请求"></a>测试请求</h2><p>使用 <code>Tests</code>可以通过断言来处理请求</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-799b38a8285ae7ba.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>我们可以基于 Postman 提供的断言实现想要的处理</p>
+<p>例如：</p>
+<ul>
+<li><code>Status code is 200</code>：断言响应状态为 200</li>
+<li><code>Response body: Contains string</code>：断言响应内容为一个 String</li>
+<li><code>Response body: JSON value check</code>：处理响应中的 JSON</li>
+</ul>
+<p>在 Test Results 中可以查看测试结果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-c79b3406794ba790.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>例如上图表明一个断言成功、两个失败</p>
+<h2 id="请求集"><a href="#请求集" class="headerlink" title="请求集"></a>请求集</h2><p>使用 Collections 可以将多个请求管理起来</p>
+<ol>
+<li>创建集合</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-d5a09bb3688d9eab.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-3eec8893453ea68f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<ol start="2">
+<li>保存请求到一个集合</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-928ce39f2c6e27e1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>[图片上传失败…(image-796389-1555939955258)]</p>
+<ol start="4">
+<li>可以创建文件夹整理集合内的请求</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-0e1b005dc99e3e0e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<ol start="5">
+<li>运行一个集合内的请求</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/14805043-faeff5623ed64432.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.jianshu.com/p/549ff9f922d6" target="_blank" rel="noopener">Postman 使用详解</a></li>
+<li><a href="https://blog.csdn.net/fxbin123/article/details/80428216" target="_blank" rel="noopener">Postman 使用方法详解</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/04/22/Postman%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" data-id="ck7j32j7x0025f3016vc8ch0x" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/04/30/Maven%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            Maven相关概念总结
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/04/20/JSP%E5%92%8CMVC%E7%9A%84%E5%BC%82%E5%90%8C/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">JSP和MVC的异同</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

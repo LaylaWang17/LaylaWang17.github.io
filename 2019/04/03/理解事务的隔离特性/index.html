@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    理解事务的隔离特性 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-理解事务的隔离特性" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      理解事务的隔离特性
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/04/03/%E7%90%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%89%B9%E6%80%A7/" class="article-date">
+  <time datetime="2019-04-03T13:24:28.000Z" itemprop="datePublished">2019-04-03</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h2 id="脏读、不可重复读、幻读"><a href="#脏读、不可重复读、幻读" class="headerlink" title="脏读、不可重复读、幻读"></a>脏读、不可重复读、幻读</h2><ul>
+<li><strong>脏读</strong>：读到别的事务还未提交的修改</li>
+<li><strong>不可重复读</strong>：读到别的事务已提交的修改，即在同一事务中多次查询结果不同</li>
+<li><strong>幻读</strong>：由于未读到其他事务新插入或删除的数据导致后续插入或删除操作出错，即之前的查询结果是不真实的</li>
+</ul>
+<p>脏读和不可重复读都针对的是现有数据被修改的情况，幻读针对的是插入或删除新数据的情况。</p>
+<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><p>在 SQL 标准中定义了四种数据库的事务的隔离级别：<code>READ UNCOMMITED</code>、<code>READ COMMITED</code>、<code>REPEATABLE READ</code> 和 <code>SERIALIZABLE</code>。不同级别的特性如下：</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>READ UNCOMMITED</td>
+<td>可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>READ COMMITED</td>
+<td>不可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>REPEATABLE READ</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>SERIALIZABLE</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>不可能</td>
+</tr>
+</tbody></table>
+<p>默认的隔离级别为<code>REPEATABLE READ</code>。</p>
+<p>事务的隔离级别针对的是客户端，是对当前客户端的约束，限制当前客户端的读操作，即</p>
+<ul>
+<li>SERIALIZABLE 级别强制当前客户端发起的写事务等待其他客户端的写事务提交后再执行</li>
+<li>REPEATABLE READ 级别限制当前客户端不能读到其他客户端的事务的修改</li>
+<li>READ COMMITED 级别限制当前客户端不能读到其他客户端的事务未提交的修改</li>
+<li>READ UNCOMMITED 级别不对当前客户端的读事务进行限制</li>
+</ul>
+<h2 id="一个栗子"><a href="#一个栗子" class="headerlink" title="一个栗子"></a>一个栗子</h2><p>以如下的 score 表为例：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>student_id</th>
+<th>subject_id</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>1001</td>
+<td>90</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>1002</td>
+<td>80</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>1001</td>
+<td>60</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>1002</td>
+<td>60.5</td>
+</tr>
+</tbody></table>
+<p>运行两个并行的事务：事务 A 和事务 B。</p>
+<p>其中，事务 A 执行对 score 表中的 score 列的修改操作：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务A</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> score;</span><br><span class="line"><span class="keyword">UPDATE</span></span><br><span class="line">	score</span><br><span class="line"><span class="keyword">SET</span></span><br><span class="line">	score = score + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> score;</span><br></pre></td></tr></table></figure>
+
+<p>事务 B 执行对 score 表的查询操作：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务B</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> score;</span><br></pre></td></tr></table></figure>
+
+<h3 id="隔离级别为-REPEATABLE-READ-时"><a href="#隔离级别为-REPEATABLE-READ-时" class="headerlink" title="隔离级别为 REPEATABLE READ 时"></a>隔离级别为 REPEATABLE READ 时</h3><p>在事务 A 还未提交修改时，事务 B 查询 score 表时，查询不到事务 A 执行的修改：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pjkf32bej206r02uwea.jpg" alt=""></p>
+<p>即<strong>没有发生脏读现象</strong>。</p>
+<p>当事务 A 提交（<code>COMMIT</code>）上述修改后，事务 B 查询 score 表的结果如下：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pjkf32bej206r02uwea.jpg" alt=""></p>
+<p>同样查询不到事务 A 执行的修改，即<strong>没有发生不可重复读现象</strong>。</p>
+<p>因此在<code>REPEATABLE READ</code>隔离等级下，查询到的是表的历史版本。</p>
+<p>如果在事务 A 提交之前想在事务 B 中修改表中的数据，如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span></span><br><span class="line">	score</span><br><span class="line"><span class="keyword">SET</span></span><br><span class="line">	score = score - <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<p>MySQL 在运行一段时间后会如下错误：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pjwpk3xpj20vg00ma9v.jpg" alt=""></p>
+<p>这是因为事务 B 在等待事务 A 先提交所做的修改，并且因为等待超时报错。</p>
+<p>这说明事务在执行过程中禁止当其他事务存在未提交修改时同时修改数据。</p>
+<p>如果事务 A 在原表中插入一条数据，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> score</span><br><span class="line"><span class="keyword">VALUES</span></span><br><span class="line">	(<span class="number">5</span>, <span class="number">3</span>, <span class="number">1001</span>, <span class="number">85</span>);</span><br></pre></td></tr></table></figure>
+
+<p>无论事务 A 是否提交该数据，事务 B 的查询结果均为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pkvh86vkj206t02w0sj.jpg" alt=""></p>
+<p>即事务 B 查询不到新插入的数据，但此时如果事务 B 想在表中插入同样的数据时，运行会报错：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pl8332laj20vn00pt8j.jpg" alt=""></p>
+<p>即<strong>发生了幻读现象</strong>。</p>
+<h3 id="隔离级别为-READ-COMMITED-时"><a href="#隔离级别为-READ-COMMITED-时" class="headerlink" title="隔离级别为 READ COMMITED 时"></a>隔离级别为 READ COMMITED 时</h3><p>在事务 A 还未提交修改时，事务 B 查询 score 表的结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pk49dgfuj206r02uwea.jpg" alt=""></p>
+<p>此时，事务 B 查询不到事务 A 未提交的修改，即<strong>没有发生脏读现象</strong>。</p>
+<p>当事务 A 提交上述修改后，事务 B 的查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pk8tj93kj206t02w0sj.jpg" alt=""></p>
+<p>此时，事务 B 可以查询到事务 A 提交后的修改，即<strong>发生了不可重复读现象</strong>。</p>
+<p>如果事务 A 在原表中插入一条数据，事务 B 查询不到新插入的数据，但此时如果事务 B 想在表中插入同样的数据时，运行会报错：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pl8332laj20vn00pt8j.jpg" alt=""></p>
+<p>即<strong>发生了幻读现象</strong>。</p>
+<h3 id="隔离级别为-READ-UNCOMMITED-时"><a href="#隔离级别为-READ-UNCOMMITED-时" class="headerlink" title="隔离级别为 READ UNCOMMITED 时"></a>隔离级别为 READ UNCOMMITED 时</h3><p>在事务 A 还未提交修改时，事务 B 查询 score 表的结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pkihcyc0j206t02w0sj.jpg" alt=""></p>
+<p>此时，事务 B 可以查询到事务 A 未提交的修改，即<strong>发生了脏读现象</strong>。</p>
+<p>当事务 A 提交上述修改后，事务 B 的查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pk8tj93kj206t02w0sj.jpg" alt=""></p>
+<p>此时，事务 B 可以查询到事务 A 提交后的修改，即<strong>发生了不可重复读现象</strong>。</p>
+<p>如果事务 A 在原表中插入一条数据，事务 B 查询不到新插入的数据，但此时如果事务 B 想在表中插入同样的数据时，运行会报错：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pl8332laj20vn00pt8j.jpg" alt=""></p>
+<p>即<strong>发生了幻读现象</strong>。</p>
+<h3 id="隔离级别为-SERIALIZABLE-时"><a href="#隔离级别为-SERIALIZABLE-时" class="headerlink" title="隔离级别为 SERIALIZABLE 时"></a>隔离级别为 SERIALIZABLE 时</h3><p>在事务 A 还未提交修改时，事务 B 查询 score 表的结果时，MySQL 在运行一段时间后会报如下错误：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pknjn5d9j20vg00ma9v.jpg" alt=""></p>
+<p>这表明事务 B 一直在等待事务 A 提交其修改直到超时。</p>
+<p>说明了当前的隔离级别实际上是将并行的事务强制串行执行了。</p>
+<p>当事务 A 提交上述修改后，事务 B 查询 score 表的结果如下：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pjkf32bej206r02uwea.jpg" alt=""></p>
+<p>同样查询不到事务 A 执行的修改，即<strong>没有发生不可重复读现象</strong>。</p>
+<p>如果事务 A 在原表中插入一条数据，在事务 A 还未交该数据时，事务 B 想插入同样的数据，MySQL 在运行一段时间后会报如下错误：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1pknjn5d9j20vg00ma9v.jpg" alt=""></p>
+<p>这表明事务 B 一直在等待事务 A 提交其修改直到超时。</p>
+<p>即<strong>没有发生幻读现象</strong>。</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/04/03/%E7%90%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%89%B9%E6%80%A7/" data-id="ck7j32j8b0039f301gjws51zk" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/04/20/JSP%E5%92%8CMVC%E7%9A%84%E5%BC%82%E5%90%8C/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            JSP和MVC的异同
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">SQL规范总结</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

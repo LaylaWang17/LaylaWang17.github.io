@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS中的undefined和null |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-JS中的undefined和null" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      JS中的undefined和null
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2018/12/16/JS%E4%B8%AD%E7%9A%84undefined%E5%92%8Cnull/" class="article-date">
+  <time datetime="2018-12-16T12:19:48.000Z" itemprop="datePublished">2018-12-16</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>对比了 undefined 和 null 的区别</p>
+<a id="more"></a>
+
+<h2 id="1-undefined"><a href="#1-undefined" class="headerlink" title="1. undefined"></a>1. undefined</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>undefined 是 JavaScript 中的一个数据类型。</p>
+<ul>
+<li><p>可以将其当作全局对象的一个属性，该属性的值为<code>undefined</code>，即：<code>window.undefined: undefined</code>。</p>
+</li>
+<li><p>也可以将其当作一个全局变量，该变量的唯一值为<code>undefined</code>。</p>
+<blockquote>
+<p>从这个意义上讲，用<code>typeof</code>操作<code>undefined</code>变量会返回一个<code>&quot;undefined&quot;</code>字符串，即</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> === <span class="string">'undefined'</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h3 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h3><p><code>undefined</code>是一个<strong>空值</strong>，表示“缺少值”，即——此变量应有值，但未定义。</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ol>
+<li>变量被声明了，但未赋值，此时该变量的默认初始值为<code>undefined</code>（即访问未初始化的变量会得到<code>undefined</code>）；</li>
+<li>对象中未赋值的属性或方法，此时该属性/方法的默认初始值为<code>undefined</code>（即访问未赋值/不存在的对象属性/方法会得到<code>undefined</code>）；</li>
+<li>当访问不存在（超出索引）的数组元素是会得到<code>undefined</code>；</li>
+<li>调用函数时未传入的参数，此时该参数的默认初始值为<code>undefined</code>；</li>
+<li>当函数无返回值时，默认返回值为<code>undefined</code>。</li>
+</ol>
+<p>（另外，undefined 也可以作为局部变量使用，可以给其赋一个新值，如<code>var undefined = &quot;not undefined&quot;</code>。）</p>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p><code>undefined</code>可以用两种方式判断：</p>
+<ol>
+<li>标准相等操作符<code>===</code>；</li>
+<li>类型判断函数<code>typeof</code>。</li>
+</ol>
+<p>但考虑到 undefined 可能被赋予了另外的值，采用<code>===</code>判断可能不靠谱，因此可以使用<code>void 0</code>替代<code>undefined</code>。</p>
+<blockquote>
+<p><code>void</code>运算符的含义是：对给定的表达式进行求值，然后返回 undefined。</p>
+</blockquote>
+<h2 id="2-null"><a href="#2-null" class="headerlink" title="2. null"></a>2. null</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>null 也是 JavaScript 中的一个数据类型，表示一个空对象指针，指示变量未指向任何对象。</p>
+<h3 id="含义-1"><a href="#含义-1" class="headerlink" title="含义"></a>含义</h3><p><code>null</code>是一个空值，表示“变量未指向任何对象”，此处无值。</p>
+<h3 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h3><ol>
+<li>当定义的变量未来会被用作保存对象时，最好将该变量初始化为<code>null</code>；</li>
+<li>当变量不再需要被使用时，可将其设置为<code>null</code>来解除引用；</li>
+<li>作为对象原型链的终点。</li>
+</ol>
+<h3 id="判断-1"><a href="#判断-1" class="headerlink" title="判断"></a>判断</h3><ul>
+<li><p><code>null</code>只能用严格相等操作符<code>===</code>判断。而不能用类型判断函数<code>typeof</code>判断，因为：</p>
+<blockquote>
+<p>在 JavaScript 最初的实现中，JavaScript 中的值由一个表示类型的标签和实际数据值表示。<code>object</code>的类型标签为 0，又由于<code>null</code>代表空指针（空值针在大多数平台下值为 0x00），致使<code>null</code>的类型标签也为 0，进而使用<code>typeof null</code>会错误的返回<code>object</code>。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="3-空值与假值"><a href="#3-空值与假值" class="headerlink" title="3. 空值与假值"></a>3. 空值与假值</h2><ul>
+<li><p><code>undefined</code>和<code>null</code>均为<strong>空值</strong>。</p>
+</li>
+<li><p>与<strong>空值</strong>相对应的概念为<strong>假值</strong>，<code>0</code>、<code>&quot;&quot;</code>、<code>false</code>均为<strong>假值</strong>，即：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span> == <span class="literal">false</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">''</span> == <span class="literal">false</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>空值</strong>与<strong>假值</strong>在<code>if</code>语句的条件分支中均被视为<code>false</code>，但<code>空值 !== 假值</code>，即：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">undefined</span> == <span class="literal">false</span>); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="literal">null</span> == <span class="literal">false</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>由于<code>undefined</code>实际上是<code>null</code>的派生，因此有</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">undefined</span> == <span class="literal">null</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>但由于二者属于不同的数据类型，则有</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">undefined</span> === <span class="literal">null</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="4-8-个处理-undefined-的-Tips"><a href="#4-8-个处理-undefined-的-Tips" class="headerlink" title="4. 8 个处理 undefined 的 Tips"></a>4. 8 个处理 undefined 的 Tips</h2><ol>
+<li><p><strong>声明变量时，推荐使用<code>const</code></strong>（尤其对于只赋值一次且不再改变的变量）、<strong>其次<code>let</code>，拒绝<code>var</code></strong></p>
+<ul>
+<li>好处：JavaScript 语法规定<code>const</code>定义时必须赋初值，因而使用<code>const</code>可以避免意外访问到<code>undefined</code>。</li>
+</ul>
+</li>
+<li><p><strong>将变量的声明尽可能移到使用位置之前</strong>以增强内聚</p>
+<blockquote>
+<p>高内聚和<a href="https://en.wikipedia.org/wiki/Loose_coupling" target="_blank" rel="noopener">低耦合</a>是设计良好的系统的特点。</p>
+<p>高内聚代码的优势：</p>
+<ul>
+<li>专注易理解</li>
+<li>可维护易重构</li>
+<li>易重用</li>
+<li>易测试</li>
+</ul>
+</blockquote>
+<ul>
+<li>好处：<ul>
+<li>变量不会暴露为未初始化的状态，因而不会意外访问到<code>undefined</code>；</li>
+<li>增强了代码的可读性；</li>
+<li>更易于重构和提取为函数。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>使用对象时首先检查属性是否存在</strong></p>
+<ul>
+<li>两种推荐的检查方法：<ul>
+<li>使用<code>in</code>，即<code>prop in obj</code>（可用于自身的或继承的属性）；</li>
+<li>使用<code>hasOwnProperty</code>，即<code>obj.hasOwnProperty(prop)</code>（可用于自身的属性）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>解构访问对象属性</strong></p>
+<ul>
+<li>实现：<code>const {prop = &#39;default&#39;} = object</code></li>
+</ul>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring" target="_blank" rel="noopener">对象解构</a>允许将值从对象属性直接提取到变量中，并在属性不存在时设置默认值，是一种避免直接处理<code>undefined</code>的方法。</p>
+</blockquote>
+</li>
+<li><p><strong>使用默认属性填充对象</strong></p>
+<ul>
+<li><p>可以将源对象的属性赋给目标对象，两种实现方法：</p>
+<ul>
+<li><p><code>assign</code>函数：<code>object.assign(targetObj, sourceObj1, sourceObj2, ...)</code></p>
+</li>
+<li><p>在对象初始化器中扩展属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sourceObj1 = &#123;</span><br><span class="line">    obj1Prop1: <span class="string">"default"</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> sourceObj2 = &#123;</span><br><span class="line">    obj2Prop1: <span class="string">"default"</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> targetObj = &#123;</span><br><span class="line">    sourceObj1;</span><br><span class="line">    sourceObj2;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>创建函数时为参数提供默认值</strong></p>
+<ul>
+<li><code>function fun(variable1, variable2 = &quot;default&quot;) {...}</code></li>
+</ul>
+</li>
+<li><p><strong>不要依赖<a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-automatic-semicolon-insertion" target="_blank" rel="noopener">自动分号插入</a>(ASI)机制</strong></p>
+<ul>
+<li>下列语句必须自动插入分号：<ul>
+<li>空语句</li>
+<li><code>let</code>、<code>const</code>、<code>var</code>、<code>import</code>、<code>export</code>的声明语句</li>
+<li>表达式</li>
+<li><code>debugger;</code></li>
+<li><code>continue;</code></li>
+<li><code>break;</code></li>
+<li><code>throw</code>语句</li>
+<li><code>return</code>语句</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>避免使用稀疏数组</strong></p>
+<ul>
+<li>访问稀疏数组的空隙时会得到<code>undefined</code>。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>参考：</p>
+<ul>
+<li><p><a href="https://juejin.im/post/5aa4f7cc518825557e780256" target="_blank" rel="noopener">JavaScript 深入理解之 undefined 与 null</a></p>
+</li>
+<li><p><a href="http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html" target="_blank" rel="noopener">undefined 与 null 的区别</a></p>
+</li>
+<li><p><a href="https://my.oschina.net/friendship/blog/644352" target="_blank" rel="noopener">Javascript 中的 false,零值,null,undefined 和空字符串对象</a></p>
+</li>
+<li><p><a href="https://futu.im/posts/2017-05-20-7-tips-to-handle-undefined-in-JavaScript/" target="_blank" rel="noopener">【译】7 个处理 javascript 的<code>undefined</code>的 tips</a></p>
+</li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2018/12/16/JS%E4%B8%AD%E7%9A%84undefined%E5%92%8Cnull/" data-id="ck7j32j7a000hf30150f8dbou" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2018/12/17/JavaScript-Object/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            JavaScript-Object
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/12/13/Ajax%E8%AF%B7%E6%B1%82%E4%B8%AD%E7%9A%84%E5%9B%9E%E8%B0%83/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Ajax请求中的回调</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

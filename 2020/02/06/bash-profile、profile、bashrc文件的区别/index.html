@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    .bash_profile、.profile、.bashrc 文件的区别 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-bash-profile、profile、bashrc文件的区别" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      .bash_profile、.profile、.bashrc 文件的区别
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/06/bash-profile%E3%80%81profile%E3%80%81bashrc%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
+  <time datetime="2020-02-06T13:34:11.000Z" itemprop="datePublished">2020-02-06</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h2 id="配置文件的分类"><a href="#配置文件的分类" class="headerlink" title="配置文件的分类"></a>配置文件的分类</h2><ul>
+<li><p>设置系统全局环境变量：</p>
+<p><code>~/etc/profile</code>、<code>~/etc/bashrc</code></p>
+</li>
+<li><p>设置用户环境变量：</p>
+<p><code>~/.bash_profile</code>、<code>~/.profile</code>、<code>~/.bashrc</code></p>
+</li>
+</ul>
+<h2 id="配置文件的优先级"><a href="#配置文件的优先级" class="headerlink" title="配置文件的优先级"></a>配置文件的优先级</h2><p>当登入系统时候获得一个 shell 进程时，其读取环境配置的流程为:</p>
+<ol>
+<li><p>从 <code>~/etc/profile</code> 读入全局环境变量，并根据其内容读取额外的配置，如 <code>~/etc/profile.d</code> 和 <code>~/etc/inputrc</code></p>
+</li>
+<li><p>根据 shell 的类型读取用环境变量</p>
+<ul>
+<li><p>当 shell 为<strong>交互式登陆 shell</strong> 时，按照 <code>~/.bash_profile</code> –&gt; <code>~/.bash_login</code> –&gt; <code>~/.profile</code> –&gt; <code>~/.bashrc</code> 的顺序读取</p>
+</li>
+<li><p>当 shell 为<strong>交互式非登陆 shell</strong> 时，读取 <code>~/.bashrc</code></p>
+</li>
+<li><p>当 shell 为*<em>非交互式 shell *</em>时，读取环境变量 <code>BASH_ENV</code> 指定的配置文件</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><code>~/.bash_profile</code>、<code>~/.bash_login</code>、<code>~/.profile</code> 只在会话开始时被读取一次，而 <code>~/.bashrc</code> 则每次打开新的终端时都会被读取。</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a href="https://www.jianshu.com/p/9d95e5e736da" target="_blank" rel="noopener">linux 关于 bashrc 与 profile 的区别</a></p>
+</li>
+<li><p><a href="https://www.zhihu.com/question/22990045/answer/23282396" target="_blank" rel="noopener">https://www.zhihu.com/question/22990045/answer/23282396</a></p>
+</li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2020/02/06/bash-profile%E3%80%81profile%E3%80%81bashrc%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ck7j32j85002qf301hs9h5rxd" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/02/07/Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            Python虚拟环境
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/17/Webpack%E5%92%8CParcel%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Webpack和Parcel的区别</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    MySQL中CHAR和VARCHAR的区别 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-MySQL中CHAR和VARCHAR的区别" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL中CHAR和VARCHAR的区别
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
+  <time datetime="2019-03-21T13:17:38.000Z" itemprop="datePublished">2019-03-21</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<p>CHAR 和 VARCHAR 的主要区别有三方面：</p>
+<ul>
+<li>最大长度</li>
+<li>有效长度</li>
+<li>存储方式</li>
+<li>是否保留末尾空格</li>
+</ul>
+<h2 id="最大长度"><a href="#最大长度" class="headerlink" title="最大长度"></a>最大长度</h2><ul>
+<li>CHAR 的长的范围为 0~255</li>
+<li>VARCHAR 的长度范围为 0~65535</li>
+</ul>
+<h2 id="有效长度"><a href="#有效长度" class="headerlink" title="有效长度"></a>有效长度</h2><ul>
+<li>CHAR 的长度按照声明的长度保持不变</li>
+<li>VARCHAR 的长度是可变的，VARCHAR 数据的有效长度应在声明时指定的长度范围内</li>
+<li>当插入的数据超出 CHAR 或 VARCHAR 声明的长度时，非严格模式会报警告并截断数据，严格模式下会报错</li>
+<li>当插入的数据超出 CHAR 或 VARCHAR 声明的长度，且当超出的部分仅为数据末尾空格时，无论何种模式下，CHAR 型数据会截断数据且不提示任何信息，而 VARCHAR 型数据会截断数据但报警告</li>
+</ul>
+<h2 id="存储方式"><a href="#存储方式" class="headerlink" title="存储方式"></a>存储方式</h2><ul>
+<li><p>CHAR 型数据仅存储数据本身；</p>
+<p>VARCHAR 型数据的存储方式为：1~2 字节的长度前缀 + 数据；</p>
+</li>
+<li><p>CHAR 型数据存储时，若数据的长度小于声明的长度，则会自动在该数据的右侧用空格补全长度；</p>
+<p>VARCHAR 型数据存储时，若数据长度小于声明的长度，不会用空格补全；</p>
+</li>
+</ul>
+<p>以长度为 4 的 CHAR 和 VARCHAR 举例：</p>
+<table>
+<thead>
+<tr>
+<th align="left">值</th>
+<th align="left">CHAR(4)</th>
+<th align="left">所需存储空间</th>
+<th align="left">VARCHAR(4)</th>
+<th align="left">所需存储空间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">‘’</td>
+<td align="left">‘ ‘</td>
+<td align="left">4byte</td>
+<td align="left">‘’</td>
+<td align="left">1byte</td>
+</tr>
+<tr>
+<td align="left">‘ab’</td>
+<td align="left">‘ab ‘</td>
+<td align="left">4byte</td>
+<td align="left">‘ab’</td>
+<td align="left">3byte</td>
+</tr>
+<tr>
+<td align="left">‘abcd’</td>
+<td align="left">‘abcd’</td>
+<td align="left">4byte</td>
+<td align="left">‘abcd’</td>
+<td align="left">5byte</td>
+</tr>
+<tr>
+<td align="left">‘abcdefg’</td>
+<td align="left">‘abcd’</td>
+<td align="left">4byte</td>
+<td align="left">‘abcd’</td>
+<td align="left">5byte</td>
+</tr>
+</tbody></table>
+<h2 id="是否保留末尾空格"><a href="#是否保留末尾空格" class="headerlink" title="是否保留末尾空格"></a>是否保留末尾空格</h2><ul>
+<li><p>CHAR 型数据检索时，会去除数据末尾的所有空格</p>
+</li>
+<li><p>VARCHAR 型数据检索时，会保留数据末尾的所有空格</p>
+</li>
+</ul>
+<p>举例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> varchar_and_char (v <span class="built_in">VARCHAR</span>(<span class="number">4</span>), c <span class="built_in">CHAR</span>(<span class="number">4</span>));</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> varchar_and_char <span class="keyword">VALUES</span> (<span class="string">'ab  '</span>, <span class="string">'ab  '</span>);</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(<span class="string">'('</span>, v, <span class="string">')'</span>), <span class="keyword">CONCAT</span>(<span class="string">'('</span>, c, <span class="string">')'</span>) <span class="keyword">FROM</span> varchar_and_char;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1anvjvl6qj20bn02q3ya.jpg" alt=""></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ck7j32j7v001yf301amgs7ni2" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            MySQL中的JSON数据类型
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/03/20/%E4%BA%8B%E5%8A%A1%E5%8F%8A%E5%85%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">事务及其处理机制</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

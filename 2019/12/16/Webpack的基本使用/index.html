@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Webpack的基本使用 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Webpack的基本使用" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Webpack的基本使用
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/12/16/Webpack%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2019-12-16T13:33:16.000Z" itemprop="datePublished">2019-12-16</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h2 id="关键概念"><a href="#关键概念" class="headerlink" title="关键概念"></a>关键概念</h2><ul>
+<li><p>Entry：可执行模块的入口（源代码入口）</p>
+</li>
+<li><p>Output：输出文件（分发代码）</p>
+</li>
+<li><p>Module：<code>import</code>、css 中的<code>@import</code>、<code>url(...)</code>、<code>&lt;img src=&quot;...&quot; /&gt;</code>…</p>
+</li>
+<li><p>Chunk：打包时生成的模块（一个可执行模块和其所有依赖模块的组合）</p>
+</li>
+<li><p>Bundle：打包完成的代码</p>
+</li>
+<li><p>Mode：development / production</p>
+</li>
+<li><p>Loader：用于加载模块时预处理文件，处理非原生 js 文件</p>
+</li>
+<li><p>Plugins：用于扩展 webpack 的功能，比如提供自动生成 html 页面、清理、模块热替换等功能</p>
+</li>
+<li><p>Configuration：<code>webpack.config.js</code></p>
+</li>
+<li><p>Dependency graph：从入口文件开始递归构建出，并由此进行打包</p>
+</li>
+<li><p>Runtime 和 Manifest：连接模块所需的加载和解析逻辑和模块标识集合</p>
+</li>
+<li><p>Hot Module Replacement：只更新模块， 而不用重载整个页面</p>
+</li>
+<li><p>Public Path：加载资源的公共路径</p>
+</li>
+</ul>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li><p>webpack</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack</span><br><span class="line">npm install --save-dev webpack@&lt;version&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>webpack-cli（对于 webpack 4+ 版本）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-cli</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="项目目录结构"><a href="#项目目录结构" class="headerlink" title="项目目录结构"></a>项目目录结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">webpack-demo</span><br><span class="line">  |- package.json</span><br><span class="line">  |- webpack.config.js</span><br><span class="line">  |- &#x2F;dist</span><br><span class="line">    |- index.html</span><br><span class="line">  |- &#x2F;src</span><br><span class="line">    |- index.js</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>webpack.config.js</code> 为 webpack 配置文件</li>
+<li><code>/dist</code> 文件夹存放分发代码</li>
+<li><code>/src</code> 文件夹存放源代码</li>
+</ul>
+<h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>, <span class="comment">// 入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'bundle.js'</span>, <span class="comment">// 打包后的bundle文件</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>) <span class="comment">// 分发代码存放的目录，绝对路径</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Webpack 可以接受多个 <code>entry</code>，但只能指定一个 <code>output</code>。</p>
+<h3 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h3><p>除 js 文件外，其他类型的文件需要使用额外的 loader 来加载。</p>
+<h4 id="加载-CSS"><a href="#加载-CSS" class="headerlink" title="加载 CSS"></a>加载 CSS</h4><ul>
+<li><p>NPM 安装 <a href="https://www.webpackjs.com/loaders/style-loader" target="_blank" rel="noopener">style-loader</a> 和 <a href="https://www.webpackjs.com/loaders/css-loader" target="_blank" rel="noopener">css-loader</a></p>
+</li>
+<li><p>修改配置文件</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8jky6hx83j212u0m4wgz.jpg" alt="Screen Shot 2019-11-02 at 12.25.38.png"></p>
+</li>
+</ul>
+<blockquote>
+<p><em>webpack 根据正则表达式，来确定应该查找哪些文件，并将其提供给指定的 loader。在这种情况下，以</em> <code>.css</code> <em>结尾的全部文件，都将被提供给</em> <code>style-loader</code> <em>和</em> <code>css-loader</code><em>。</em></p>
+</blockquote>
+<p>使用上述方式打包时，CSS 文件将会被编译成含有 CSS 字符串的 <code>&lt;style&gt;</code> 标签，并插入到 html 文件的 <code>&lt;head&gt;</code> 中。当样式文件较大时可以利用 <a href="https://www.webpackjs.com/plugins/extract-text-webpack-plugin/" target="_blank" rel="noopener">extract-text-webpack-plugin</a> 插件将 CSS 打包成独立的文件。</p>
+<h4 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h4><ul>
+<li><p>NPM 安装 <a href="https://www.webpackjs.com/loaders/file-loader" target="_blank" rel="noopener">file-loader</a></p>
+</li>
+<li><p>修改配置文件</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8jl1485slj212s0sediz.jpg" alt="Screen Shot 2019-11-02 at 12.28.30.png"></p>
+</li>
+</ul>
+<p>图像将被处理并添加到分发代码存放的目录中。</p>
+<h3 id="管理输出"><a href="#管理输出" class="headerlink" title="管理输出"></a>管理输出</h3><h4 id="入口分离"><a href="#入口分离" class="headerlink" title="入口分离"></a>入口分离</h4><p>Webpack 接受多入口（例如多页面应用程序中），且可以配置根据入口起点名称动态生成 bundle 名称：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8joqfoog1j212u0fqdi5.jpg" alt="Screen Shot 2019-11-02 at 14.36.35.png"></p>
+<p>打包后会在 <code>/dist</code> 目录下生成 <code>print.bundle.js</code> 和 <code>app.bundle.js</code> 两个文件。</p>
+<h4 id="自动生成-index-html-并关联入口文件"><a href="#自动生成-index-html-并关联入口文件" class="headerlink" title="自动生成 index.html 并关联入口文件"></a>自动生成 <code>index.html</code> 并关联入口文件</h4><ul>
+<li><p>NPM 安装 <a href="https://www.webpackjs.com/plugins/html-webpack-plugin" target="_blank" rel="noopener">html-webpack-plugin</a> 插件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev html-webpack-plugin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8jowrky2ij212u0k2ad7.jpg" alt="Screen Shot 2019-11-02 at 14.42.41.png"></p>
+</li>
+</ul>
+<p><code>title</code> 属性用于指定生成的 <code>index.html</code> 中的<code>&lt;title&gt;</code>标签的内容。</p>
+<p>配置该插件后则无需手动将各入口文件引入 <code>index.html</code> 中。</p>
+<h4 id="清理-dist-文件夹"><a href="#清理-dist-文件夹" class="headerlink" title="清理 /dist 文件夹"></a>清理 <code>/dist</code> 文件夹</h4><p>即清理掉未在项目中使用的文件。</p>
+<ul>
+<li><p>NPM 安装 <a href="https://www.npmjs.com/package/clean-webpack-plugin" target="_blank" rel="noopener">clean-webpack-plugin</a> 插件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev clean-webpack-plugin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8jp5klgwtj212s0m4djq.jpg" alt="Screen Shot 2019-11-02 at 14.51.11.png"></p>
+</li>
+</ul>
+<h4 id="提取公共入口-chunk"><a href="#提取公共入口-chunk" class="headerlink" title="提取公共入口 chunk"></a>提取公共入口 chunk</h4><p>当多个入口文件都引用了同样的模块时，可以利用 <a href="https://webpack.js.org/plugins/split-chunks-plugin/" target="_blank" rel="noopener">splitChunks</a> 插件在打包将该模块作为一个公共模块提取出来。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8op9zj77yj216q0t6wj0.jpg" alt="Screen Shot 2019-11-06 at 22.43.15.png"></p>
+<ul>
+<li><code>cacheGroups</code> 中的每一个键值对为一个公共模块的配置</li>
+<li><code>name</code> 属性为生成的公共模块的名字</li>
+<li><code>chunks</code> 属性用于指定打包的 chunks 的类型（<ul>
+<li>包含三个选项：<code>initial</code>、<code>async</code>、<code>all</code></li>
+<li>分别针对非动态加载的模块和动态加载的模块（使用 <code>import()</code> 引入的模块）采用不同的打包方式</li>
+</ul>
+</li>
+</ul>
+<h3 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h3><h4 id="追踪源代码"><a href="#追踪源代码" class="headerlink" title="追踪源代码"></a>追踪源代码</h4><p>使用 JavaScript 提供的 <a href="http://blog.teamtreehouse.com/introduction-source-maps" target="_blank" rel="noopener">source map</a> 功能，将编译后的代码映射回原始源代码。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8jpa4j75lj212u0n80wt.jpg" alt="Screen Shot 2019-11-02 at 14.55.34.png"></p>
+<p><code>inline-source-map</code> 适用于开发环境，source map 还有很多<a href="https://www.webpackjs.com/configuration/devtool" target="_blank" rel="noopener">不同的选项</a>，需根据生产/开发环境进行选择。</p>
+<h4 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h4><ol>
+<li><p>观察模式</p>
+<p>使用该模式后修改依赖图中任意一个文件被更新时代码都会重新编译打包，而无需手动再次构建。</p>
+<ul>
+<li>添加脚本：<code>&quot;watch&quot;: &quot;webpack --watch&quot;</code></li>
+</ul>
+</li>
+<li><p><a href="https://www.webpackjs.com/configuration/dev-server/" target="_blank" rel="noopener">webpack-dev-server</a></p>
+<p>该依赖提供了一个 web 服务器来实现实时重新加载。</p>
+<ul>
+<li>NPM 安装 webpack-dev-server</li>
+<li>修改配置文件（如下图）</li>
+<li>添加脚本：<code>&quot;start&quot;: &quot;webpack-dev-server --open&quot;</code></li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8jpib4fi9j212u0qeq7h.jpg" alt="Screen Shot 2019-11-02 at 15.03.22.png"></p>
+</li>
+</ol>
+<h3 id="模块热替换"><a href="#模块热替换" class="headerlink" title="模块热替换"></a>模块热替换</h3><p>HMR 只影响包含 HMR 代码的模块。</p>
+<p>如果一个模块没有 HMR 处理函数，更新会冒泡，即，某个模块更新时，所依赖的模块均会重新加载。</p>
+<h4 id="启用方法"><a href="#启用方法" class="headerlink" title="启用方法"></a>启用方法</h4><ul>
+<li><p>修改配置文件</p>
+<ul>
+<li>引入 webpack 对象</li>
+<li>需要开启热替换的模块不应作为入口 js</li>
+<li>dev server 设置 hot 模式</li>
+<li>引入 <code>HotModuleReplacementPlugin</code></li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8mbw3gvb1j210w0vmq8z.jpg" alt="Screen Shot 2019-11-04 at 21.28.44.png"></p>
+</li>
+<li><p>对模块应用 HMR 处理函数</p>
+<p>如在使用 <code>print.js</code> 模块的 <code>index.js</code> 中：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8mc40zonmj211207u0uj.jpg" alt="Screen Shot 2019-11-04 at 21.36.35.png"></p>
+</li>
+</ul>
+<h4 id="支持模块热替换的框架"><a href="#支持模块热替换的框架" class="headerlink" title="支持模块热替换的框架"></a>支持模块热替换的框架</h4><ul>
+<li><p><a href="https://github.com/gaearon/react-hot-loader" target="_blank" rel="noopener">React Hot Loader</a></p>
+</li>
+<li><p><a href="https://github.com/gaearon/react-hot-loader" target="_blank" rel="noopener">React Hot Loader</a></p>
+</li>
+<li><p><a href="https://github.com/vuejs/vue-loader" target="_blank" rel="noopener">Vue Loader</a></p>
+<p>…</p>
+</li>
+</ul>
+<h3 id="配置多环境"><a href="#配置多环境" class="headerlink" title="配置多环境"></a>配置多环境</h3><ol>
+<li><p>为不同环境创建独立的配置文件</p>
+<ul>
+<li><p><code>webpack.common.js</code>：通用配置</p>
+</li>
+<li><p><code>webpack.dev.js</code>：开发环境配置</p>
+</li>
+<li><p><code>webpack.prod.js</code>：生产环境配置</p>
+</li>
+</ul>
+<p>可以使用 <a href="https://github.com/survivejs/webpack-merge" target="_blank" rel="noopener"><code>webpack-merge</code></a> 在不同环境的配置文件中引入通用配置。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8okxzmlonj21cq0qitdr.jpg" alt="Screen Shot 2019-11-06 at 20.13.00.png"></p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g8ol58235hj21cs0daq5c.jpg" alt="Screen Shot 2019-11-06 at 20.20.17.png"></p>
+</li>
+</ol>
+<p>2) 配置 NPM 脚本</p>
+<ul>
+<li><p>开发环境脚本</p>
+<p><code>&quot;start&quot;: &quot;webpack-dev-server --open --config webpack.dev.js&quot;</code></p>
+</li>
+<li><p>生产环境脚本</p>
+<p><code>&quot;build&quot;: &quot;webpack --config webpack.prod.js&quot;</code></p>
+</li>
+</ul>
+<p>###publicPath</p>
+<h4 id="output-publicPath"><a href="#output-publicPath" class="headerlink" title="output.publicPath"></a><code>output.publicPath</code></h4><blockquote>
+<p>The <code>publicPath</code> specifies the public URL address of the output files when referenced in a browser. This can be helpful when you want to host some or all output files on a different domain or on a CDN.</p>
+</blockquote>
+<p>例如， <code>index.html</code> 页面的访问路径为： <code>http://localhost:8080/${output.publicPath}</code></p>
+<p>值为一个相对于服务器根路径的相对路径，默认值为 <code>/</code>。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g901pvin6oj21h40a4go1.jpg" alt="Screen Shot 2019-11-16 at 18.14.35.png"></p>
+<h4 id="devServer-publicPath"><a href="#devServer-publicPath" class="headerlink" title="devServer.publicPath"></a><code>devServer.publicPath</code></h4><blockquote>
+<p>The Webpack Dev Server also uses this to determine the path where the output files are expected to be served from.</p>
+</blockquote>
+<p>使用 devServer 时，打包后的文件会被存放在内存中，并由 <code>publicPath</code> 指定一个用于访问的相对路径，默认值为 <code>/</code> 。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g901pvin6oj21h40a4go1.jpg" alt="Screen Shot 2019-11-16 at 18.14.35.png"></p>
+<p>（当配置了 <code>devServer.publicPath</code> 后，控制台输出的 <code>webpack output is served from ...</code> 指的就是 <code>devServer.publicPath</code> ，没有配置时指的是 <code>output.publicPath</code>）</p>
+<p>当 <code>devServer.publicPath</code> 和 <code>output.publicPath</code> 配置的路径不同时，资源会无法加载。</p>
+<h5 id="publicPath-与-contenBase"><a href="#publicPath-与-contenBase" class="headerlink" title="publicPath 与 contenBase"></a>publicPath 与 contenBase</h5><p>devServer 还有一个 <code>contenBase</code> 配置项，<code>contenBase</code> 指的是加载静态文件的路径，默认值是执行 webpack 打包命令的当前目录。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g903gp05k8j21dw09cq55.jpg" alt="Screen Shot 2019-11-16 at 19.14.56.png"></p>
+<h4 id="部分-Loader-的-publicPath"><a href="#部分-Loader-的-publicPath" class="headerlink" title="部分 Loader 的 publicPath"></a>部分 Loader 的 publicPath</h4><p>file-loader、html-loader 等 loader 也可以配置 <code>publicPath</code>，用于指定使用该 loader 预编译的文件的访问路径。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g90x20j92oj212s08cwfd.jpg" alt="Screen Shot 2019-11-17 at 12.19.11.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/12/16/Webpack%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" data-id="ck7j32j83002mf3011r7405fc" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/12/17/Webpack%E5%92%8CParcel%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            Webpack和Parcel的区别
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/16/Webpack%E6%89%93%E5%8C%85%E5%8E%9F%E7%90%86/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Webpack打包原理</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

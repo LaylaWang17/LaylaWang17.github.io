@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    SQL规范总结 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-SQL规范总结" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      SQL规范总结
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2019-04-01T13:23:34.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<p>遵循一定的规范有助于提高代码的可读性和可移植性，对 SQL 来说规范中最主要的是命名规范和代码规范，这里给出了一些通用的规范，具体应该遵循的规范需要依据项目要求来确定。</p>
+<h2 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h2><h3 id="可用字符"><a href="#可用字符" class="headerlink" title="可用字符"></a>可用字符</h3><ul>
+<li><p>对 SQL 来说，命名可用的字符包括 A-Z、a-z、0-9 及下划线。</p>
+</li>
+<li><p>命名时尽量不用数字。</p>
+</li>
+<li><p>下划线用于分割单词，不要以下划线作为开头或结尾</p>
+</li>
+</ul>
+<h3 id="命名方式"><a href="#命名方式" class="headerlink" title="命名方式"></a>命名方式</h3><ul>
+<li><p>使用英文而非拼音</p>
+</li>
+<li><p>做到见名知义</p>
+</li>
+<li><p>使用带有集合意义的词语，使用单数形式</p>
+<p>例如：用 stuff 而不是 employees</p>
+</li>
+<li><p>表明和列明尽量不要重名</p>
+</li>
+<li><p>避免通过组合两个表明来命名关系表</p>
+</li>
+</ul>
+<h3 id="大小写规范"><a href="#大小写规范" class="headerlink" title="大小写规范"></a>大小写规范</h3><ul>
+<li>数据库名，小写，单词间用下划线分隔</li>
+<li>表名，小写，单词间用下划线分隔</li>
+<li>列名，小写，单词间用下划线分隔</li>
+<li>别名，小驼峰命名法</li>
+</ul>
+<h3 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h3><ul>
+<li>命名尽可能详细准确，但切忌太过冗长</li>
+<li>表名、列名尽量限制在 30 字符以内</li>
+</ul>
+<h3 id="单词缩写"><a href="#单词缩写" class="headerlink" title="单词缩写"></a>单词缩写</h3><ul>
+<li><p>谨慎使用缩写</p>
+</li>
+<li><p>表名超过 15 字符、列名超过 20 字符时可以考虑用缩写</p>
+</li>
+<li><p>获得单词对应的缩写的方法：</p>
+<ul>
+<li>查字典</li>
+<li>推荐网站：<a href="http://shortof.com/" target="_blank" rel="noopener">http://shortof.com/</a></li>
+<li>删除除首字母外的元音字符和重复字符</li>
+</ul>
+</li>
+<li><p>对于主从表，从表从第二个单词开始缩写</p>
+</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p>外键的命名建议采用“主表名_字段名”的形式</p>
+<p>例如：student_id</p>
+</li>
+<li><p>表示日期和时间字段建议通过后缀指明该字段精确到什么范围</p>
+<p>例如：birth_date 说明精确到日期</p>
+</li>
+<li><p>含义为“是否…”的布尔型字段前缀加 is</p>
+<p>例如：is_success、is_active</p>
+</li>
+</ul>
+<h2 id="语句规范"><a href="#语句规范" class="headerlink" title="语句规范"></a>语句规范</h2><h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><ul>
+<li>关键字使用大写形式，以和其他代码区分</li>
+<li>尽量使用关键字的全称而非缩写，以增强可读性</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">name</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	student;</span><br></pre></td></tr></table></figure>
+
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><p>通过适当的空格、换行和缩进来提高代码的可读性</p>
+<ul>
+<li><p>可以添加空格的地方：</p>
+<ul>
+<li>运算符两侧</li>
+<li>逗号后</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">name</span>, age</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	student</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	age &gt; <span class="number">18</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以添加换行的地方：</p>
+<ul>
+<li><code>AND</code>和<code>OR</code>关键字另起一行</li>
+<li>分号后另起一行</li>
+<li>每个关键字的定义之后另起一行</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">name</span>, age</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	student</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	<span class="keyword">name</span> <span class="keyword">LIKE</span> <span class="string">'王%'</span></span><br><span class="line">	<span class="keyword">AND</span> age &gt; <span class="number">18</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以添加缩进的地方：</p>
+<ul>
+<li>联结查询应缩进</li>
+<li>子查询应缩进</li>
+<li>对字段的约束应缩进</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    <span class="keyword">name</span>, <span class="keyword">SUM</span>(score) <span class="keyword">AS</span> <span class="keyword">sum</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    student</span><br><span class="line">        <span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line">    score <span class="keyword">ON</span> student.id = student_id</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> student_id;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="简洁性"><a href="#简洁性" class="headerlink" title="简洁性"></a>简洁性</h3><p>保持代码的简洁性，去掉不必要的 SQL 语句</p>
+<ul>
+<li>能用<code>BETWEEN</code>指定查询条件的地方不要用<code>AND</code>加多个子句的形式</li>
+<li>能用<code>IN</code>指定查询条件的地方不要用<code>OR</code>加多个子句的形式</li>
+<li>尽量少使用<code>UNION</code>和临时表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 正例</span></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">name</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	student</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	age <span class="keyword">BETWEEN</span> <span class="number">18</span> <span class="keyword">AND</span> <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 反例</span></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">name</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	student</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	age &gt; <span class="number">18</span></span><br><span class="line">	<span class="keyword">AND</span> age &lt; <span class="number">22</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>使用标准的 SQL 函数来保证代码的可移植性</li>
+<li>在必要的地方添加注释，不要滥用注释</li>
+</ul>
+<h2 id="创建表的规范"><a href="#创建表的规范" class="headerlink" title="创建表的规范"></a>创建表的规范</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li><p>使用 SQL 标准数据类型以保证可移植性</p>
+</li>
+<li><p>仅在必要的时候使用<code>REAL</code>和<code>FLOAT</code>类型，尽量使用<code>NUMERIC</code>和<code>DECIMAL</code>类型</p>
+<p>因为<code>FLOAT</code>型存在圆整错误</p>
+</li>
+</ul>
+<h3 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h3><ul>
+<li><p>默认值应和字段类型相同</p>
+<p>例如：对于<code>DOUBLE</code>类型的字段，其默认值应指定为 0.0 而非 0</p>
+</li>
+<li><p>默认值应定义在数据类型之后、<code>NOT NULL</code>约束之前</p>
+<p>例如：<code>sex CHAR(1) DEFAULT &#39;男&#39; NOT NULL</code></p>
+</li>
+</ul>
+<h3 id="键"><a href="#键" class="headerlink" title="键"></a>键</h3><ul>
+<li>指定为键的字段的值应具有唯一性</li>
+<li>键字段在各表中的类型应该保持一致，且发生改变的可能性较低</li>
+<li>尽量使键为简单值，必要情况下也可以使用复合值</li>
+</ul>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li><p>表应该至少拥有一个键</p>
+</li>
+<li><p>除<code>UNIQUE</code>、<code>PRIMARY KEY</code>、<code>FOREIGN KEY</code>外应给约束定义名称</p>
+</li>
+<li><p>约束的定义顺序：</p>
+<ul>
+<li><p>主键约束应定义在<code>CREATE TABLE</code>语句之后</p>
+</li>
+<li><p>各列约束应定义在列的下方，使用缩进对齐</p>
+</li>
+<li><p>涉及多个列的约束应尽量放置在涉及到的列的附近，如果不行的话放在表的创建的最后</p>
+</li>
+<li><p>对整个表的约束应该放在表的创建的最后</p>
+</li>
+<li><p>按照字母表的顺序排列约束</p>
+<p>例如，<code>ON DELETE</code>约束应该在<code>ON UPDATE</code>约束之前</p>
+</li>
+</ul>
+</li>
+<li><p>定义必要的检查约束：</p>
+<ul>
+<li>当字符串类型的字段值格式已知时，使用<code>LIKE</code>和<code>SIMILAR TO</code>约束来检查</li>
+<li>当数字类型的字段值范围已知时，利用<code>CHECK</code>约束语句来检查</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> student (</span><br><span class="line">    PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>),</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">INT</span>,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    birth_date <span class="built_in">DATE</span>,</span><br><span class="line">    sex <span class="built_in">CHAR</span>(<span class="number">1</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">    	<span class="keyword">CONSTRAINT</span> sex_value</span><br><span class="line">    	<span class="keyword">CHECK</span> (sex <span class="keyword">IN</span> (<span class="string">'男'</span>, <span class="string">'女'</span>))</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.jianshu.com/p/7e60dbd59138" target="_blank" rel="noopener">数据库设计中的命名规范</a></li>
+<li><a href="https://www.sqlstyle.guide/" target="_blank" rel="noopener">SQL Style Guide</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/" data-id="ck7j32j7z002af301djpb6f5e" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/04/03/%E7%90%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%89%B9%E6%80%A7/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            理解事务的隔离特性
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/03/28/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">MySQL中的索引用法总结</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

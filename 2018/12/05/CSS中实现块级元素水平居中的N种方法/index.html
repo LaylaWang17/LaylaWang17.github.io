@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    CSS中实现块级元素水平居中的N种方法 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-CSS中实现块级元素水平居中的N种方法" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      CSS中实现块级元素水平居中的N种方法
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2018-12-05T12:08:56.000Z" itemprop="datePublished">2018-12-05</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>前自增运算符和后自增运算符的区别</p>
+<a id="more"></a>
+
+<p>最近写作业的时候遇到这么一道题：</p>
+<blockquote>
+<p>网页由 box1、box2、box3、box4 四个盒子组成，请实现如下效果：</p>
+<ul>
+<li><p>1、2、3 号盒子在一行；</p>
+</li>
+<li><p>4 号盒子在 2 号盒子的正下方。</p>
+</li>
+</ul>
+</blockquote>
+<p>最简单的想法是四个盒子均用绝对定位，但是这种实现方法代码量大、需要计算每个盒子的位置、不灵活（如果盒子的大小改变了难以修改）。</p>
+<p>另一种想法是，三个盒子排在一行可以用 float 实现，第四个盒子用绝对定位，但是依然存在上述问题。</p>
+<p>因此如果能让这些盒子自己在页面居中，那无论盒子的尺寸和数目如何改变均可轻松实现想要的效果了。</p>
+<p>学习了一下网上大牛们给出的方法，发现块级元素的水平居中可以通过 N 种方式实现！</p>
+<h2 id="1-利用-margin-left-amp-right-auto-实现元素居中"><a href="#1-利用-margin-left-amp-right-auto-实现元素居中" class="headerlink" title="1. 利用 margin-left&amp;right=auto 实现元素居中"></a>1. 利用 margin-left&amp;right=auto 实现元素居中</h2><p>对于单个块级元素的水平居中可以通过将<code>margin-left</code>和<code>margin-left</code>设置为<code>auto</code>来实现。</p>
+<p>以一个 box 为例，CSS 部分具体代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">margin-left</span>: auto;</span><br><span class="line">  <span class="attribute">margin-right</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx6vbl7962j211y0he3yf.jpg" alt=""></p>
+<p><strong>注意</strong>：该方法需要元素的宽度已知。</p>
+<p>另外，如果需要水平居中多个块级元素，就要使用另外的方法了。</p>
+<h2 id="2-利用-inline-block-实现元素居中"><a href="#2-利用-inline-block-实现元素居中" class="headerlink" title="2. 利用 inline-block 实现元素居中"></a>2. 利用 inline-block 实现元素居中</h2><p>将需要居中的块级元素的<code>display</code>属性设置为<code>inline-block</code>，并将其<strong>父元素</strong>的<code>text-align</code>属性设置为<code>center</code>即可实现多个块级元素的水平居中。</p>
+<p>这里用到了<strong>行级格式化上下文（IFC）</strong>的概念。这种方法实际上是通过<code>inline-block</code>将三个 box 组成一个整体，此时<code>&lt;body&gt;</code>作为一个行盒可以通过<code>text-align</code>属性设置其内部元素的水平分布。</p>
+<p>以三个 box 为例，HTML 部分代码为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>box1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box2"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>box2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box3"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>box3<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>CSS 部分代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx6vikt5jej211y0he0so.jpg" alt=""></p>
+<h2 id="3-利用-fit-content-实现元素居中"><a href="#3-利用-fit-content-实现元素居中" class="headerlink" title="3. 利用 fit-content 实现元素居中"></a>3. 利用 fit-content 实现元素居中</h2><p>该方法需要将 box 块设置为浮动布局（<code>float</code>），并将其<strong>父元素</strong>的宽度设定为自适应（<code>width:fit-content</code>），再结合方法一即可实现效果。</p>
+<p>仍以上述三个 box 为例，CSS 部分具体代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: fit-content;</span><br><span class="line">  <span class="attribute">margin-left</span>: auto;</span><br><span class="line">  <span class="attribute">margin-right</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx6vpc3v0jj211y0he0so.jpg" alt=""></p>
+<h2 id="4-利用-float-relative-实现元素水平居中"><a href="#4-利用-float-relative-实现元素水平居中" class="headerlink" title="4. 利用 float+relative 实现元素水平居中"></a>4. 利用 float+relative 实现元素水平居中</h2><p>这种方式分为两步：</p>
+<ol>
+<li>将需要居中的块级元素设置为<code>float</code>布局，采用相对定位方式（<code>position:relative</code>)，并相对现在的位置<strong>向右（或向左）</strong>移动 50%；</li>
+<li>将需要居中的块级元素的<strong>父元素</strong>设置为<code>float</code>布局，采用相对定位方式（<code>position:relative</code>)，并相对现在的位置<strong>向左（即其子元素移动的反方向）</strong>移动 50%。</li>
+</ol>
+<p>仍以上述三个 box 为例，CSS 部分具体代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">50%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50%</span>; <span class="comment">/*一定要与子元素移动方向相反*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx7bl7zoi6j211y0hewef.jpg" alt=""></p>
+<h2 id="5-利用-float-absolute-实现元素居中"><a href="#5-利用-float-absolute-实现元素居中" class="headerlink" title="5. 利用 float+absolute 实现元素居中"></a>5. 利用 float+absolute 实现元素居中</h2><p>这种方式也分两步实现：</p>
+<ul>
+<li><p>第一步与方法四（float+relative）相同；</p>
+</li>
+<li><p>第二步中，需要居中的块级元素的<strong>父元素</strong>应采用绝对定位方式（<code>position:absolute</code>）、向其子元素移动的反方向移动 50%，并将文本对齐方式设置为居中（<code>text-align: center</code>）。</p>
+</li>
+</ul>
+<p>以上述三个 box 为例，CSS 部分具体代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">50%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute; <span class="comment">/*这里与方法四不同*/</span></span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50%</span>; <span class="comment">/*一定要与子元素移动方向相反*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx7bquv55aj211y0hewef.jpg" alt=""></p>
+<h2 id="6-利用-flex-实现元素居中"><a href="#6-利用-flex-实现元素居中" class="headerlink" title="6. 利用 flex 实现元素居中"></a>6. 利用 flex 实现元素居中</h2><p>对于需要所有元素均在一排并且居中的情况，<code>flex</code>非常好用。只用将需要居中的块级元素的<strong>父元素</strong>的<code>display</code>属性设置为<code>flex</code>，<code>justify-content</code>属性设置为<code>center</code>即可。</p>
+<p>以上述三个 box 为例，CSS 部分具体代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: grey;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx7c1acdz7j211y0he0so.jpg" alt=""></p>
+<h2 id="7-使用伪元素模拟-float-center-效果"><a href="#7-使用伪元素模拟-float-center-效果" class="headerlink" title="7. 使用伪元素模拟 float:center 效果"></a>7. 使用伪元素模拟 float:center 效果</h2><p>最后一种方法比较复杂但是可以实现文字环绕图片的效果（对于分栏排版的段落很有效）。</p>
+<p>（实际上对于单栏文字环绕图片的效果通过设置图片的<code>float</code>属性即可实现，因此思考一下也很容易将这种方法拓展到多栏文字上）</p>
+<p>目前 CSS 中没有<code>float:center</code>这种效果，但是可以利用伪元素进行模拟。该方法分为两步：</p>
+<ol>
+<li>使用伪元素<code>:before</code>分别在多栏文字上用<strong>空内容占位</strong>，并通过设置不同的<code>float</code>方向使段落的文字重新布局，产生环绕的效果。(<strong>注意</strong>：占位符的大小不能小于所插入图片的大小。)</li>
+<li>采用绝对定位将需要插入的图片移动到占位符处。</li>
+</ol>
+<p>举一个例子看具体实现。</p>
+<p>HTML 部分代码为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"leftText"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">      第一栏...（此处省略内容）</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"rightText"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">      第二栏...（此处省略内容）</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">".\我是一张图片（大小为：160*160px）.png"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>CSS 部分代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#leftText</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">40%</span>;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">120px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#rightText</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: right;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">40%</span>;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">120px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*两栏内容需要两个占位符，以使图片位于两栏内容中间*/</span></span><br><span class="line"><span class="selector-id">#leftText</span><span class="selector-pseudo">:before</span>,</span><br><span class="line"><span class="selector-id">#rightText</span><span class="selector-pseudo">:before</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">''</span>; <span class="comment">/*以空内容占位*/</span></span><br><span class="line">  <span class="attribute">width</span>: <span class="number">102px</span>; <span class="comment">/*宽度大于图片宽度的一半*/</span></span><br><span class="line">  <span class="attribute">height</span>: <span class="number">180px</span>; <span class="comment">/*高度大于图片高度*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#leftText</span><span class="selector-pseudo">:before</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: right; <span class="comment">/*第一栏占位符右浮动*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#rightText</span><span class="selector-pseudo">:before</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left; <span class="comment">/*第一栏占位符左浮动*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">img</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute; <span class="comment">/*用绝对定位的方式调整图片的位置*/</span></span><br><span class="line">  <span class="attribute">top</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">44%</span>;</span><br><span class="line">  <span class="attribute">transform</span>: -<span class="number">50%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx7dvs7nw2j211y0hewid.jpg" alt=""></p>
+<p>这种方法虽然步骤略复杂，但是效果还是蛮好的。</p>
+<h2 id="回到最初的问题"><a href="#回到最初的问题" class="headerlink" title="回到最初的问题"></a>回到最初的问题</h2><p>那对于开头的作业比较好的实现方式是什么呢？</p>
+<p>对于这道题，我目前觉得最好的方式是<code>inline-block</code>。</p>
+<p>可以看一下具体实现。</p>
+<p>HTML 部分代码为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box123"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box1"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>box1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box2"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>box2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box3"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>box3<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box4"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>box4<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>CSS 部分代码为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#box1</span>,</span><br><span class="line"><span class="selector-id">#box2</span>,</span><br><span class="line"><span class="selector-id">#box3</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">background</span>: gray;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#box4</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">background</span>: gray;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现的效果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1fx7e8zvzi7j211y0he749.jpg" alt=""></p>
+<hr>
+<p>参考文章：</p>
+<ul>
+<li><p><a href="https://www.w3cplus.com/css/elements-horizontally-center-with-css.html" target="_blank" rel="noopener">六种实现元素水平居中的方法</a></p>
+</li>
+<li><p><a href="https://www.w3cplus.com/css/float-center.html" target="_blank" rel="noopener">使用 CSS 伪元素模拟 float:center 效果</a></p>
+</li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2018/12/05/CSS%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95/" data-id="ck7j32j710003f3011vmkbcri" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2018/12/08/JavaScript%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            JavaScript中的数据类型
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/12/01/JavaScript%E4%B8%AD%E7%9A%84Math%E5%AF%B9%E8%B1%A1/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">JavaScript中的Math对象</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

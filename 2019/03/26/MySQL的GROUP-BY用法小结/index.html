@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    MySQL的GROUP BY用法小结 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-MySQL的GROUP-BY用法小结" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL的GROUP BY用法小结
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/03/26/MySQL%E7%9A%84GROUP-BY%E7%94%A8%E6%B3%95%E5%B0%8F%E7%BB%93/" class="article-date">
+  <time datetime="2019-03-26T13:21:12.000Z" itemprop="datePublished">2019-03-26</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h2 id="利用聚合函数进行分组"><a href="#利用聚合函数进行分组" class="headerlink" title="利用聚合函数进行分组"></a>利用聚合函数进行分组</h2><p>使用<code>COUNT()</code>、<code>AVG()</code>、<code>MIN()</code>、<code>MAX()</code>等聚合函数可实现对分组的过滤，聚合函数会分别对各组数据进行聚合。</p>
+<p>以下面的 orders 表为例：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1g265uu9dj20km048jrf.jpg" alt=""></p>
+<p>按照 status 列将订单分组并计算各组包含的订单条目数：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">status</span>, <span class="keyword">COUNT</span>(<span class="keyword">status</span>)</span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">status</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1g2bgtjaej205703j3yb.jpg" alt=""></p>
+<p>再以一个 orderdetails 表为例：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1g4qbkhi9j20cd04qdfs.jpg" alt=""></p>
+<p>若希望计算每个订单中包含商品的总价，则有</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	orderNumber,</span><br><span class="line">	<span class="keyword">SUM</span>(quantityOrdered * priceEach) <span class="keyword">AS</span> amount</span><br><span class="line"><span class="keyword">FROM</span> orderdetails</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> orderNumber;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1g4sn4cksj204p054744.jpg" alt=""></p>
+<h2 id="利用表达式进行分组"><a href="#利用表达式进行分组" class="headerlink" title="利用表达式进行分组"></a>利用表达式进行分组</h2><p><code>GROUP BY</code>语句中还可以使用函数或表达式来处理数据。</p>
+<p>例如，从上述 orders 表和 orderdetails 表中查询每年订单总额：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">YEAR</span>(orderDate) <span class="keyword">AS</span> <span class="keyword">year</span>,</span><br><span class="line">    <span class="keyword">SUM</span>(quantityOrdered * priceEach) <span class="keyword">AS</span> total</span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> orderdetails <span class="keyword">USING</span> (orderNumber)</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">YEAR</span>(orderDate);</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1g5ixabpyj203z0240si.jpg" alt=""></p>
+<h2 id="使用-HAVING-语句对分组结果进行过滤"><a href="#使用-HAVING-语句对分组结果进行过滤" class="headerlink" title="使用 HAVING 语句对分组结果进行过滤"></a>使用 HAVING 语句对分组结果进行过滤</h2><p><code>HAVING</code>语句可以过滤出分组后满足特定条件的数据。</p>
+<p>例如，查找出总额大于 60000 的订单</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	orderNumber,</span><br><span class="line">    <span class="keyword">SUM</span>(quantityOrdered * priceEach) <span class="keyword">AS</span> total</span><br><span class="line"><span class="keyword">FROM</span> orderdetails</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> orderNumber</span><br><span class="line"><span class="keyword">HAVING</span> total &gt; <span class="number">60000</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1g648qs0oj204t0243ya.jpg" alt=""></p>
+<p><strong>注意</strong>：<br><code>WHERE</code>语句和<code>HAVING</code>语句虽然都可以对数据进行过滤，但用法是不同的，<code>HAVING</code>语句可以用于过滤分组，<code>WHERE</code>语句只能过滤行，不能过滤分组；因此<code>WHERE</code>语句应在<code>GROUP BY</code>之前使用。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	orderNumber,</span><br><span class="line">    <span class="keyword">SUM</span>(quantityOrdered * priceEach) <span class="keyword">AS</span> total</span><br><span class="line"><span class="keyword">FROM</span> orderdetails</span><br><span class="line"><span class="keyword">WHERE</span> quantityOrdered &gt; <span class="number">50</span> <span class="keyword">AND</span> priceEach &gt; <span class="number">100</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> orderNumber;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1g6i98ifjj204q04qa9w.jpg" alt=""></p>
+<p>且<code>WHERE</code>语句中不能使用别名或者表达式，例如下列写法是不合法的：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	orderNumber <span class="keyword">AS</span> orderId</span><br><span class="line"><span class="keyword">FROM</span> orderdetails</span><br><span class="line"><span class="keyword">WHERE</span> orderId &gt; <span class="number">100100</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> orderNumber;</span><br><span class="line"></span><br><span class="line"><span class="comment">--&gt; Error Code: 1054. Unknown column 'orderId' in 'where clause'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	orderNumber,</span><br><span class="line">    <span class="keyword">SUM</span>(quantityOrdered * priceEach) <span class="keyword">AS</span> total</span><br><span class="line"><span class="keyword">FROM</span> orderdetails</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">SUM</span>(quantityOrdered * priceEach) &gt; <span class="number">60000</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> orderNumber;</span><br><span class="line"></span><br><span class="line"><span class="comment">--&gt; Error Code: 1111. Invalid use of group function	0.000 sec</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.mysqltutorial.org/mysql-group-by.aspx" target="_blank" rel="noopener">MySQL GROUP BY</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/03/26/MySQL%E7%9A%84GROUP-BY%E7%94%A8%E6%B3%95%E5%B0%8F%E7%BB%93/" data-id="ck7j32j7w0022f301615a3g70" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/03/27/%E5%AD%90%E6%9F%A5%E8%AF%A2%E3%80%81%E8%81%94%E7%BB%93%E6%9F%A5%E8%AF%A2%E3%80%81%E7%BB%84%E5%90%88%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            子查询、联结查询、组合查询用法总结
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">MySQL中常用的文本处理函数和日期时间处理函数</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

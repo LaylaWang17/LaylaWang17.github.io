@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    MySQL中的JSON数据类型 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-MySQL中的JSON数据类型" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL中的JSON数据类型
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-date">
+  <time datetime="2019-03-25T13:19:17.000Z" itemprop="datePublished">2019-03-25</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>MySQL 支持原生<code>JSON</code>类型，使用<code>JSON</code>数据类型相较于将 JSON 格式的字符串存储在 String 型中的优势有：</p>
+<ul>
+<li><p>存储时会自动验证 JSON 文本；</p>
+</li>
+<li><p>可以优化存储格式。存储在<code>JSON</code>型中的 JSON 文本会被转换成一个支持快速读取的文档元素，这样在使用时不需要再解析文本，并且可以直接通过键和索引访问其中的子对象而无需读取全部文本。</p>
+</li>
+</ul>
+<p><code>JSON</code>型中可存储的 JSON 文本的大小不会超过<code>mysql.ini</code>配置文件中设置的<code>max_allowed_packet</code>的值。</p>
+<h2 id="JSON-值的局部更新"><a href="#JSON-值的局部更新" class="headerlink" title="JSON 值的局部更新"></a>JSON 值的局部更新</h2><p>MySQL 从 8.0 开始支持对<code>JSON</code>型中存储的数据进行局部更新，而不需要清除原有数据并写入新值。</p>
+<p>局部更新按照下述规则执行：</p>
+<ul>
+<li><p>数据列被声明为<code>JSON</code>型</p>
+</li>
+<li><p><code>UPDATE</code>语句使用<code>JSON_SET()</code>、<code>JSON_REPLACE()</code>、<code>JSON_REMOVE()</code>三个函数实现 JSON 的局部更新</p>
+<p>但对该列直接赋值不属于局部更新，例如：<code>UPDATE myTable SET jcon1 = &#39;{&quot;a&quot;: 10, &quot;b&quot;: 25}&#39;</code></p>
+<p>局部更新操作可以实现在单个<code>UPDATE</code>语句中更新多个<code>JSON</code>列</p>
+</li>
+<li><p>局部更新是针对同一列数据的操作，对不同列的操作不属于局部更新，例如：<code>UPDATE myTable SET jcon1 = JSON_SET(jcon2, &#39;$.a&#39;, 100)</code></p>
+<p>局部更新中可以使用上述三个函数的嵌套调用形式</p>
+</li>
+<li><p>局部更新仅将现有 JSON 对象中的数组或子对象替换成新值，但不能给父对象或数组添加新元素</p>
+</li>
+<li><p>所替换的新值不能比原值占据的存储空间更大，除非上一次更新留下了足够的存储空间</p>
+</li>
+</ul>
+<h2 id="创建-JSON-值"><a href="#创建-JSON-值" class="headerlink" title="创建 JSON 值"></a>创建 JSON 值</h2><ul>
+<li><p>JSON 数组：<code>[&quot;abc&quot;, 10, null, true, false]</code></p>
+<p>JSON 数组中可以存储数字量、字符串、null、布尔量、时间量</p>
+</li>
+<li><p>JSON 对象：<code>{&quot;key1&quot;: &quot;value&quot;, &quot;key2&quot;: 10}</code></p>
+<p>JSON 对象中的键必须为字符串</p>
+</li>
+</ul>
+<p>JSON 数组和 JSON 对象中可以嵌套子 JSON 数组和对象。</p>
+<p>MySQL 中的 JSON 编码格式为<code>CHARSET=utf8mb4 COLLATE=utf8mb4_bin</code>。</p>
+<h3 id="使用字符串字面量创建-JSON"><a href="#使用字符串字面量创建-JSON" class="headerlink" title="使用字符串字面量创建 JSON"></a>使用字符串字面量创建 JSON</h3><p>在 MySQL 中 JSON 值按照字符串的形式写入，在要求为 JSON 值的上下文中（例如将值插入<code>JSON</code>列，或调用输入参数为 JSON 的函数）MySQL 会解析该字符串，若不符合 JSON 格式则报错。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_TYPE('["abc", 1]');</span><br><span class="line">+<span class="comment">-------------------------+</span></span><br><span class="line">| JSON_TYPE('["abc", 1]') |</span><br><span class="line">+<span class="comment">-------------------------+</span></span><br><span class="line">| ARRAY                   |</span><br><span class="line">+<span class="comment">-------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_TYPE('&#123;"a": 1, "b": 2&#125;');</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line">| JSON_TYPE('&#123;"a": 1, "b": 2&#125;') |</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line">| OBJECT                        |</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_TYPE('"abc"');</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| JSON_TYPE('"abc"') |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| STRING             |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_TYPE('abc');</span><br><span class="line">ERROR 3141 (22032): Invalid JSON text in argument 1 to function json_type: "Invalid value." at position 0.</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用函数创建-JSON"><a href="#使用函数创建-JSON" class="headerlink" title="使用函数创建 JSON"></a>使用函数创建 JSON</h3><p>介绍三个常用的创建 JSON 的函数：</p>
+<ul>
+<li><p><code>JSON_ARRAY()</code>函数会将传入其中的参数组成 JSON 数组，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_ARRAY('a', 1, NOW());</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| JSON_ARRAY('a', 1, NOW())              |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| ["a", 1, "2019-03-22 10:01:53.000000"] |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>JSON_OBJECT()</code>会将传入的键值对转换为 JSON 对象，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_OBJECT('a', 1, 'b', 2);</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">| JSON_OBJECT('a', 1, 'b', 2) |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br><span class="line">| &#123;"a": 1, "b": 2&#125;            |</span><br><span class="line">+<span class="comment">-----------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>JSON_MERGE_PRESERVE()</code>将多个 JSON 文本组合成一个 JSON，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_MERGE_PRESERVE(&#39;[&quot;a&quot;, 1]&#39;, &#39;&#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;&#39;);</span><br><span class="line">+-----------------------------------------------------+</span><br><span class="line">| JSON_MERGE_PRESERVE(&#39;[&quot;a&quot;, 1]&#39;, &#39;&#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;&#39;) |</span><br><span class="line">+-----------------------------------------------------+</span><br><span class="line">| [&quot;a&quot;, 1, &#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;]                          |</span><br><span class="line">+-----------------------------------------------------+</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_MERGE_PRESERVE(&#39;&#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;&#39;, &#39;&#123;&quot;c&quot;: 3, &quot;d&quot;: 4&#125;&#39;);</span><br><span class="line">+-------------------------------------------------------------+</span><br><span class="line">| JSON_MERGE_PRESERVE(&#39;&#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;&#39;, &#39;&#123;&quot;c&quot;: 3, &quot;d&quot;: 4&#125;&#39;) |</span><br><span class="line">+-------------------------------------------------------------+</span><br><span class="line">| &#123;&quot;a&quot;: 1, &quot;b&quot;: 2, &quot;c&quot;: 3, &quot;d&quot;: 4&#125;                            |</span><br><span class="line">+-------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="使用-JSON"><a href="#使用-JSON" class="headerlink" title="使用 JSON"></a>使用 JSON</h2><ul>
+<li><p>将创建出的 JSON 值赋值给一个自定义的变量时，该 JSON 会被转换成字符串，因此自定义的变量属于字符串类型、而非 JSON 类型，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> @j = JSON_OBJECT(<span class="string">'key'</span>, <span class="string">'value'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>创建的<code>@j</code>为字符串类型。</p>
+</li>
+<li><p>JSON 值在进行比较时会区分大小写，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_ARRAY('X') = JSON_ARRAY('x');</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">| JSON_ARRAY('X') = JSON_ARRAY('x') |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">|                                 0 |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p><code>&#39;x&#39;</code>和`’X’不相等，返回 false（即 0）。</p>
+</li>
+<li><p>JSON 中的<code>null</code>、<code>true</code>、<code>false</code>字面量必须为小写形式，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_VALID('null'), JSON_VALID('NULL'), JSON_VALID('Null');</span><br><span class="line">+<span class="comment">--------------------+--------------------+--------------------+</span></span><br><span class="line">| JSON_VALID('null') | JSON_VALID('NULL') | JSON_VALID('Null') |</span><br><span class="line">+<span class="comment">--------------------+--------------------+--------------------+</span></span><br><span class="line">|                  1 |                  0 |                  0 |</span><br><span class="line">+<span class="comment">--------------------+--------------------+--------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到<code>Null</code>和<code>NULL</code>的形式是对 JSON 型来说非法的。</p>
+<p><strong>但应注意，SQL 中的<code>null</code>、<code>true</code>、<code>false</code>字面量不区分大小写。</strong></p>
+</li>
+<li><p>单引号<code>&#39;&#39;</code>和双引号<code>&quot;&quot;</code>的使用：</p>
+<ul>
+<li><p>使用<code>JSON_OBJECT()</code>等函数创建 JSON 时，字符串中出现的引号需要使用转义字符<code>\</code>来和标记字符串开始结束的引号作区分，否则会报错，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">正确写法：</span><br><span class="line">mysql&gt; INSERT INTO facts VALUES (JSON_OBJECT("mascot", "Our mascot is a dolphin named \"Sakila\"."));</span><br><span class="line">Query OK, 1 row affected (0.22 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; INSERT INTO facts VALUES (JSON_OBJECT("mascot", "Our mascot is a dolphin named 'Sakila'."));</span><br><span class="line">Query OK, 1 row affected (0.22 sec)</span><br><span class="line"></span><br><span class="line">错误写法：</span><br><span class="line">mysql&gt; INSERT INTO facts VALUES (JSON_OBJECT("mascot2", "Our mascot is a dolphin named "Sakila"."));</span><br><span class="line">ERROR 1064 (42000): You have an error in your SQL syntax; <span class="keyword">check</span> the <span class="keyword">manual</span> that corresponds <span class="keyword">to</span> your MySQL <span class="keyword">server</span> <span class="keyword">version</span> <span class="keyword">for</span> the <span class="keyword">right</span> syntax <span class="keyword">to</span> <span class="keyword">use</span> near <span class="string">'"."))'</span> <span class="keyword">at</span> line <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 JSON 对象字面量创建 JSON 时，需要使用两个转义字符<code>\\</code>来指明 MySQL 不需要对引号进行转义，而保留其字面值，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">两种正确写法：</span><br><span class="line">mysql&gt; INSERT INTO facts VALUES ('&#123;"mascot": "Our mascot is a dolphin named \\"Sakila\\"."&#125;');</span><br><span class="line">Query OK, 1 row affected (0.11 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; INSERT INTO facts VALUES ('&#123;"mascot": "Our mascot is a dolphin named \'Sakila\'."&#125;');</span><br><span class="line">Query OK, 1 row affected (0.07 sec)</span><br><span class="line"></span><br><span class="line">三种错误写法：</span><br><span class="line">mysql&gt; INSERT INTO facts VALUES ('&#123;"mascot": "Our mascot is a dolphin named \"Sakila\"."&#125;');</span><br><span class="line">ERROR 3140 (22032): Invalid JSON text: "Missing a comma or '&#125;' after an object member." at position 43 in value for column 'facts.sentence'.</span><br><span class="line"></span><br><span class="line">mysql&gt; INSERT INTO facts VALUES ('&#123;"mascot": "Our mascot is a dolphin named "Sakila"."&#125;');</span><br><span class="line">ERROR 3140 (22032): Invalid JSON text: "Missing a comma or '&#125;' after an object member." at position 43 in value for column 'facts.sentence'.</span><br><span class="line"></span><br><span class="line">mysql&gt; INSERT INTO facts VALUES ('&#123;"mascot": "Our mascot is a dolphin named 'Sakila'."&#125;');</span><br><span class="line">ERROR 1064 (42000): You have an error in your SQL syntax; <span class="keyword">check</span> the <span class="keyword">manual</span> that corresponds <span class="keyword">to</span> your MySQL <span class="keyword">server</span> <span class="keyword">version</span> <span class="keyword">for</span> the <span class="keyword">right</span> syntax <span class="keyword">to</span> <span class="keyword">use</span> near <span class="string">'Sakila'</span>.<span class="string">"&#125;')' at line 1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查找 JSON 中某个键对应的值：</p>
+<ul>
+<li><p>使用<code>-&gt;</code>操作符，返回值会显示为带有包裹引号和转义字符的形式，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT sentence-&gt;"$.mascot" FROM facts;</span><br><span class="line">+<span class="comment">---------------------------------------------+</span></span><br><span class="line">| sentence-&gt;"$.mascot"                        |</span><br><span class="line">+<span class="comment">---------------------------------------------+</span></span><br><span class="line">| "Our mascot is a dolphin named \"Sakila\"." |</span><br><span class="line">+<span class="comment">---------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>-&gt;&gt;</code>操作符，返回值会显示为无包裹引号和转义字符的形式，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT sentence-&gt;&gt;"$.mascot" FROM facts;</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| sentence-&gt;&gt;"$.mascot"                   |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| Our mascot is a dolphin named "Sakila". |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON-值的标准化、合并、和自动包装"><a href="#JSON-值的标准化、合并、和自动包装" class="headerlink" title="JSON 值的标准化、合并、和自动包装"></a>JSON 值的标准化、合并、和自动包装</h2><h3 id="JSON-值的标准化"><a href="#JSON-值的标准化" class="headerlink" title="JSON 值的标准化"></a>JSON 值的标准化</h3><p>当使用<code>JSON_OBJECT()</code>函数创建 JSON 对象时，传入参数中的重复键会被忽略，即当出现重复键值对时，会对已存在键值对的值进行更新，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_OBJECT('key1', 1, 'key2', 2, 'key1', 10);</span><br><span class="line">+<span class="comment">-----------------------------------------------+</span></span><br><span class="line">| JSON_OBJECT('key1', 1, 'key2', 2, 'key1', 10) |</span><br><span class="line">+<span class="comment">-----------------------------------------------+</span></span><br><span class="line">| &#123;"key1": 10, "key2": 2&#125;                       |</span><br><span class="line">+<span class="comment">-----------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>在使用<code>INSERT()</code>函数插入 JSON 对象时，也会忽略重复键，并更新该键对应的值，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (c1 JSON);</span><br><span class="line">mysql&gt; INSERT INTO t1 VALUES</span><br><span class="line">    -&gt; ('&#123;"x": 1, "x": "a"&#125;'),</span><br><span class="line">    -&gt; ('&#123;"x": 1, "x": "a", "x": [1, 2, 3]&#125;');</span><br><span class="line">mysql&gt; SELECT c1 FROM t1;</span><br><span class="line">+<span class="comment">------------------+</span></span><br><span class="line">| c1               |</span><br><span class="line">+<span class="comment">------------------+</span></span><br><span class="line">| &#123;"x": "a"&#125;       |</span><br><span class="line">| &#123;"x": [1, 2, 3]&#125; |</span><br><span class="line">+<span class="comment">------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>（<strong>注意</strong>：在 8.0.3 之前版本的 MySQL 中，遇到重复出现的键时，不会用新值更新旧值，而仅忽略该键值对）</p>
+<h3 id="JSON-值的合并和自动包装"><a href="#JSON-值的合并和自动包装" class="headerlink" title="JSON 值的合并和自动包装"></a>JSON 值的合并和自动包装</h3><ul>
+<li>使用<code>JSON_MERGE_PRESERVE()</code>函数合并多个 JSON 值时会保留重复的键</li>
+<li>使用<code>JSON_MERGE_PATCH()</code>函数时仅保留重复键的最后一个，即会发生 JSON 的标准化过程</li>
+</ul>
+<h4 id="合并-JSON-数组"><a href="#合并-JSON-数组" class="headerlink" title="合并 JSON 数组"></a>合并 JSON 数组</h4><ul>
+<li><p><code>JSON_MERGE_PRESERVE()</code>函数会将多个数组串联</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_MERGE_PRESERVE('[1, 2]', '["a", "b"]', '["true", "false"]');</span><br><span class="line">+<span class="comment">------------------------------------------------------------------+</span></span><br><span class="line">| JSON_MERGE_PRESERVE('[1, 2]', '["a", "b"]', '["true", "false"]') |</span><br><span class="line">+<span class="comment">------------------------------------------------------------------+</span></span><br><span class="line">| [1, 2, "a", "b", "true", "false"]                                |</span><br><span class="line">+<span class="comment">------------------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>JSON_MERGE_PATCH()</code>函数仅保留传入的最后一个数组</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_MERGE_PATCH('[1, 2]', '["a", "b"]', '["true", "false"]');</span><br><span class="line">+<span class="comment">---------------------------------------------------------------+</span></span><br><span class="line">| JSON_MERGE_PATCH('[1, 2]', '["a", "b"]', '["true", "false"]') |</span><br><span class="line">+<span class="comment">---------------------------------------------------------------+</span></span><br><span class="line">| ["true", "false"]                                             |</span><br><span class="line">+<span class="comment">---------------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="合并-JSON-对象"><a href="#合并-JSON-对象" class="headerlink" title="合并 JSON 对象"></a>合并 JSON 对象</h4><ul>
+<li><p><code>JSON_MERGE_PRESERVE()</code>函数会将重复键对应的所有值组合成一个数组</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_MERGE_PRESERVE('&#123;"a": 1, "b": 2&#125;', '&#123;"a": 10, "c": 3&#125;');</span><br><span class="line">+<span class="comment">--------------------------------------------------------------+</span></span><br><span class="line">| JSON_MERGE_PRESERVE('&#123;"a": 1, "b": 2&#125;', '&#123;"a": 10, "c": 3&#125;') |</span><br><span class="line">+<span class="comment">--------------------------------------------------------------+</span></span><br><span class="line">| &#123;"a": [1, 10], "b": 2, "c": 3&#125;                               |</span><br><span class="line">+<span class="comment">--------------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>JSON_MERGE_PATCH()</code>函数仅保留最后一个重复键对应的值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_MERGE_PATCH('&#123;"a": 1, "b": 2&#125;', '&#123;"a": 10, "c": 3&#125;');</span><br><span class="line">+<span class="comment">-----------------------------------------------------------+</span></span><br><span class="line">| JSON_MERGE_PATCH('&#123;"a": 1, "b": 2&#125;', '&#123;"a": 10, "c": 3&#125;') |</span><br><span class="line">+<span class="comment">-----------------------------------------------------------+</span></span><br><span class="line">| &#123;"a": 10, "b": 2, "c": 3&#125;                                 |</span><br><span class="line">+<span class="comment">-----------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="合并非-JSON-数组或对象的元素"><a href="#合并非-JSON-数组或对象的元素" class="headerlink" title="合并非 JSON 数组或对象的元素"></a>合并非 JSON 数组或对象的元素</h4><p>当待合并的元素既非 JSON 数组也非 JSON 对象时，会将传入的元素自动包装为长度为 1 的 JSON 数组，并按照合并数组的规则合并</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_MERGE_PRESERVE('1', '2');</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line">| JSON_MERGE_PRESERVE('1', '2') |</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line">| [1, 2]                        |</span><br><span class="line">+<span class="comment">-------------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_MERGE_PATCH('1', '2');</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br><span class="line">| JSON_MERGE_PATCH('1', '2') |</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br><span class="line">| 2                          |</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="将-JSON-数组和-JSON-对象合并到一起"><a href="#将-JSON-数组和-JSON-对象合并到一起" class="headerlink" title="将 JSON 数组和 JSON 对象合并到一起"></a>将 JSON 数组和 JSON 对象合并到一起</h4><p>当待合并的元素既有 JSON 数组也有 JSON 对象时，会将 JSON 对象自动包装成数组，并按照合并数组的规则合并</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_MERGE_PRESERVE('[1, 2]', '&#123;"a": 1, "b": 2&#125;');</span><br><span class="line">+<span class="comment">---------------------------------------------------+</span></span><br><span class="line">| JSON_MERGE_PRESERVE('[1, 2]', '&#123;"a": 1, "b": 2&#125;') |</span><br><span class="line">+<span class="comment">---------------------------------------------------+</span></span><br><span class="line">| [1, 2, &#123;"a": 1, "b": 2&#125;]                          |</span><br><span class="line">+<span class="comment">---------------------------------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_MERGE_PATCH('[1, 2]', '&#123;"a": 1, "b": 2&#125;');</span><br><span class="line">+<span class="comment">------------------------------------------------+</span></span><br><span class="line">| JSON_MERGE_PATCH('[1, 2]', '&#123;"a": 1, "b": 2&#125;') |</span><br><span class="line">+<span class="comment">------------------------------------------------+</span></span><br><span class="line">| &#123;"a": 1, "b": 2&#125;                               |</span><br><span class="line">+<span class="comment">------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="在-JSON-中查找和修改元素"><a href="#在-JSON-中查找和修改元素" class="headerlink" title="在 JSON 中查找和修改元素"></a>在 JSON 中查找和修改元素</h2><p>在 JSON 中查找和修改元素的语法为：<code>$</code>，该符号后跟随需要查找的键名或索引。</p>
+<h3 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h3><p><code>JSON_EXTRACT()</code>函数用于从 JSON 中提取元素，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_EXTRACT('&#123;"a": 1, "b": 2&#125;', '$.a');</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('&#123;"a": 1, "b": 2&#125;', '$.a') |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| 1                                       |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_EXTRACT('[1, 2, 3]', '$[2]');</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('[1, 2, 3]', '$[2]') |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">| 3                                 |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="修改元素"><a href="#修改元素" class="headerlink" title="修改元素"></a>修改元素</h3><ul>
+<li><p><code>JSON_SET()</code>函数用于修改 JSON 中对应的元素，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_SET('&#123;"a": 1, "b": 2&#125;', '$.a', 3);</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| JSON_SET('&#123;"a": 1, "b": 2&#125;', '$.a', 3) |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line">| &#123;"a": 3, "b": 2&#125;                       |</span><br><span class="line">+<span class="comment">----------------------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_SET('[1, 2, 3]', '$[2]', 4);</span><br><span class="line">+<span class="comment">----------------------------------+</span></span><br><span class="line">| JSON_SET('[1, 2, 3]', '$[2]', 4) |</span><br><span class="line">+<span class="comment">----------------------------------+</span></span><br><span class="line">| [1, 2, 4]                        |</span><br><span class="line">+<span class="comment">----------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>当路径对应的元素不存在时，会添加新的元素</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET @j = '["a", &#123;"b": [true, false]&#125;, [10, 20]]';</span><br><span class="line">mysql&gt; SELECT JSON_SET(@j, '$[1].b[0]', 1, '$[2][2]', 2);</span><br><span class="line">+<span class="comment">--------------------------------------------+</span></span><br><span class="line">| JSON_SET(@j, '$[1].b[0]', 1, '$[2][2]', 2) |</span><br><span class="line">+<span class="comment">--------------------------------------------+</span></span><br><span class="line">| ["a", &#123;"b": [1, false]&#125;, [10, 20, 2]]      |</span><br><span class="line">+<span class="comment">--------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>JSON_INSERT()</code>函数会给 JSON 添加新的元素，但是不会更改原有元素</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET @j = '["a", &#123;"b": [true, false]&#125;, [10, 20]]';</span><br><span class="line">mysql&gt; SELECT JSON_INSERT(@j, '$[1].b[0]', 1, '$[2][2]', 2);</span><br><span class="line">+<span class="comment">-----------------------------------------------+</span></span><br><span class="line">| JSON_INSERT(@j, '$[1].b[0]', 1, '$[2][2]', 2) |</span><br><span class="line">+<span class="comment">-----------------------------------------------+</span></span><br><span class="line">| ["a", &#123;"b": [true, false]&#125;, [10, 20, 2]]      |</span><br><span class="line">+<span class="comment">-----------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>JSON_REPLACE()</code>函数会修改现有元素，但不会添加新元素</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET @j = '["a", &#123;"b": [true, false]&#125;, [10, 20]]';</span><br><span class="line">mysql&gt; SELECT JSON_REPLACE(@j, '$[1].b[0]', 1, '$[2][2]', 2);</span><br><span class="line">+<span class="comment">------------------------------------------------+</span></span><br><span class="line">| JSON_REPLACE(@j, '$[1].b[0]', 1, '$[2][2]', 2) |</span><br><span class="line">+<span class="comment">------------------------------------------------+</span></span><br><span class="line">| ["a", &#123;"b": [1, false]&#125;, [10, 20]]             |</span><br><span class="line">+<span class="comment">------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>JSON_REMOVE()</code>函数会删除路径对应的元素</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET @j = '["a", &#123;"b": [true, false]&#125;, [10, 20]]';</span><br><span class="line">mysql&gt; SELECT JSON_REMOVE(@j, '$[1].b[0]', '$[2][2]');</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| JSON_REMOVE(@j, '$[1].b[0]', '$[2][2]') |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| ["a", &#123;"b": [false]&#125;, [10, 20]]         |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="路径语法"><a href="#路径语法" class="headerlink" title="路径语法"></a>路径语法</h3><ul>
+<li><p>当键名中包含空格时需要用双引号包含键名，即</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_EXTRACT('&#123;"a fish": "shark", "a bird": "sparrow"&#125;', '$."a fish"');</span><br><span class="line">+<span class="comment">------------------------------------------------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('&#123;"a fish": "shark", "a bird": "sparrow"&#125;', '$."a fish"') |</span><br><span class="line">+<span class="comment">------------------------------------------------------------------------+</span></span><br><span class="line">| "shark"                                                                |</span><br><span class="line">+<span class="comment">------------------------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当查找不到路径中的元素时，返回 null</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_EXTRACT('[1, 2, 3]', '$[3]');</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('[1, 2, 3]', '$[3]') |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">| NULL                              |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以使用<code>&#39;$[M to N]&#39;</code>的形式提取出某一范围内的元素，<code>last</code>关键字指代数组中最后一个元素</p>
+<p>（但不能用于修改元素）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_EXTRACT('[1, 2, 3]', '$[1 to last]');</span><br><span class="line">+<span class="comment">-------------------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('[1, 2, 3]', '$[1 to last]') |</span><br><span class="line">+<span class="comment">-------------------------------------------+</span></span><br><span class="line">| [2, 3]                                    |</span><br><span class="line">+<span class="comment">-------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以使用<code>*</code>和<code>**</code>通配符来提取元素（但不能用于修改元素）</p>
+<ul>
+<li><p><code>.*</code>表示提取 JSON 对象中所有键的值，并返回一个数组</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_EXTRACT('&#123;"a": 1, "b": 2&#125;', '$.*');</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('&#123;"a": 1, "b": 2&#125;', '$.*') |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br><span class="line">| [1, 2]                                  |</span><br><span class="line">+<span class="comment">-----------------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>[*]</code>表示提取 JSON 数组中所有元素</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_EXTRACT('[1, 2, 3]', '$[*]');</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('[1, 2, 3]', '$[*]') |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br><span class="line">| [1, 2, 3]                         |</span><br><span class="line">+<span class="comment">-----------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>prefix**suffix</code>表示提取路径以 prefix 开始、以 suffix 结束的元素，其中 prefix 是可选的，但 suffix 是必须的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT JSON_EXTRACT('&#123;"a": &#123;"b": 1, "d": 2&#125;, "c": &#123;"b": 3, "d": 4&#125;&#125;', '$**.b');</span><br><span class="line">+<span class="comment">-------------------------------------------------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('&#123;"a": &#123;"b": 1, "d": 2&#125;, "c": &#123;"b": 3, "d": 4&#125;&#125;', '$**.b') |</span><br><span class="line">+<span class="comment">-------------------------------------------------------------------------+</span></span><br><span class="line">| [1, 3]                                                                  |</span><br><span class="line">+<span class="comment">-------------------------------------------------------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT JSON_EXTRACT('&#123;"a": &#123;"b": 1, "d": 2&#125;, "c": &#123;"b": 3, "d": 4&#125;&#125;', '$.a**.b');</span><br><span class="line">+<span class="comment">---------------------------------------------------------------------------+</span></span><br><span class="line">| JSON_EXTRACT('&#123;"a": &#123;"b": 1, "d": 2&#125;, "c": &#123;"b": 3, "d": 4&#125;&#125;', '$.a**.b') |</span><br><span class="line">+<span class="comment">---------------------------------------------------------------------------+</span></span><br><span class="line">| [1]                                                                       |</span><br><span class="line">+<span class="comment">---------------------------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON-值的比较和排序"><a href="#JSON-值的比较和排序" class="headerlink" title="JSON 值的比较和排序"></a>JSON 值的比较和排序</h2><h3 id="JSON-值的比较"><a href="#JSON-值的比较" class="headerlink" title="JSON 值的比较"></a>JSON 值的比较</h3><p>JSON 值使用<code>&lt;</code>、<code>&gt;</code>、<code>=</code>、<code>&lt;=</code>、<code>&gt;=</code>、<code>&lt;&gt;</code>、<code>&lt;=&gt;</code>、<code>!=</code>操作符进行比较。比较时会将 JSON 转换为 MySQL 的原生数值类型或字符串来比较。</p>
+<p>JSON 在比较时分为两步：</p>
+<ol>
+<li><p>比较 JSON 类型（即<code>JSON_TYPE()</code>的返回值），若类型不同则按照类型的优先级顺序得出比较结果，优先级越高则越大，若类型相同则进行第二步；</p>
+<p>JSON 类型的优先级如下：</p>
+<p><code>BLOB</code> &lt; <code>BIT</code> &lt; <code>OPAQUE</code> &lt; <code>DATETIME</code> &lt; <code>TIME</code> &lt; <code>DATE</code> &lt; <code>BOOLEAN</code> &lt; <code>ARRAY</code> &lt; <code>OBJECT</code> &lt; <code>STRING</code> &lt; <code>INTEGER</code> = <code>DOUBLE</code> &lt; <code>NULL</code></p>
+</li>
+<li><p>根据各类型具体的比较规则比较</p>
+<ul>
+<li><p><code>BLOB</code>、<code>BIT</code>、<code>OPAQUE</code>、<code>STRING</code>：先比较两个值长度相同的部分，如果都相同，则长度较短的值排在长度较长的值之前。对 STRING 的比较是基于 utf8mb4 编码格式的。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">"a" &lt; "ab" &lt; "b" &lt; "bc"</span><br><span class="line">"A" &lt; "a"</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>DATATIME</code>、<code>TIME</code>、<code>DATE</code>：表示较早时间点的值排在表示较晚时间点的值之前。表示相同时间点的 DATATIME 值和 TIMESTAMP 值相等</p>
+</li>
+<li><p><code>ARRAY</code>：两 JSON 数组长度相同且对应元素相等时两数组相等。长度不同时，对应位置的元素的值较小的数组排在前面；对应元素都相同时，较短的数组排在前面</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[] &lt; ["a"] &lt; ["ab"] &lt; ["ab", "cd", "ef"] &lt; ["ab", "ef"]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>BOOLEAN</code>：false 值排在 true 值之前</p>
+</li>
+<li><p><code>OBJECT</code>：当两个 JSON 对象具有相同的键，且各键对应的值也相等时，两个 JSON 对象相等。不相等的 JSON 对象的的排序不定</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;"a": 1, "b": 2&#125; = &#123;"b": 2, "a": 1&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>INTEGER</code>、<code>DOUBLE</code>：当两个比较对象一个是 INT 型、一个是 DOUBLE 型时，INT 型会被转换为 DOUBLE 型；但当两个比较对象无法预先判断是 INT 型还是 DOUBLE 型时，会转换为 INT 型比较</p>
+</li>
+<li><p>JSON 值和 SQL<code>NULL</code>比较时，比较结果未知</p>
+</li>
+<li><p>JSON 值和非 JSON 值比较时，非 JSON 值会被转换为 JSON 值</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="JSON-值的排序"><a href="#JSON-值的排序" class="headerlink" title="JSON 值的排序"></a>JSON 值的排序</h3><p>使用<code>ORDER BY</code>和<code>GROUP BY</code>对 JSON 值排序时遵循以下规则：</p>
+<ul>
+<li>按照前述比较规则排序</li>
+<li>升序时，SQL<code>NULL</code>排在所有 JSON 值之前（包括 JSON<code>null</code>）；降序时，SQL<code>NULL</code>排在所有 JSON 值之后</li>
+</ul>
+<p>推荐将 JSON 值转换为 MySQL 基本类型再进行排序。</p>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/json.html" target="_blank" rel="noopener">MySQL 8.0 Reference Manual - 11.6 The JSON Data Type</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" data-id="ck7j32j7u001vf301hl9gc0k1" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            MySQL中常用的文本处理函数和日期时间处理函数
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">MySQL中CHAR和VARCHAR的区别</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    子查询、联结查询、组合查询用法总结 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-子查询、联结查询、组合查询用法总结" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      子查询、联结查询、组合查询用法总结
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/03/27/%E5%AD%90%E6%9F%A5%E8%AF%A2%E3%80%81%E8%81%94%E7%BB%93%E6%9F%A5%E8%AF%A2%E3%80%81%E7%BB%84%E5%90%88%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2019-03-27T13:21:59.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>…</p>
+<a id="more"></a>
+
+<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><p>子查询就是在一个查询语句内部嵌套的查询，因而子查询语句也被称为内部查询、包含子查询语句的查询称为外部查询。这种查询语句的查询顺序是从内向外的。</p>
+<p>常见的使用子查询的形式为：在<code>WHERE</code>语句内、在<code>IN</code>或<code>NOT IN</code>操作符后、在<code>FROM</code>语句内、在<code>EXISTS</code>或<code>NOT EXISTS</code>操作符后。</p>
+<h3 id="在-WHERE-语句中使用子查询"><a href="#在-WHERE-语句中使用子查询" class="headerlink" title="在 WHERE 语句中使用子查询"></a>在 WHERE 语句中使用子查询</h3><p>可以在<code>WHERE</code>语句中使用子查询的结果对外部查询的数据进行过滤。</p>
+<p>以下面的付款信息 payments 表为例：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1ghjsa8nzj209s05mjre.jpg" alt=""></p>
+<p>查询订单金额最大的客户的操作为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	customerNumber,</span><br><span class="line">    amount</span><br><span class="line"><span class="keyword">FROM</span> payments</span><br><span class="line"><span class="keyword">WHERE</span> amount = (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="keyword">MAX</span>(amount)</span><br><span class="line">    <span class="keyword">FROM</span> payments</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1ghlr4uf0j205f015a9t.jpg" alt=""></p>
+<h3 id="在-IN-或-NOT-IN-操作符后使用子查询"><a href="#在-IN-或-NOT-IN-操作符后使用子查询" class="headerlink" title="在 IN 或 NOT IN 操作符后使用子查询"></a>在 IN 或 NOT IN 操作符后使用子查询</h3><p><code>IN</code>和<code>NOT IN</code>语句用于过滤出存在/不存在于子查询结果的数据。</p>
+<p>例如在如下的顾客表 customers 和订单表 orders 中进行查询：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1ghvczm23j20nb05idg3.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1ghw91u76j20kj05z3yo.jpg" alt=""></p>
+<p>查询出未产生订单的客户名单的操作为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> customerName</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> customerNumber <span class="keyword">NOT</span> <span class="keyword">IN</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> customerNumber</span><br><span class="line">    <span class="keyword">FROM</span> orders</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1gi0oz6ibj205103r744.jpg" alt=""></p>
+<h3 id="在-FROM-语句内使用子查询"><a href="#在-FROM-语句内使用子查询" class="headerlink" title="在 FROM 语句内使用子查询"></a>在 FROM 语句内使用子查询</h3><p>可以将子查询结果作为一个临时表用于<code>FROM</code>语句中。</p>
+<p>以如下订单详情表 orderdetails 为例：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1gi4pyal8j20cd061dfv.jpg" alt=""></p>
+<p>查询该表中的订单包含的商品种类的最大值、最小值和平均值的操作为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">MAX</span>(<span class="keyword">count</span>),</span><br><span class="line">    <span class="keyword">MIN</span>(<span class="keyword">count</span>),</span><br><span class="line">    <span class="keyword">FLOOR</span>(<span class="keyword">AVG</span>(<span class="keyword">count</span>))</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span></span><br><span class="line">		orderNumber,</span><br><span class="line">        <span class="keyword">COUNT</span>(orderNumber) <span class="keyword">AS</span> <span class="keyword">count</span></span><br><span class="line">	<span class="keyword">FROM</span> orderdetails</span><br><span class="line">    <span class="keyword">GROUP</span> <span class="keyword">BY</span> orderNumber</span><br><span class="line">) <span class="keyword">AS</span> orderCount;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1giby8884j2080015gld.jpg" alt=""></p>
+<h3 id="在-EXISTS-或-NOT-EXISTS-操作符后使用子查询"><a href="#在-EXISTS-或-NOT-EXISTS-操作符后使用子查询" class="headerlink" title="在 EXISTS 或 NOT EXISTS 操作符后使用子查询"></a>在 EXISTS 或 NOT EXISTS 操作符后使用子查询</h3><p>使用<code>EXISTS</code>和<code>NOT EXISTS</code>操作符可以过滤出满足/不满足于子查询结果的数据。</p>
+<p>以上述 customers 表、orders 表和 orderdetails 表为例，查询三个表中订单总额大于 60000 的顾客名单的操作为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	customerNumber,</span><br><span class="line">    customerName</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">EXISTS</span> (</span><br><span class="line">	<span class="keyword">SELECT</span></span><br><span class="line">		orderNumber,</span><br><span class="line">        <span class="keyword">SUM</span>(quantityOrdered * priceEach) <span class="keyword">AS</span> total</span><br><span class="line">	<span class="keyword">FROM</span> orders</span><br><span class="line">    <span class="keyword">INNER</span> <span class="keyword">JOIN</span> orderdetails <span class="keyword">USING</span> (orderNumber)</span><br><span class="line">    <span class="keyword">WHERE</span> customerNumber = customers.customerNumber</span><br><span class="line">    <span class="keyword">GROUP</span> <span class="keyword">BY</span> orderNumber</span><br><span class="line">    <span class="keyword">HAVING</span> total &gt; <span class="number">60000</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1gkpci2hfj207902mdfn.jpg" alt=""></p>
+<h2 id="联结查询"><a href="#联结查询" class="headerlink" title="联结查询"></a>联结查询</h2><p>联结查询是将多个表的数据放在一起进行查询。</p>
+<p>联结查询包含内联结、外联结、交叉联结、自联结等，其中最常用的为内联结和外联结。</p>
+<h3 id="内联结"><a href="#内联结" class="headerlink" title="内联结"></a>内联结</h3><p>内联结即查询两个表中数据的交集（如图），查询过程是将主表和副表的每一条数据都按照联结条件来匹配，只有满足联结条件的数据才会被保留。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1hcrf357mj20ac05njrh.jpg" alt=""></p>
+<p>内联结的语法：</p>
+<ul>
+<li><code>FROM</code>后跟随主表</li>
+<li><code>INNER JOIN</code>后跟随副表</li>
+<li><code>ON</code>后跟随联结条件</li>
+</ul>
+<p>内联结可以联结多个表来查询。</p>
+<p>以如下的 student 表和 score 表为例：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1hfp4mptfj205b0230si.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1hf918lrwj206r02kjr6.jpg" alt=""></p>
+<p>从两个表中检索出登记过成绩的各学生的总成绩的语句为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">name</span>,</span><br><span class="line">    <span class="keyword">SUM</span>(score) <span class="keyword">AS</span> <span class="keyword">sum</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	student</span><br><span class="line">		<span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line">    score <span class="keyword">ON</span> student.id = student_id</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">name</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1hfajb2z8j203701m741.jpg" alt=""></p>
+<p>可以看到内联结仅取出了均存在于两个表的学生的成绩。</p>
+<h3 id="外联结"><a href="#外联结" class="headerlink" title="外联结"></a>外联结</h3><p>外联结在查询过程中会保留主表中的所有数据，并对每一行数据按照指定的联结规则与附表匹配，若能匹配则取出副表中对应的数据，若不能匹配则该项以 NULL 填充。左外联结和右外联结的效果如下面两张图所示。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1hfkrslz2j20eu04r0t3.jpg" alt=""></p>
+<p>外联结的语法：</p>
+<ul>
+<li><code>FROM</code>后跟随主表</li>
+<li><code>LEFT JOIN</code>或<code>RIGEHT JOIN</code>后跟随副表</li>
+<li><code>ON</code>后跟随联结条件</li>
+</ul>
+<p>依旧以上述 student 表和 score 表为例。</p>
+<p>从两个表中检索出所有各学生的总成绩的语句为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    <span class="keyword">name</span>,</span><br><span class="line">    <span class="keyword">SUM</span>(score) <span class="keyword">AS</span> <span class="keyword">sum</span></span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    student</span><br><span class="line">        <span class="keyword">LEFT</span> <span class="keyword">JOIN</span></span><br><span class="line">    score <span class="keyword">ON</span> student.id = student_id</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">name</span>;</span><br></pre></td></tr></table></figure>
+
+<p>检索结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1hfuuglcyj2038024dfl.jpg" alt=""></p>
+<p>可以看到由于 score 表中没有王五的成绩，因此王五的总成绩为 NULL。</p>
+<h2 id="组合查询"><a href="#组合查询" class="headerlink" title="组合查询"></a>组合查询</h2><p>组合查询是将多次查询的结果显示到一张表中，使用<code>UNION</code>关键字实现。</p>
+<p><strong>其规则是</strong>：只有当多次查询的结果具有相似的结构（即相同数量的列，且对应列的类型相同或可以相互转换）时才能进行组合查询。</p>
+<p>以上面的 student 表和 score 表为例。</p>
+<p>查询出张三的平均分和总分的语句为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    <span class="keyword">name</span>, <span class="keyword">AVG</span>(score) <span class="keyword">AS</span> scoreInfor</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    student</span><br><span class="line">        <span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line">    score <span class="keyword">ON</span> student.id = student_id</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">    <span class="keyword">name</span> = <span class="string">'张三'</span></span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">name</span>, <span class="keyword">SUM</span>(score) <span class="keyword">AS</span> scoreInfor</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	student</span><br><span class="line">		<span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line">	score <span class="keyword">ON</span> student.id = student_id</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	<span class="keyword">name</span> = <span class="string">'张三'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1g1hg9ntqxnj203v01na9t.jpg" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这三种方法的相同之处都是可以从多个相互关联的表中查询数据，相比单一表的查询更加使用。</p>
+<p>不同之处在于：</p>
+<ul>
+<li>子查询是按照从内向外的顺序依次执行查询，主要用于使用子查询的结果作为基础进一步进行外层的查询，更适用于二次检索或过滤数据等操作。在嵌套曾经较少的情况下代码可读性较高，但检索效率较低。</li>
+<li>联结查询是对不同表的数据进行了组合，并按照一定条件过滤；更适用于查询多表之间的共有数据（如内联结）或表数据的扩充（如外联结）等场景。</li>
+<li>组合查询是将多次相似查询的结合进行合并展示的一种方式，主要用于对查询结果的聚合。</li>
+</ul>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.mysqltutorial.org/mysql-subquery/" target="_blank" rel="noopener">MySQL Subquery</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/03/27/%E5%AD%90%E6%9F%A5%E8%AF%A2%E3%80%81%E8%81%94%E7%BB%93%E6%9F%A5%E8%AF%A2%E3%80%81%E7%BB%84%E5%90%88%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" data-id="ck7j32j890033f3010xhl8gvi" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/03/28/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            MySQL中的索引用法总结
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/03/26/MySQL%E7%9A%84GROUP-BY%E7%94%A8%E6%B3%95%E5%B0%8F%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">MySQL的GROUP BY用法小结</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

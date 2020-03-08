@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    通过Chrome DevTools进行CSS样式调试 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-通过Chrome-DevTools进行CSS样式调试" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      通过Chrome DevTools进行CSS样式调试
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2018/11/23/%E9%80%9A%E8%BF%87Chrome-DevTools%E8%BF%9B%E8%A1%8CCSS%E6%A0%B7%E5%BC%8F%E8%B0%83%E8%AF%95/" class="article-date">
+  <time datetime="2018-11-23T12:00:35.000Z" itemprop="datePublished">2018-11-23</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>总结了通过 Chrome DevTools 调试 CSS 的基本方法</p>
+<a id="more"></a>
+
+<p>可以按照<strong>评估和快速修复</strong>、<strong>还原和重现</strong>、<strong>定位根源和修复</strong>这样的步骤进行调试。</p>
+<h2 id="1-评估和快速修复"><a href="#1-评估和快速修复" class="headerlink" title="1. 评估和快速修复"></a>1. 评估和快速修复</h2><p>首先针对能够快速解决的错误进行修复。</p>
+<p>这一步的关键是要 <code>深刻理解CSS各种属性的内涵和效果</code>，以避免当页面样式不符合预期时无法定位问题。</p>
+<h2 id="2-还原和重现"><a href="#2-还原和重现" class="headerlink" title="2. 还原和重现"></a>2. 还原和重现</h2><p>初步定位问题后需要对问题进行复现。</p>
+<ul>
+<li>方法：提出相关的 HTML 和 CSS 代码。</li>
+<li>关键：精简代码，找出关键点。</li>
+</ul>
+<p><strong>对于 CSS 代码</strong>：</p>
+<ol>
+<li>逐步增加/删除 CSS 以暴露问题；</li>
+<li>利用<a href="http://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">CSS Validator</a>进行检查。</li>
+</ol>
+<p><strong>对于 HTML 代码</strong>：</p>
+<ul>
+<li>利用<a href="https://validator.w3.org/" target="_blank" rel="noopener">W3C Validator</a>检查规范性。</li>
+<li>将所有元素改成<code>div</code>或者<code>span</code>类型，将所有选择器改为类选择器，以排除浏览器引入意外样式的可能性。</li>
+</ul>
+<h2 id="3-定位根源并修复"><a href="#3-定位根源并修复" class="headerlink" title="3. 定位根源并修复"></a>3. 定位根源并修复</h2><ul>
+<li>如果是浏览器引入的意外样式，则想办法覆盖；</li>
+<li>若不是，更换浏览器尝试是否会发生同样的现象，以确定是否是浏览器类型、浏览器版本等因素的原因，并通过 bug 追踪寻找解决方案；</li>
+<li>重点关注<code>computed styles</code>查看自己编写的 CSS 代码中哪些样式生效了、哪些被屏蔽了。</li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2018/11/23/%E9%80%9A%E8%BF%87Chrome-DevTools%E8%BF%9B%E8%A1%8CCSS%E6%A0%B7%E5%BC%8F%E8%B0%83%E8%AF%95/" data-id="ck7j32j8d003if3014p643w00" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2018/11/30/%E8%87%AA%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            自增运算符
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/11/22/CSS%E4%B8%AD%E5%AD%97%E4%BD%93%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">CSS中字体相关知识点总结</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

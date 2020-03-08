@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Lambda表达式和流 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Lambda表达式和流" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Lambda表达式和流
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/03/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E6%B5%81/" class="article-date">
+  <time datetime="2019-03-01T12:57:18.000Z" itemprop="datePublished">2019-03-01</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>Java 8 新特性之 Lambda 表达式和流处理</p>
+<a id="more"></a>
+
+<h2 id="什么是-Lambda-表达式"><a href="#什么是-Lambda-表达式" class="headerlink" title="什么是 Lambda 表达式"></a>什么是 Lambda 表达式</h2><p>Lambda 表达式是一种简洁的语法形式</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(Type1 param1, Type2 param2, ..., TypeN paramN) -&gt; &#123;</span><br><span class="line">    statement1;</span><br><span class="line">    statement2;</span><br><span class="line">    <span class="comment">//.............</span></span><br><span class="line">    <span class="keyword">return</span> statementM;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>单参数语法：</strong> 当 Lambda 表达式的参数个数只有一个，可以省略小括号</li>
+<li><strong>单语句语法：</strong> 当 Lambda 表达式只包含一条语句时，可以省略大括号、return 和语句结尾的分号</li>
+<li><strong>方法的引用：</strong> 可以使用<code>Class or instance :: method</code>的形式更简洁的引用方法。</li>
+<li>参数类型可以省略</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li><p>Lambda 表达式的上下文是包含该表达式的域，因此 Lambda 表达式中的<code>this</code>指向的是包含 Lambda 表达式的类，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">useLambda</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String value = <span class="string">"Enclosing scope value"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">scopeExperiment</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Function&lt;String, String&gt; fn = parameter -&gt; &#123;</span><br><span class="line">            String value = <span class="string">"Lambda value"</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.value; <span class="comment">// 返回的是"Enclosing scope value"</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>尽量让 Lambda 表达式简洁，能直接看出其想要执行的操作，理想的 Lambda 表达式只有一行</p>
+<ul>
+<li><p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Foo foo = parameter -&gt; buildString(parameter);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">buildString</span><span class="params">(String parameter)</span> </span>&#123;</span><br><span class="line">    String result = <span class="string">"Something "</span> + parameter;</span><br><span class="line">    <span class="comment">//many lines of code</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Foo foo = parameter -&gt; &#123; String result = <span class="string">"Something "</span> + parameter;</span><br><span class="line">    <span class="comment">//many lines of code</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>在 Lambda 表达式中访问非常量的变量会导致编译错误</p>
+</li>
+</ul>
+<h2 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h2><p>流是一系列的对象的流动序列，可以对它们进行顺序或并行操作。</p>
+<h2 id="流的特征"><a href="#流的特征" class="headerlink" title="流的特征"></a>流的特征</h2><ul>
+<li>流不是一种数据结构，只是一系列对象的序列</li>
+<li>流不改变原有的数据结构，只返回每个对象执行某个操作的结果</li>
+<li>流的操作分为中间操作（只返回流）和最终操作</li>
+</ul>
+<h2 id="流操作"><a href="#流操作" class="headerlink" title="流操作"></a>流操作</h2><h3 id="常用中间操作举例"><a href="#常用中间操作举例" class="headerlink" title="常用中间操作举例"></a>常用中间操作举例</h3><ul>
+<li><p><code>map</code>：基于某种规则将集合中的元素映射成另一个元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 集合A中每个元素翻倍</span></span><br><span class="line">Integer[] array = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">9</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(array);</span><br><span class="line">List&lt;Integer&gt; processedList = list.stream()</span><br><span class="line">    .map(item -&gt; item * <span class="number">2</span>)</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>filter</code>：基于某种规则对集合中的元素进行筛选</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 求集合中的偶数</span></span><br><span class="line">Integer[] array = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(array);</span><br><span class="line">List&lt;Integer&gt; evenList = list.stream()</span><br><span class="line">    .filter(item -&gt; <span class="number">0</span> == item % <span class="number">2</span>)</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sorted</code>：基于某种规则对集合中的元素排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 元素从小到大排序</span></span><br><span class="line">Integer[] array = <span class="keyword">new</span> Integer[]&#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(array);</span><br><span class="line">List&lt;Integer&gt; sortedList = integers.stream()</span><br><span class="line">    .sorted((a, b) -&gt; a.compareTo(b))</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>distinct</code>：去除集合中的重复元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Integer[] array = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(array);</span><br><span class="line">List&lt;Integer&gt; unrepeatedList = integers.stream()</span><br><span class="line">    .distinct()</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>max</code>和<code>min</code>：求集合中元素的最大值和最小值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Integer[] array = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">3</span>, <span class="number">2</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(array);</span><br><span class="line"><span class="keyword">int</span> maximum = list.stream().max(Comparator.comparing(Integer::valueOf)).get();</span><br><span class="line"><span class="keyword">int</span> minimum = list.stream().min(Comparator.comparing(Integer::valueOf)).get();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="常用最终操作举例"><a href="#常用最终操作举例" class="headerlink" title="常用最终操作举例"></a>常用最终操作举例</h3><ul>
+<li><p><code>collect</code>：由中间操作的结果创建集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; evenList = list.stream()</span><br><span class="line">    .filter(item -&gt; <span class="number">0</span> == item % <span class="number">2</span>)</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>forEach</code>：对流中的每个元素进行某种操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 打印集合中的所有元素</span></span><br><span class="line">Integer[] array = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(array);</span><br><span class="line">list.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>reduce</code>：对流中的每个元素累计操作，返回累计结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 求集合中所有元素的和</span></span><br><span class="line">Integer[] array = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(array);</span><br><span class="line"><span class="keyword">int</span> summary = list.stream().reduce(<span class="number">0</span>, (acc, cur) -&gt; acc + cur);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://www.baeldung.com/java-8-lambda-expressions-tips" target="_blank" rel="noopener">Lambda Expressions and Functional Interfaces: Tips and Best Practices</a></li>
+<li><a href="https://www.geeksforgeeks.org/stream-in-java/" target="_blank" rel="noopener">Stream In Java</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/03/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E6%B5%81/" data-id="ck7j32j7q001lf301d6itfift" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/03/04/Java-Optional%E7%9A%84orElse-%E5%92%8CorElseGet-%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            Java Optional的orElse()和orElseGet()的区别
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/02/26/Externalizable%E7%9A%84%E7%94%A8%E6%B3%95/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Externalizable的用法</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

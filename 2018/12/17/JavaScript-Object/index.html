@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JavaScript-Object |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-JavaScript-Object" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript-Object
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2018/12/17/JavaScript-Object/" class="article-date">
+  <time datetime="2018-12-17T12:22:31.000Z" itemprop="datePublished">2018-12-17</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>总结了 JavaScript 中的数据类型 Object 相关的知识点</p>
+<a id="more"></a>
+
+<p>由一系列 <strong>键值对</strong> 组成的变量。其基本形式为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> object = &#123;</span><br><span class="line">  key1: value1,</span><br><span class="line">  key2: value2,</span><br><span class="line">  key3: value3</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>键值对的值可以是任何数据类型，包括：number, string, array, boolean, object, function 等。这些键值对称为对象的 <strong>属性</strong>，其中 function 也称为对象的 <strong>方法</strong>。对象的名字称为 <strong>命名空间</strong>。</p>
+<h2 id="JavaScript-中的常见对象"><a href="#JavaScript-中的常见对象" class="headerlink" title="JavaScript 中的常见对象"></a>JavaScript 中的常见对象</h2><ul>
+<li><code>String</code></li>
+<li><code>Array</code></li>
+<li><code>Function</code></li>
+<li><code>Window</code></li>
+<li><code>Document</code></li>
+<li><code>Math</code></li>
+<li><code>Date</code></li>
+</ul>
+<h2 id="创建对象的方法"><a href="#创建对象的方法" class="headerlink" title="创建对象的方法"></a>创建对象的方法</h2><ol>
+<li><p><code>var object = {};</code></p>
+</li>
+<li><p><code>var object = new Object;</code></p>
+</li>
+<li><p>使用自定义构造函数创建对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">constructorFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.key = value;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> object = <span class="keyword">new</span> constructorFunction();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>var object = Object.create(protoObject);</code></p>
+<p>即以<code>protoObject</code>为原型创建一个新对象<code>object</code>，<code>object</code>会继承<code>protoObject</code>的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__proto__; <span class="comment">// return protoObject</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用<code>constructor</code>属性创建对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> object = <span class="keyword">new</span> existingObject.constructor(value1, value2, ...)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="为对象增加属性"><a href="#为对象增加属性" class="headerlink" title="为对象增加属性"></a>为对象增加属性</h2><p><code>object.key = value;</code></p>
+<h2 id="删除对象的属性"><a href="#删除对象的属性" class="headerlink" title="删除对象的属性"></a>删除对象的属性</h2><p><code>delete object.key;</code></p>
+<h2 id="访问对象的属性"><a href="#访问对象的属性" class="headerlink" title="访问对象的属性"></a>访问对象的属性</h2><ol>
+<li>用<code>.</code>来访问对象的属性：<code>object.key</code></li>
+<li>用<code>[]</code>来访问对象的属性：<code>object[&#39;key&#39;]</code></li>
+</ol>
+<h2 id="this-对象"><a href="#this-对象" class="headerlink" title="this 对象"></a>this 对象</h2><p><code>this</code> 指代的是当前代码行的上下文。</p>
+<blockquote>
+<p>The <code>this</code> keyword refers to the current object the code is being written inside.</p>
+<p>It will always ensure that the correct values are used when a member’s context changes.</p>
+</blockquote>
+<h2 id="面向对象编程（Object-oriented-programming）"><a href="#面向对象编程（Object-oriented-programming）" class="headerlink" title="面向对象编程（Object-oriented programming）"></a>面向对象编程（Object-oriented programming）</h2><blockquote>
+<p>The basic idea of OOP is that we use objects to model real world things that we want to represent inside our programs, and/or provide a simple way to access functionality that would otherwise be hard or impossible to make use of.</p>
+</blockquote>
+<ul>
+<li>抽象：创建一个简单的模型来描述一个复杂的事物</li>
+<li>实例化：可以利用类的 <strong>构造函数</strong> 来将对象实例化</li>
+<li>多态性：可以通过一个基类来创建很多子类，子类可以继承基类的属性</li>
+</ul>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>构造函数具有函数的形式，但不返回任何值。可以按照如下方式创建一个构造函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">constructorFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.property1 = value1;</span><br><span class="line">  <span class="keyword">this</span>.property2 = value2;</span><br><span class="line">  <span class="keyword">this</span>.property3 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用构造函数创建对象的方式为：</p>
+<p><code>var object = new constructorFunction();</code></p>
+<h2 id="对象原型（Object-prototype）"><a href="#对象原型（Object-prototype）" class="headerlink" title="对象原型（Object prototype）"></a>对象原型（Object prototype）</h2><p>属性和方法是在对象的构造函数的原型属性上定义的，而不是对象实例本身。</p>
+<ul>
+<li>对象的原型：指每个对象实例的原型</li>
+<li>构造函数的原型属性：指构造函数上的属性</li>
+</ul>
+<p>对象会继承其原型的所有属性（_该对象并不是复制了其原型的属性，而是通过原型链访问了原型的属性_）。</p>
+<p>利用 <code>__proto__</code>可以访问对象的构造函数的原型对象。</p>
+<p>继承链是动态更新的，即当原型的属性被修改后，所有该原型派生出的对象实例都能访问到该修改。</p>
+<h3 id="原型属性"><a href="#原型属性" class="headerlink" title="原型属性"></a>原型属性</h3><p>对于<code>Object</code>这个对象来说，其能够被继承的属性是定义在它的原型上的属性，即可以以<code>Object.prototype.</code>来访问的属性。这些属性是定义在<code>Object()</code>构造函数上的属性。</p>
+<h3 id="构造函数的属性"><a href="#构造函数的属性" class="headerlink" title="构造函数的属性"></a>构造函数的属性</h3><p>每个构造函数都有一个原型属性，其值是一个包含<code>constructor</code>属性的 <strong>对象</strong>。该属性指向原始构造函数。</p>
+<ul>
+<li>由对象实例获得其构造函数：<code>object.constructor()</code></li>
+<li>获得对象实例的构造函数的名称：<code>object.constructor.name</code></li>
+</ul>
+<p><strong>在构造函数中定义属性是比较好的方式</strong>。实际上，对象定义的一个最常见模式是 <strong>在构造函数内定义属性、在原型上定义方法</strong>。这样可以使代码更易读。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义属性</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">constructorFunction</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// property definitions</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 定义方法</span></span><br><span class="line">constructorFunction.prototype.fun1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;...&#125;;</span><br><span class="line">constructorFunction.prototype.fun2 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;...&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>可以利用已有的构造函数派生新的构造函数</p>
+<ol>
+<li><p>利用<code>call()</code>函数继承已有构造函数的属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 已有的构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">originFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.property1 = value1;</span><br><span class="line">    <span class="keyword">this</span>.property2 = value2;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 新构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    originFunction.call(<span class="keyword">this</span>, [...arguments]);</span><br><span class="line">    <span class="keyword">this</span>.newProperty1 = newValue1;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式即定义一个新的构造函数，它有一个原型属性，默认情况下它只包含对构造函数本身的引用，而不包含<code>originFunction()</code>构造函数的原型属性。</p>
+</li>
+<li><p>利用<code>create()</code>函数继承已有构造函数的方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newFunction.prototype = <span class="built_in">Object</span>.create(originFunction.prototype);</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式<code>newFunction</code>构造函数将<code>originFunction</code>构造函数的原型作为了自己的原型，并继承了其所有的方法。</p>
+<p>但<code>newFunction.prototype.constructor</code>现在为 <code>originFunction()</code>，因为我们将<code>newFunction.prototype</code> 指向了一个继承了<code>originFunction.prototype</code>属性的对象。</p>
+<p>为了修正这一问题，需要进行如下操作，以将<code>newFunction.prototype.constructor</code>修正为<code>newFunction()</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(newFunction.prototype, <span class="string">'constructor'</span>, &#123;</span><br><span class="line">  value: newFunction,</span><br><span class="line">  enumerable: <span class="literal">false</span>, <span class="comment">// so that it does not appear in 'for in' loop</span></span><br><span class="line">  writable: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2018/12/17/JavaScript-Object/" data-id="ck7j32j7c000mf301fq4lbixe" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2018/12/21/JavaScript-JSON/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            JavaScript-JSON
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/12/16/JS%E4%B8%AD%E7%9A%84undefined%E5%92%8Cnull/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">JS中的undefined和null</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.png" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
