@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://laylawang17.github.io/"/>
-  <updated>2020-03-08T13:37:47.347Z</updated>
+  <updated>2020-03-09T11:45:15.912Z</updated>
   <id>https://laylawang17.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Stroybook的基本使用</title>
+    <link href="https://laylawang17.github.io/2020/03/09/Stroybook%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <id>https://laylawang17.github.io/2020/03/09/Stroybook%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</id>
+    <published>2020-03-09T08:07:23.000Z</published>
+    <updated>2020-03-09T11:45:15.912Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Storybook 作为一个 UI 开发工具，能帮助开发人员独立创建组件，并在隔离的开发环境中以交互方式展示组件。 Storybook 是在主应用程序之外运行的，因此用户可以独立开发 UI 组件，而不必担心应用程序特定的依赖关系和要求。&lt;/p&gt;
+&lt;p&gt;Storybook 的基本思想是遵循 CDD + TDD 原则进行组件开发。&lt;/p&gt;
+&lt;p&gt;CDD 是 Component Drive Development，即以组件为基础自底而上的开发流程，每个组件都可作为一个独立的 story 进行开发。&lt;/p&gt;
+&lt;p&gt;TDD 是 Test Drive Development，在开发过程中对每个组件进行 UI 及功能上的测试。&lt;/p&gt;
+&lt;p&gt;本文介绍在 Vue 框架下的 App 中使用 Storybook 的方法。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Vue中计算属性和方法的区别</title>
@@ -381,25 +402,6 @@
 &lt;li&gt;存储方式&lt;/li&gt;
 &lt;li&gt;是否保留末尾空格&lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>事务及其处理机制</title>
-    <link href="https://laylawang17.github.io/2019/03/20/%E4%BA%8B%E5%8A%A1%E5%8F%8A%E5%85%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/"/>
-    <id>https://laylawang17.github.io/2019/03/20/%E4%BA%8B%E5%8A%A1%E5%8F%8A%E5%85%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</id>
-    <published>2019-03-20T13:22:43.000Z</published>
-    <updated>2020-03-08T13:23:14.855Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;…&lt;/p&gt;
     
     </summary>
     
