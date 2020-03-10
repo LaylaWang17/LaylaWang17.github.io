@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://laylawang17.github.io/"/>
-  <updated>2020-03-10T02:31:09.628Z</updated>
+  <updated>2020-03-10T10:24:51.516Z</updated>
   <id>https://laylawang17.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>理解Flux</title>
+    <link href="https://laylawang17.github.io/2020/03/10/%E7%90%86%E8%A7%A3Flux/"/>
+    <id>https://laylawang17.github.io/2020/03/10/%E7%90%86%E8%A7%A3Flux/</id>
+    <published>2020-03-10T10:21:58.000Z</published>
+    <updated>2020-03-10T10:24:51.516Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Flux 是一种前端应用开发架构，是一种管理数据流的模式。当访问数据对象时，一个组件实例只是简单的代理访问。如果有一处需要被多个实例共享的状态，可以简单的通过维护一份数据来实现共享。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Stroybook的基本使用</title>
@@ -377,31 +394,6 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;code&gt;JSON&lt;/code&gt;型中可存储的 JSON 文本的大小不会超过&lt;code&gt;mysql.ini&lt;/code&gt;配置文件中设置的&lt;code&gt;max_allowed_packet&lt;/code&gt;的值。&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL中CHAR和VARCHAR的区别</title>
-    <link href="https://laylawang17.github.io/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-    <id>https://laylawang17.github.io/2019/03/21/MySQL%E4%B8%ADCHAR%E5%92%8CVARCHAR%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
-    <published>2019-03-21T13:17:38.000Z</published>
-    <updated>2020-03-08T14:04:40.741Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;CHAR 和 VARCHAR 的主要区别有三方面：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;最大长度&lt;/li&gt;
-&lt;li&gt;有效长度&lt;/li&gt;
-&lt;li&gt;存储方式&lt;/li&gt;
-&lt;li&gt;是否保留末尾空格&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     

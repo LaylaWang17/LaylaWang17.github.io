@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>理解Flux</title>
+    <url>/2020/03/10/%E7%90%86%E8%A7%A3Flux/</url>
+    <content><![CDATA[<p>Flux 是一种前端应用开发架构，是一种管理数据流的模式。当访问数据对象时，一个组件实例只是简单的代理访问。如果有一处需要被多个实例共享的状态，可以简单的通过维护一份数据来实现共享。</p>
+<a id="more"></a>
+
+<h2 id="Flux-中的关键概念"><a href="#Flux-中的关键概念" class="headerlink" title="Flux 中的关键概念"></a>Flux 中的关键概念</h2><ul>
+<li><strong>Dispatcher</strong>：是 App 的调度中心，接收 action 并分发给 store。一个 App 里只有一个 dispatcher。</li>
+<li><strong>Store</strong>：存储 App 的 data 和逻辑，且 store 中的 data 只能经由 action 修改，当 data 发生变化时会出发 change 事件通知 view 更新。store 注册在 dispatcher 上，并且给 dispatcher 提供一个回调函数用来更新自身，该回调函数接收 action 作为参数。一个 App 里可以有多个 store。</li>
+<li><strong>Action</strong>：是一个简单的对象，可以理解为 App 内部的 API，由 type 和 data 组成，用于语义化的描述 App 内发生的变化。每个 action 都会被所有的 store 接收到。一个组件里会存在很多 action。</li>
+<li><strong>View</strong>：请求 store 中的 data 用于展示，在用户与 App 进行交互时发出 action，并通过监听 store 的 change 事件重新渲染。</li>
+</ul>
+<p>以 Todo List 这样的简单 App 展示一下上述概念之间的关系：</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1gcopqnhzojj219c0qyad6.jpg" alt="Flux原理"></p>
+<p>上图表明的是 Flux 架构是如何工作的，需要注意的是，在 Flux 架构中，<strong>数据的流动是单向的</strong>，可以理解为</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1gcosksq60nj215a0dkta7.jpg" alt="数据的流动"></p>
+<h2 id="Flux-架构的优势"><a href="#Flux-架构的优势" class="headerlink" title="Flux 架构的优势"></a>Flux 架构的优势</h2><p>Flux 架构带来的优势是，不存在数据双向绑定的情况，App 的状态完全由 store 控制，App 中各组件可以做到较好的解耦。</p>
+<p>比如下图中的情况，如果底层组件 G 的某个行为想改变组件 F 的状态，数据需要先从 G 传递到根组件 A 再传递给 F。当 App 中有大量类似的复杂的数据传递路径后，用户与 App 的一次交互所引起的 App 的状态变更将会变得难以预测。即存在</p>
+<blockquote>
+<ul>
+<li>多个视图依赖于同一状态。</li>
+<li>来自不同视图的行为需要变更同一状态。</li>
+</ul>
+</blockquote>
+<p>而在 Flux 架构中，store 作为一个类似于全局变量的存在持有着 App 所有的公共状态，并与每个组件间维持单一的数据流，我们很容易看到一个状态的变更引起了哪个组件的变化。</p>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1gcoutggr5qj21ig0mo770.jpg" alt="Flux架构给组件间数据流动带来的改变"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/facebook/flux/tree/master/examples/flux-concepts" target="_blank" rel="noopener">Flux Concepts</a></li>
+<li><a href="https://facebook.github.io/flux/docs/in-depth-overview" target="_blank" rel="noopener">Flux - In-Depth Overview</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Stroybook的基本使用</title>
     <url>/2020/03/09/Stroybook%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>Storybook 作为一个 UI 开发工具，能帮助开发人员独立创建组件，并在隔离的开发环境中以交互方式展示组件。 Storybook 是在主应用程序之外运行的，因此用户可以独立开发 UI 组件，而不必担心应用程序特定的依赖关系和要求。</p>
