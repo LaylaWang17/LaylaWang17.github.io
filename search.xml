@@ -1,6 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Vuex的基本使用</title>
+    <url>/2020/03/11/Vuex%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>在我们使用 Vue 搭建的 App 里，当访问数据对象时，一个组件实例只是简单的代理访问。当 App 结构复杂、组件较多时，如果有一处需要被多个实例共享的状态，可以简单的通过维护一份数据来实现共享，这就促成了我们对状态管理机制对需要，比如 Vuex。</p>
+<blockquote>
+<p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Vuex 是基于 Flux 架构的状态管理库。可以参考 <a href="https://laylawang17.github.io/2020/03/10/%E7%90%86%E8%A7%A3Flux/">理解 Flux</a> 这篇文章先做一些基础对了解。Vuex 的核心思想就是<strong>store 模式</strong>，即：将需要共享的状态放在在 store 自身的 action 中管理</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> store = &#123;</span><br><span class="line">  state: &#123;...&#125;,</span><br><span class="line">  action: &#123;...&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>则组件实例的 state 可以包含共享状态和私有状态两类</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    privateState: &#123;&#125;,</span><br><span class="line">    sharedState: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>store 和组件的关系如下图</p>
+<img src="http://ww1.sinaimg.cn/large/98792392ly1gconn3v15sj20xc0xcjrg.jpg" style="zoom:40%;" />
+
+<p>对于小型应用来说，我们使用简单的 store 模式就足以让我们的 App 内部变得简单明了，但是对于大型应用借助 Vuex 可能是更好的选择。</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ul>
+<li><strong>Store</strong>：store 用来管理状态，包括数据和各种方法，由 state、getters、mutations、actions、plugins 组成</li>
+<li><strong>State</strong>：state 中定义了组件所有的状态</li>
+<li><strong>Getter</strong>：getter 可以看作是由 state 派生的“计算属性”</li>
+<li><strong>Mutations</strong>：包含真正实现 state 更新的业务逻辑</li>
+<li><strong>Action</strong>：定义更新 state 的动作，用于知会 mutation 何时处理变更</li>
+</ul>
+<p>在使用 Vuex 的 App 中，当用户与 App 交互时发生的事情包括：</p>
+<ul>
+<li>启动 App 时，View 从 store 中获取所需的 state（以及 getters）</li>
+<li>用户进行输入、点击等操作时，View 发送（dispatch）相应的 action 给 store，action 中包含了操作类型及数据</li>
+<li>action 会提交（commit）对应的 mutation</li>
+<li>mutation 中完成真正的业务逻辑并更新 state</li>
+<li>View 监听 state 的变化并重新渲染</li>
+</ul>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><p>创建 store</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state,</span><br><span class="line">  getters,</span><br><span class="line">  mutations,</span><br><span class="line">  actions,</span><br><span class="line">  plugins</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>以简单的计数 App 为例：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  <span class="comment">// 状态</span></span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 注册mutation</span></span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment(state) &#123;</span><br><span class="line">      state.count++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>从根组件注入 store</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Vue.use(vuex);</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store,</span><br><span class="line">  component: &#123;...&#125;,</span><br><span class="line">  template: ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>在子组件中作为一个计算属性获取 state</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  count: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.count;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更简单的方法是使用 Vuex 提供的<code>mapState()</code>方法</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  ...mapState([<span class="string">'count'</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>computed</code>对象里还可以有组件私有的其他计算属性。</p>
+<h3 id="Getter"><a href="#Getter" class="headerlink" title="Getter"></a>Getter</h3><p>如 Todo List App 可能需要获得状态为 active 的 todo 列表：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todos: [...]</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    activeTodos: <span class="function"><span class="params">state</span> =&gt;</span> state.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.active)，</span><br><span class="line">    <span class="comment">// 接收其他getter作为第二个参数</span></span><br><span class="line">    leftItems: <span class="function">(<span class="params">state, getters</span>) =&gt;</span> getters.activeTodos.length,</span><br><span class="line">    <span class="comment">// 定义可作为方法调用的带参getter</span></span><br><span class="line">    getTodoById: <span class="function"><span class="params">state</span> =&gt;</span> <span class="function"><span class="params">id</span> =&gt;</span> state.todos.find(<span class="function"><span class="params">todo</span> =&gt;</span> todo.id === id)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>getters 在子组件中可作为计算属性访问</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  activeTodos: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.activeTodos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者使用<code>mapGetters()</code>方法访问</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  ...mapGetters([<span class="string">'activeTodos'</span>, <span class="string">'leftItems'</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h3><p>在 store 中注册包含载荷的 mutation</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mutations: &#123;</span><br><span class="line">  increment (state, amount) &#123;</span><br><span class="line">    state.count += amount;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注册的 mutation 都必须是同步函数，否则会导致状态的改变不可追踪。</strong></p>
+<p>提交 mutations</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">store.commit(<span class="string">"increment"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>提交带载荷的 mutations</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">store.commit(<span class="string">"increment"</span>, &#123; <span class="attr">amount</span>: <span class="number">2</span> &#125;);</span><br><span class="line">store.commit(&#123;</span><br><span class="line">  type: <span class="string">"increment"</span>,</span><br><span class="line">  amount: <span class="number">2</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在组件中提交 mutations</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">this</span>.$store.commit(<span class="string">"increment"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>或者使用<code>mapMutations()</code>方法</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">  ...mapMutations([<span class="string">'increment'</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><p>在 store 中注册 action</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">action: &#123;</span><br><span class="line">  increment (context) &#123;</span><br><span class="line">    context.commit(<span class="string">'increment'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>action 函数接收的 <code>context</code> 参数与 store 实例具有相同的方法和 getters，因此可以通过<code>context.state</code> 和 <code>context.getters</code> 来获取 state 和 getters，也可以调用 <code>context.commit</code> 提交一个 mutation。</p>
+<p>action 和 mutation 的区别在于：</p>
+<ul>
+<li>action 需要通过提交 mutation 来实现状态的更新</li>
+<li><strong>action 中可以包含异步操作</strong>，例如</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 假设 getData() 和 getOtherData() 返回的是 Promise</span></span><br><span class="line"></span><br><span class="line">actions: &#123;</span><br><span class="line">  <span class="keyword">async</span> actionA (&#123; commit &#125;) &#123;</span><br><span class="line">    commit(<span class="string">'gotData'</span>, <span class="keyword">await</span> getData());</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">async</span> actionB (&#123; dispatch, commit &#125;) &#123;</span><br><span class="line">    <span class="keyword">await</span> dispatch(<span class="string">'actionA'</span>); <span class="comment">// 等待 actionA 完成</span></span><br><span class="line">    commit(<span class="string">'gotOtherData'</span>, <span class="keyword">await</span> getOtherData());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分发 action</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">store.dispatch(<span class="string">"increment"</span>, &#123; <span class="attr">amount</span>: <span class="number">2</span> &#125;);</span><br><span class="line">store.dispatch(&#123;</span><br><span class="line">  type: <span class="string">"increment"</span>,</span><br><span class="line">  amount: <span class="number">2</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在组件中则需要使用<code>this.$store.dispatch(...)</code>或者<code>mapActions()</code>方法：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">  ...mapActions([<span class="string">'increment'</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h3><p>plugin 中会暴露出每次 mutation 的钩子，用于中 mutation 之后做额外的处理，例如数据持久化等</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> localStoragePlugin = <span class="function"><span class="params">store</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 当 store 初始化后调用</span></span><br><span class="line">  store.subscribe(<span class="function">(<span class="params">mutation, state</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 每次 mutation 之后调用</span></span><br><span class="line">    <span class="comment">// mutation 的格式为 &#123; type, payload &#125;</span></span><br><span class="line">    localStorage.setItem(<span class="string">"todos"</span>, <span class="built_in">JSON</span>.stringify(state.todos));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://vuex.vuejs.org/zh/" target="_blank" rel="noopener">Vue 官方文档</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>理解Flux</title>
     <url>/2020/03/10/%E7%90%86%E8%A7%A3Flux/</url>
     <content><![CDATA[<p>Flux 是一种前端应用开发架构，是一种管理数据流的模式。当访问数据对象时，一个组件实例只是简单的代理访问。如果有一处需要被多个实例共享的状态，可以简单的通过维护一份数据来实现共享。</p>

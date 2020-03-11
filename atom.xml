@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://laylawang17.github.io/"/>
-  <updated>2020-03-10T10:24:51.516Z</updated>
+  <updated>2020-03-11T06:11:08.186Z</updated>
   <id>https://laylawang17.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vuex的基本使用</title>
+    <link href="https://laylawang17.github.io/2020/03/11/Vuex%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <id>https://laylawang17.github.io/2020/03/11/Vuex%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</id>
+    <published>2020-03-11T04:39:24.000Z</published>
+    <updated>2020-03-11T06:11:08.186Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在我们使用 Vue 搭建的 App 里，当访问数据对象时，一个组件实例只是简单的代理访问。当 App 结构复杂、组件较多时，如果有一处需要被多个实例共享的状态，可以简单的通过维护一份数据来实现共享，这就促成了我们对状态管理机制对需要，比如 Vuex。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>理解Flux</title>
@@ -368,32 +388,6 @@
     <summary type="html">
     
       &lt;p&gt;…&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL中的JSON数据类型</title>
-    <link href="https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
-    <id>https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</id>
-    <published>2019-03-25T13:19:17.000Z</published>
-    <updated>2020-03-08T14:05:11.377Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL 支持原生&lt;code&gt;JSON&lt;/code&gt;类型，使用&lt;code&gt;JSON&lt;/code&gt;数据类型相较于将 JSON 格式的字符串存储在 String 型中的优势有：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;存储时会自动验证 JSON 文本；&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;可以优化存储格式。存储在&lt;code&gt;JSON&lt;/code&gt;型中的 JSON 文本会被转换成一个支持快速读取的文档元素，这样在使用时不需要再解析文本，并且可以直接通过键和索引访问其中的子对象而无需读取全部文本。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;code&gt;JSON&lt;/code&gt;型中可存储的 JSON 文本的大小不会超过&lt;code&gt;mysql.ini&lt;/code&gt;配置文件中设置的&lt;code&gt;max_allowed_packet&lt;/code&gt;的值。&lt;/p&gt;
     
     </summary>
     

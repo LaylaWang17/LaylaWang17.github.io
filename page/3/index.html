@@ -63,6 +63,75 @@
       <h1 class="page-type-title"></h1>
       
         
+          <article id="post-MySQL中的JSON数据类型" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">MySQL中的JSON数据类型</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-date">
+  <time datetime="2019-03-25T13:19:17.000Z" itemprop="datePublished">2019-03-25</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                    <p>MySQL 支持原生<code>JSON</code>类型，使用<code>JSON</code>数据类型相较于将 JSON 格式的字符串存储在 String 型中的优势有：</p>
+<ul>
+<li><p>存储时会自动验证 JSON 文本；</p>
+</li>
+<li><p>可以优化存储格式。存储在<code>JSON</code>型中的 JSON 文本会被转换成一个支持快速读取的文档元素，这样在使用时不需要再解析文本，并且可以直接通过键和索引访问其中的子对象而无需读取全部文本。</p>
+</li>
+</ul>
+<p><code>JSON</code>型中可存储的 JSON 文本的大小不会超过<code>mysql.ini</code>配置文件中设置的<code>max_allowed_packet</code>的值。</p>
+                                                        
+                                                            <a class="article-more-link" href="/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+                                                                Read More...
+                                                            </a>
+                                                            
+                                                                
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E7%9A%84JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" data-id="ck7l9ixmv00257q017u5eei1u" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
           <article id="post-MySQL中CHAR和VARCHAR的区别" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
     <div class="article-inner">
@@ -612,72 +681,6 @@
                                     </div>
                                     <footer class="article-footer">
                                         <a data-url="https://laylawang17.github.io/2019/03/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E6%B5%81/" data-id="ck7l9ixmo001l7q01hfg11g30" class="article-share-link">
-                                            分享
-                                        </a>
-                                        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-                                    </footer>
-
-    </div>
-
-    
-
-                
-
-</article>
-        
-          <article id="post-Externalizable的用法" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-  
-    <h2 itemprop="name">
-      <a class="article-title" href="/2019/02/26/Externalizable%E7%9A%84%E7%94%A8%E6%B3%95/">Externalizable的用法</a>
-    </h2>
-  
-  
-
-
-
-
-            </header>
-            
-
-                
-                    <div class="article-meta">
-                        <a href="/2019/02/26/Externalizable%E7%9A%84%E7%94%A8%E6%B3%95/" class="article-date">
-  <time datetime="2019-02-26T12:55:38.000Z" itemprop="datePublished">2019-02-26</time>
-</a>
-                            
-                    </div>
-                    
-
-                        
-
-                                    <div class="article-entry" itemprop="articleBody">
-                                        
-
-
-                                            
-
-                                                
-                                                    <p>总结了 Java 中 Externalizable 接口的使用方法</p>
-<ol>
-<li>序列化与反序列化</li>
-<li>Externalizable 接口和 Serializable 接口的区别</li>
-</ol>
-                                                        
-                                                            <a class="article-more-link" href="/2019/02/26/Externalizable%E7%9A%84%E7%94%A8%E6%B3%95/">
-                                                                Read More...
-                                                            </a>
-                                                            
-                                                                
-                                    </div>
-                                    <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2019/02/26/Externalizable%E7%9A%84%E7%94%A8%E6%B3%95/" data-id="ck7l9ixm300077q01g50m56dy" class="article-share-link">
                                             分享
                                         </a>
                                         
