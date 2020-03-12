@@ -201,6 +201,12 @@
 <p>运行测试</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 直接运行测试</span></span><br><span class="line">npm run <span class="built_in">test</span>:unit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行测试并更新 snapshot</span></span><br><span class="line">npm run <span class="built_in">test</span>:unit -- -u</span><br></pre></td></tr></table></figure>
 
+<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p>如果项目中引入了外部组件库，例如 Element-UI，为了处理外部组件库的样式文件，需要把样式文件 mock 掉。可以使用 <a href="https://github.com/keyanzhang/identity-obj-proxy" target="_blank" rel="noopener">ES6 Proxy</a> mock <a href="https://github.com/css-modules/css-modules" target="_blank" rel="noopener">CSS Modules</a>:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i -D identity-obj-proxy</span><br></pre></td></tr></table></figure>
+
+<p>并在 Jest 配置文件 <code>jest.config.js</code> 中增加以下配置：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">"moduleNameMapper"</span>: &#123;</span><br><span class="line">  <span class="string">"\\.(css|less)$"</span>: <span class="string">"identity-obj-proxy"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Storybook 是一个 UI 开发工具库，它的核心思想是 CDD + TDD。使用 storybook 可以在隔离的开发环境中以交互方式展示独立的组件，方便对组件 UI 和行为进行测试；在团队开发中有助于保证组件 UI 的一致性，也可以避免大家重复造轮子。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://www.learnstorybook.com/intro-to-storybook/vue/en/get-started/" target="_blank" rel="noopener">Storybook for Vue tutorial</a></li>
