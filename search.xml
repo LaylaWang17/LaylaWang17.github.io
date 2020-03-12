@@ -196,7 +196,7 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// tests/unit/storybook.spec.js</span></span><br><span class="line"><span class="keyword">import</span> initStoryshots <span class="keyword">from</span> <span class="string">"@storybook/addon-storyshots"</span>;</span><br><span class="line"></span><br><span class="line">initStoryshots();</span><br></pre></td></tr></table></figure>
 
 <p>在 Jest 配置文件 <code>jest.config.js</code> 中增加以下配置：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">transformIgnorePatterns: [<span class="string">"/node_modules/(?!(@storybook/.*\\.vue$))"</span>];</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">transformIgnorePatterns: [<span class="string">"/node_modules/(?!(@storybook/.*\\.vue$))"</span>]</span><br></pre></td></tr></table></figure>
 
 <p>运行测试</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 直接运行测试</span></span><br><span class="line">npm run <span class="built_in">test</span>:unit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行测试并更新 snapshot</span></span><br><span class="line">npm run <span class="built_in">test</span>:unit -- -u</span><br></pre></td></tr></table></figure>
