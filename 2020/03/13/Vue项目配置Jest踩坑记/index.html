@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Vue项目配置Jest踩坑记 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Vue项目配置Jest踩坑记" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Vue项目配置Jest踩坑记
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/13/Vue%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AEJest%E8%B8%A9%E5%9D%91%E8%AE%B0/" class="article-date">
+  <time datetime="2020-03-13T07:49:13.000Z" itemprop="datePublished">2020-03-13</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>本文总结了在 Vue 项目中引入 Jest 测试的相关方法。</p>
+<a id="more"></a>
+
+<ul>
+<li><p>前提：项目已经有基础的 Webpack、Babel 等配置，比如使用 Vue-CLI 创建的项目</p>
+</li>
+<li><p>安装 Jest 和 Vue Test Utils</p>
+<p>其中，Vue Test Utils 是 Vue.js 官方的单元测试工具库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev jest @vue/<span class="built_in">test</span>-utils</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 <code>package.json</code> 中定义运行单元测试的脚本</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "test": "jest"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为单文件 Vue 组件<code>*.vue</code>配置处理器</p>
+<p>安装 <code>vue-jest</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev vue-jest</span><br></pre></td></tr></table></figure>
+
+<p>在<code>package.json</code> 中增加 Jest 相关配置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">"jest": &#123;</span><br><span class="line">  "moduleFileExtensions": [</span><br><span class="line">    "js",</span><br><span class="line">    "json",</span><br><span class="line">    <span class="comment">// 告诉 Jest 处理 `*.vue` 文件</span></span><br><span class="line">    <span class="string">"vue"</span></span><br><span class="line">  ],</span><br><span class="line">  "transform": &#123;</span><br><span class="line">    <span class="comment">// 用 `vue-jest` 处理 `*.vue` 文件</span></span><br><span class="line">    ".*\\.(vue)$": "vue-jest"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或创建单独的 Jest 配置文件<code>jest.config.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  moduleFileExtensions: [<span class="string">"js"</span>, <span class="string">"json"</span>, <span class="string">"vue"</span>],</span><br><span class="line">  transform: &#123;</span><br><span class="line">    <span class="string">".*\\.(vue)$"</span>: <span class="string">"vue-jest"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为 Jest 配置 Babel</p>
+<p>安装 <code>babel-jest</code>可以帮助你在测试中使用 ES modules 语法和 stage-x 的特性</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-jest</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：如果运行测试时提示<code>Cannot find module &#39;babel-core&#39;</code>，则需要额外安装<code>babel-core@^7.0.0-bridge.0</code>（安装<code>babel-core@^7.0.0-bridge.0</code>是因为由于 Babel 7 将以<code>@babel/core</code>而不是<code>babel-core</code>的形式发布，<a href="https://github.com/babel/babel-bridge" target="_blank" rel="noopener">babel-bridge</a>是 Babel 官方提供的过渡库）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-core@^7.0.0-bridge.0</span><br></pre></td></tr></table></figure>
+
+<p>给 Jest 配置中增加 JavaScript 文件的<code>transform</code>配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">transform: &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="string">"^.+\\.js$"</span>: <span class="string">"&lt;rootDir&gt;/node_modules/babel-jest"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>假设 webpack 使用了 <code>babel-preset-env</code>，这时默认的 Babel 配置会关闭 ES modules 的转译，因为 webpack 已经可以处理 ES modules 了。然而，我们还是需要为我们的测试而开启它，因为 Jest 的测试用例会直接运行在 Node 上。同样的，我们可以告诉 <code>babel-preset-env</code> 面向我们使用的 Node 版本。这样做会跳过转译不必要的特性使得测试启动更快。为了仅在测试时应用这些选项，可以把它们放到一个独立的 <code>env.test</code> 配置项中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// babel.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  presets: [<span class="string">"@vue/cli-plugin-babel/preset"</span>],</span><br><span class="line">  env: &#123;</span><br><span class="line">    test: &#123;</span><br><span class="line">      presets: [[<span class="string">"@babel/preset-env"</span>, &#123; <span class="attr">targets</span>: &#123; <span class="attr">node</span>: <span class="string">"current"</span> &#125; &#125;]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果项目中使用了第三方组件库，如 Element-UI，则需要给 Jest 增加额外的配置以 mock 掉样式文件</p>
+<p>安装<code>identity-obj-proxy</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm instal --save-dev identity-obj-proxy</span><br></pre></td></tr></table></figure>
+
+<p>给 Jest 配置增加<code>moduleNameMapper</code>配置项</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">moduleNameMapper: &#123;</span><br><span class="line">  <span class="string">"\\.(css|less)$"</span>: <span class="string">"identity-obj-proxy"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://vue-test-utils.vuejs.org/zh/guides/testing-single-file-components-with-jest.html" target="_blank" rel="noopener">用 Jest 测试单文件组件</a></li>
+<li><a href="https://jestjs.io/docs/en/getting-started#using-babel" target="_blank" rel="noopener">Jest - Docs - Using Babel</a></li>
+<li><a href="https://jestjs.io/docs/en/webpack#mocking-css-modules" target="_blank" rel="noopener">Jest - Docs - Mocking CSS Modules</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2020/03/13/Vue%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AEJest%E8%B8%A9%E5%9D%91%E8%AE%B0/" data-id="ck7pxs4xi0000d5013mks32o7" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/03/11/Vuex%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Vuex的基本使用</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.jpg" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

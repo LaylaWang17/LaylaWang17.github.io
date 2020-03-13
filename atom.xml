@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://laylawang17.github.io/"/>
-  <updated>2020-03-11T06:11:08.186Z</updated>
+  <updated>2020-03-13T08:45:00.611Z</updated>
   <id>https://laylawang17.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vue项目配置Jest踩坑记</title>
+    <link href="https://laylawang17.github.io/2020/03/13/Vue%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AEJest%E8%B8%A9%E5%9D%91%E8%AE%B0/"/>
+    <id>https://laylawang17.github.io/2020/03/13/Vue%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AEJest%E8%B8%A9%E5%9D%91%E8%AE%B0/</id>
+    <published>2020-03-13T07:49:13.000Z</published>
+    <updated>2020-03-13T08:45:00.611Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文总结了在 Vue 项目中引入 Jest 测试的相关方法。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Vuex的基本使用</title>
@@ -365,25 +382,6 @@
     <id>https://laylawang17.github.io/2019/03/26/MySQL%E7%9A%84GROUP-BY%E7%94%A8%E6%B3%95%E5%B0%8F%E7%BB%93/</id>
     <published>2019-03-26T13:21:12.000Z</published>
     <updated>2020-03-08T13:21:39.288Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;…&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL中常用的文本处理函数和日期时间处理函数</title>
-    <link href="https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/"/>
-    <id>https://laylawang17.github.io/2019/03/25/MySQL%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E5%92%8C%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</id>
-    <published>2019-03-25T13:20:14.000Z</published>
-    <updated>2020-03-08T14:04:49.567Z</updated>
     
     <summary type="html">
     
