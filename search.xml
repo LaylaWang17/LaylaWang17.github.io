@@ -6,18 +6,15 @@
     <content><![CDATA[<p>本文总结了在 Vue 项目中引入 Jest 测试的相关方法。</p>
 <a id="more"></a>
 
-<ul>
-<li><p>前提：项目已经有基础的 Webpack、Babel 等配置，比如使用 Vue-CLI 创建的项目</p>
-</li>
-<li><p>安装 Jest 和 Vue Test Utils</p>
+<h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><p>前提：项目已经有基础的 Webpack、Babel 等配置，比如使用 Vue-CLI 创建的项目</p>
+<p>安装 Jest 和 Vue Test Utils</p>
 <p>其中，Vue Test Utils 是 Vue.js 官方的单元测试工具库</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install --save-dev jest @vue/<span class="built_in">test</span>-utils</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在 <code>package.json</code> 中定义运行单元测试的脚本</p>
+
+<p>在 <code>package.json</code> 中定义运行单元测试的脚本</p>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "test": "jest"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>为单文件 Vue 组件<code>*.vue</code>配置处理器</p>
-<p>安装 <code>vue-jest</code></p>
+
+<h2 id="为单文件-Vue-组件配置处理器"><a href="#为单文件-Vue-组件配置处理器" class="headerlink" title="为单文件 Vue 组件配置处理器"></a>为单文件 Vue 组件配置处理器</h2><p>安装 <code>vue-jest</code></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install --save-dev vue-jest</span><br></pre></td></tr></table></figure>
 
 <p>在<code>package.json</code> 中增加 Jest 相关配置</p>
@@ -25,9 +22,8 @@
 
 <p>或创建单独的 Jest 配置文件<code>jest.config.js</code></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  moduleFileExtensions: [<span class="string">"js"</span>, <span class="string">"json"</span>, <span class="string">"vue"</span>],</span><br><span class="line">  transform: &#123;</span><br><span class="line">    <span class="string">".*\\.(vue)$"</span>: <span class="string">"vue-jest"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>为 Jest 配置 Babel</p>
-<p>安装 <code>babel-jest</code>可以帮助你在测试中使用 ES modules 语法和 stage-x 的特性</p>
+
+<h2 id="为-Jest-配置-Babel"><a href="#为-Jest-配置-Babel" class="headerlink" title="为 Jest 配置 Babel"></a>为 Jest 配置 Babel</h2><p>安装 <code>babel-jest</code>可以帮助你在测试中使用 ES modules 语法和 stage-x 的特性</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install --save-dev babel-jest</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：如果运行测试时提示<code>Cannot find module &#39;babel-core&#39;</code>，则需要额外安装<code>babel-core@^7.0.0-bridge.0</code>（安装<code>babel-core@^7.0.0-bridge.0</code>是因为由于 Babel 7 将以<code>@babel/core</code>而不是<code>babel-core</code>的形式发布，<a href="https://github.com/babel/babel-bridge" target="_blank" rel="noopener">babel-bridge</a>是 Babel 官方提供的过渡库）</p>
@@ -38,16 +34,14 @@
 
 <p>假设 webpack 使用了 <code>babel-preset-env</code>，这时默认的 Babel 配置会关闭 ES modules 的转译，因为 webpack 已经可以处理 ES modules 了。然而，我们还是需要为我们的测试而开启它，因为 Jest 的测试用例会直接运行在 Node 上。同样的，我们可以告诉 <code>babel-preset-env</code> 面向我们使用的 Node 版本。这样做会跳过转译不必要的特性使得测试启动更快。为了仅在测试时应用这些选项，可以把它们放到一个独立的 <code>env.test</code> 配置项中</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// babel.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  presets: [<span class="string">"@vue/cli-plugin-babel/preset"</span>],</span><br><span class="line">  env: &#123;</span><br><span class="line">    test: &#123;</span><br><span class="line">      presets: [[<span class="string">"@babel/preset-env"</span>, &#123; <span class="attr">targets</span>: &#123; <span class="attr">node</span>: <span class="string">"current"</span> &#125; &#125;]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果项目中使用了第三方组件库，如 Element-UI，则需要给 Jest 增加额外的配置以 mock 掉样式文件</p>
+
+<h2 id="处理第三方组件库"><a href="#处理第三方组件库" class="headerlink" title="处理第三方组件库"></a>处理第三方组件库</h2><p>如果项目中使用了第三方组件库，如 Element-UI，则需要给 Jest 增加额外的配置以 mock 掉样式文件</p>
 <p>安装<code>identity-obj-proxy</code></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm instal --save-dev identity-obj-proxy</span><br></pre></td></tr></table></figure>
 
 <p>给 Jest 配置增加<code>moduleNameMapper</code>配置项</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">moduleNameMapper: &#123;</span><br><span class="line">  <span class="string">"\\.(css|less)$"</span>: <span class="string">"identity-obj-proxy"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://vue-test-utils.vuejs.org/zh/guides/testing-single-file-components-with-jest.html" target="_blank" rel="noopener">用 Jest 测试单文件组件</a></li>
 <li><a href="https://jestjs.io/docs/en/getting-started#using-babel" target="_blank" rel="noopener">Jest - Docs - Using Babel</a></li>
