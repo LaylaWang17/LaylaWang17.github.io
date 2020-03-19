@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Vue组件测试测什么 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Vue组件测试测什么" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Vue组件测试测什么
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/19/Vue%E7%BB%84%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/" class="article-date">
+  <time datetime="2020-03-19T01:40:38.000Z" itemprop="datePublished">2020-03-19</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>学习了一段时间 Vue 组件单元测试相关知识，感觉比起用什么测试框架、怎么写测试更重要的是搞明白组件测试应该测什么，这里就总结一下自己的一些思考。</p>
+<a id="more"></a>
+
+<h2 id="组件测试不应该测什么"><a href="#组件测试不应该测什么" class="headerlink" title="组件测试不应该测什么"></a>组件测试不应该测什么</h2><ol>
+<li><p>单纯测试组件模板中的 HTML</p>
+<p>比如，测试组件模板中有几个 <code>div</code>、<code>input</code>、<code>button</code>，以及元素的 <code>class</code>、<code>id</code> 属性等与业务逻辑无关的纯 UI 测试。这里并非说我们不需要关注组件的 UI，而是出于以下几个考量：</p>
+<ul>
+<li>使用单元测试测试组件的 UI 会导致测试非常繁琐，为了测试覆盖的全面会导致针对一个组件写出大量的测试，不但降低了开发效率还体验非常差</li>
+<li>这种单纯的 UI 测试是非常脆弱的，这类测试和组件模板是强耦合的，一旦我们对 HTML 结构进行调整，测试就会挂掉，这就造成了测试非常难以维护。而实际上我们往往并不关心组件模板中的具体 HTML 结构是怎样的，我们只关心组件呈现出来的样子</li>
+<li>像 Jest 等前端测试框架已经提供了<a href="https://jestjs.io/docs/zh-Hans/snapshot-testing" target="_blank" rel="noopener">快照测试</a>来帮助我们对比修改引起的 UI 变化，并且我们也可以使用<a href="https://laylawang17.github.io/2020/03/09/Stroybook的基本使用/">Storybook</a>这类工具实现可视化的 UI 测试</li>
+</ul>
+</li>
+<li><p>测试组件的内部方法</p>
+<p>如果一些方法只是在组件内部调用其他方法而没有任何暴露给外部的行为（比如更改了组件的 UI、请求外部 API 等），那这些方法是不需要测试的。我们希望一个组件就像一个黑盒一样，我们不关心其内部的处理逻辑而只关注其外部呈现。</p>
+<blockquote>
+<p>You should test your component’s public interface and side effects.</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="组件测试应该测什么"><a href="#组件测试应该测什么" class="headerlink" title="组件测试应该测什么"></a>组件测试应该测什么</h2><p>这里以 Vue 组件来总结一下组件测试需要测什么。</p>
+<ol>
+<li><p>测试组件是一个 Vue 实例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test(<span class="string">"is a Vue instance"</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> wrapper = shallowMount(MyComponent);</span><br><span class="line">  expect(wrapper.isVueInstance()).toBeTruthy();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这个测试应该置于该组件所有其他单元测试之前，以保证该组件能够正常挂载</p>
+</li>
+<li><p>测试组件实例的数据</p>
+<p>由于组件的渲染是依赖<code>props</code>、<code>data</code>以及计算属性<code>computed</code>的，因此需要针对这些数据进行测试，如</p>
+<ul>
+<li>给定 <code>props</code>下，初始的 <code>data</code>是否正确</li>
+<li>给定 <code>props</code>和<code>data</code>后，计算属性的值是否正确</li>
+<li>在父组件中测试 <code>props</code>是否正确传递给子组件</li>
+</ul>
+</li>
+<li><p>测试组件实例的渲染结果</p>
+<p>同样因为组件的渲染依赖<code>props</code>、<code>data</code>、<code>computed</code>这些数据，因此需要 mock 这些数据来测试不同数据作用下的渲染结果是否符合预期，如</p>
+<ul>
+<li><p>测试本文内容是否与数据一致</p>
+</li>
+<li><p>测试条件渲染的结果</p>
+<p>元素或子组件的存在性是否随数据的变化而变化</p>
+</li>
+<li><p>测试循环渲染的结果</p>
+<p>元素或子组件的数量是否与数据一致</p>
+</li>
+</ul>
+</li>
+<li><p>测试组件实例的事件</p>
+<p>用户与 UI 的交互是通过事件完成的，因此需要针对事件进行测试，如</p>
+<ul>
+<li><p>触发<code>click</code>、<code>input</code>等事件后组件上的自定义事件是否被触发</p>
+<p>比如 Todo List App 的<code>add-todo</code>等一系列自定义事件能否被触发</p>
+</li>
+<li><p>触发事件后对应的处理方法是否被调用，以及是否使用预期的参数调用</p>
+<p>需要注意的是，这里主要测试的是一些对外的方法，比如调用 API 等</p>
+</li>
+<li><p>触发事件后<code>data</code>是否按预期更新</p>
+</li>
+<li><p>触发事件后组件是否按预期渲染</p>
+<p>如果已经有测试用例测试过事件能更新<code>data</code>、且组件能根据<code>data</code>渲染，则无需再测试组件能根据事件渲染</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用-Vuex-管理数据的组件应该怎么测"><a href="#使用-Vuex-管理数据的组件应该怎么测" class="headerlink" title="使用 Vuex 管理数据的组件应该怎么测"></a>使用 Vuex 管理数据的组件应该怎么测</h3><p>使用 Vuex 管理数据流后，我们需要额外针对<code>getters</code>、<code>mutations</code>、<code>actions</code>等进行测试，以保证组件的数据和行为是符合我们预期的。针对 Vuex 的测试有两个要点：</p>
+<ul>
+<li><p>由于<code>getters</code>、<code>mutations</code>、<code>actions</code>实际上都是普通的函数，因此我们可以通过测试这些函数在<strong>给定输入下是否有预期输出</strong>来保证它们的正确性</p>
+</li>
+<li><p>结合<a href="https://laylawang17.github.io/2020/03/11/Vuex的基本使用/">Vuex 的作用原理</a>，我们可以按照 Vuex 中数据的流向设计测试用例</p>
+<p>一个由 Vuex 管理数据流的 App 大致是按照如下的方式工作的：</p>
+<ol>
+<li>用户与 UI 交互触发事件</li>
+<li>事件的监听函数 dispatch 相应的<code>action</code></li>
+<li><code>action</code>提交包含类型和数据的<code>mutation</code></li>
+<li><code>mutation</code>负责处理具体的业务逻辑，更新 App 的<code>state</code></li>
+<li><code>getters</code>进而会根据<code>state</code>重新计算</li>
+<li>组件监听到<code>state</code>的变化而重新渲染</li>
+</ol>
+</li>
+</ul>
+<p>在理解上述要点的情况下，我们可以总结出针对 Vuex 的一些测试方法：</p>
+<ol>
+<li>模拟事件的触发，测试是否 dispatch 相应的<code>action</code></li>
+<li>mock 掉<code>commit</code>方法，测试<code>action</code>函数是否能使用正确的参数 commit<code>mutation</code></li>
+<li>测试给定参数下，<code>mutations</code>能否正确修改<code>state</code></li>
+<li>测试给定<code>state</code>时，<code>getters</code>的计算结果是否正确</li>
+<li>给定 <code>state</code>和<code>getters</code>下，测试组件接收到的<code>props</code>是否正确</li>
+<li>给定<code>props</code>下组件能否正确渲染</li>
+</ol>
+<h3 id="怎么使用快照测试"><a href="#怎么使用快照测试" class="headerlink" title="怎么使用快照测试"></a>怎么使用快照测试</h3><p>上述总结的单元测试方法主要测试的是组件的行为是否与预期相符，为了更全面的测试组件 UI，我们可以使用快照测试。</p>
+<p>快照测试带来的好处是可以清晰的对比出 UI 的变化，让开发人员确认是必要的改变还是引入的 bug，避免了为测试 UI 导致单元测试过于陷入细节和脆弱。</p>
+<p>需要注意的是，快照测试是不能够替代单元测试的，因为它只是对 UI 历史版本的记录，无法用于描述所期望的 App 的行为，因而不能够像传统的单元测试一样做为所开发的 App 的“使用文档”，它应该和单元测试一起互为补充。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://engineering.doximity.com/articles/five-traps-to-avoid-while-unit-testing-vue-js" target="_blank" rel="noopener">Five Traps to Avoid While Unit Testing Vue.js</a></li>
+<li><a href="https://vue-test-utils.vuejs.org/zh/guides/common-tips.html" target="_blank" rel="noopener">Vue Test Utils - 常用技巧</a></li>
+<li><a href="https://benmccormick.org/2016/09/19/testing-with-jest-snapshots-first-impressions/" target="_blank" rel="noopener">Testing with Jest Snapshots: First Impressions</a></li>
+</ul>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2020/03/19/Vue%E7%BB%84%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/" data-id="ck7y8lcku0000rc019hnc8l1i" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/03/13/Vue%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AEJest%E8%B8%A9%E5%9D%91%E8%AE%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Vue项目配置Jest踩坑记</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.jpg" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
