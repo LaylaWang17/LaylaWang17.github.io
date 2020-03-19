@@ -372,6 +372,9 @@
 <li><a href="https://www.learnstorybook.com/intro-to-storybook/vue/en/get-started/" target="_blank" rel="noopener">Storybook for Vue tutorial</a></li>
 </ul>
 ]]></content>
+      <tags>
+        <tag>vue</tag>
+      </tags>
   </entry>
   <entry>
     <title>Vue中计算属性和方法的区别</title>
