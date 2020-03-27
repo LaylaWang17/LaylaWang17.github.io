@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://laylawang17.github.io/"/>
-  <updated>2020-03-19T04:08:58.993Z</updated>
+  <updated>2020-03-27T13:01:05.184Z</updated>
   <id>https://laylawang17.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Node.js学习笔记</title>
+    <link href="https://laylawang17.github.io/2020/03/27/Node-js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://laylawang17.github.io/2020/03/27/Node-js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <published>2020-03-27T12:50:23.000Z</published>
+    <updated>2020-03-27T13:01:05.184Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;单纯记录一下学习 Node.js 基础时一些之前没在意或者不了解的知识点，方便以后回顾&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Vue组件测试测什么</title>
@@ -375,25 +392,6 @@
     <summary type="html">
     
       &lt;p&gt;索引作为一种数据结构，其用途是用于提升检索数据的效率。&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>子查询、联结查询、组合查询用法总结</title>
-    <link href="https://laylawang17.github.io/2019/03/27/%E5%AD%90%E6%9F%A5%E8%AF%A2%E3%80%81%E8%81%94%E7%BB%93%E6%9F%A5%E8%AF%A2%E3%80%81%E7%BB%84%E5%90%88%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"/>
-    <id>https://laylawang17.github.io/2019/03/27/%E5%AD%90%E6%9F%A5%E8%AF%A2%E3%80%81%E8%81%94%E7%BB%93%E6%9F%A5%E8%AF%A2%E3%80%81%E7%BB%84%E5%90%88%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/</id>
-    <published>2019-03-27T13:21:59.000Z</published>
-    <updated>2020-03-08T13:22:27.682Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;…&lt;/p&gt;
     
     </summary>
     

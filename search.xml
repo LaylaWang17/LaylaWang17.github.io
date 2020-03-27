@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Node.js学习笔记</title>
+    <url>/2020/03/27/Node-js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>单纯记录一下学习 Node.js 基础时一些之前没在意或者不了解的知识点，方便以后回顾</p>
+<a id="more"></a>
+
+<h2 id="对-Node-js-的基本理解"><a href="#对-Node-js-的基本理解" class="headerlink" title="对 Node.js 的基本理解"></a>对 Node.js 的基本理解</h2><ul>
+<li>Node.js 是一个跨平台的 JavaScript 运行时环境</li>
+<li>Node.js 在浏览器之外运行 V8 引擎</li>
+<li>Node.js app 运行在单线程中，所有的代码会运行在一个 event loop 中</li>
+<li>Node.js 的标准库中提供了一系列异步 I/O 函数，是非阻塞的</li>
+<li>Node.js 使用的是 CommonJS 模块系统，而浏览器使用的是 ES Modules，因此，在 Node.js 应使用 <code>require()</code> 引入模块，而不能用 <code>import</code></li>
+</ul>
+<h2 id="Job-Queue-和-Message-Queue"><a href="#Job-Queue-和-Message-Queue" class="headerlink" title="Job Queue 和 Message Queue"></a>Job Queue 和 Message Queue</h2><ul>
+<li><code>promise</code> 使用的是 Job Queue，callback 会在当前的 <code>promise</code> 状态变为 resolved / rejected 之后立即执行；而 <code>setTimeout()</code> 使用的是 Message Queue，会在计时结束后将 callback 函数放入 Message Queue，因此 callback 会在所有同步任务执行完后再执行</li>
+</ul>
+<h2 id="setTimeout、setImmediate、process-nextTick"><a href="#setTimeout、setImmediate、process-nextTick" class="headerlink" title="setTimeout、setImmediate、process.nextTick"></a>setTimeout、setImmediate、process.nextTick</h2><ul>
+<li><code>process.nextTick()</code> 会在当前 event loop 中当前操作执行完后立即执行 callback</li>
+<li><code>setImmediate()</code> 和 <code>setTimeout(() =&gt; {}, 0)</code> 会在下个 event loop 中执行 callback</li>
+<li><code>process.nextTick()</code> 中的 callback 会早于 <code>setImmediate()</code> 和 <code>setTimeout(() =&gt; {}, 0)</code> 中 callback 执行，但 <code>setImmediate()</code> 和 <code>setTimeout(() =&gt; {}, 0)</code> 中 的 callback 执行顺序不定</li>
+</ul>
+<h2 id="HTTP-模块"><a href="#HTTP-模块" class="headerlink" title="HTTP 模块"></a>HTTP 模块</h2><ul>
+<li>当使用 <code>http.createServer()</code> 初始化 HTTP server 时，会创建一个 <code>http.Server</code> 对象。创建该对象时传入的 callback 会在接收到每个 request 时执行。</li>
+<li>当接收到一个 request 时，<code>request</code> 事件会被触发并接收到两个参数：一个 <code>http.IncomingMessage</code> 对象表示请求、一个 <code>http.ServerResponse</code> 对象表示响应</li>
+<li>callback 会在 server 收到 request headers 时调用，而不是在获得 request body 时调用</li>
+<li>当接收到 response 时，<code>response</code> 事件会被触发，并且会接收到一个 <code>http.IncomingMessage</code> 实例作为参数</li>
+<li>在连接 callback 中传递的 request 对象和 response 对象都是 stream，因此需要通过监听事件的方式处理 body content（比如 <code>data</code> 事件和 <code>end</code> 事件）</li>
+</ul>
+<h2 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h2><ul>
+<li>Node.js 中所有的 stream 都是 <code>EventEmitter</code> 对象的实例</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Vue组件测试测什么</title>
     <url>/2020/03/19/Vue%E7%BB%84%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%B5%8B%E4%BB%80%E4%B9%88/</url>
     <content><![CDATA[<p>学习了一段时间 Vue 组件单元测试相关知识，感觉比起用什么测试框架、怎么写测试更重要的是搞明白组件测试应该测什么，这里就总结一下自己的一些思考。</p>
