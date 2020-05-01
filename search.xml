@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Vue组件的生命周期</title>
+    <url>/2020/05/01/Vue%E7%BB%84%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
+    <content><![CDATA[<p>总结 Vue 组件常用的生命周期函数。</p>
+<a id="more"></a>
+
+<h2 id="生命周期图示"><a href="#生命周期图示" class="headerlink" title="生命周期图示"></a>生命周期图示</h2><p><img src="http://ww1.sinaimg.cn/large/98792392ly1gecsippv76j20xc2cftaj.jpg" alt="lifecycle.png"></p>
+<h2 id="常用生命周期钩子"><a href="#常用生命周期钩子" class="headerlink" title="常用生命周期钩子"></a>常用生命周期钩子</h2><h3 id="beforCreate"><a href="#beforCreate" class="headerlink" title="beforCreate"></a>beforCreate</h3><p>实例初始化之后、data 观测和 watch / event 事件回调配置前调用。</p>
+<h3 id="created"><a href="#created" class="headerlink" title="created"></a>created</h3><p>在实例创建完成后立即被调用。此时，实例已完成 data 观测、property 和 method 的计算、watch / event 事件回调。但此时挂载阶段还未开始，因此实例的 <code>$el</code> property 还不可用。</p>
+<h3 id="beforeMount"><a href="#beforeMount" class="headerlink" title="beforeMount"></a>beforeMount</h3><p>在挂载开始前被调用，此时相关的 <code>render</code> 函数首次被调用。</p>
+<h3 id="mounted"><a href="#mounted" class="headerlink" title="mounted"></a>mounted</h3><p>实例挂载后调用，此时 <code>el</code> 已被新创建的 <code>vm.$el</code> 替换。</p>
+<p><code>mounted</code> 不能保证所有的子组件也一起被挂载，因此若想等到整个视图都渲染完毕，可以在 <code>mounted</code> 内部调用 <code>vm.$nextTick</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mounted: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="beforeUpdated"><a href="#beforeUpdated" class="headerlink" title="beforeUpdated"></a>beforeUpdated</h3><p>data 更新时调用，发生在 virtual DOM 打补丁前，此时可以访问到现有的 DOM，可以用于手动移除事件监听器</p>
+<h3 id="updated"><a href="#updated" class="headerlink" title="updated"></a>updated</h3><p>virtual DOM 打补丁后调用。此时组件 DOM 已更新，可以执行依赖 DOM 的操作。</p>
+<p>但应避免在此时更新 state，如有需要应使用 计算属性 或 watcher。</p>
+<p><code>updated</code> 不能保证所有子组件都一起被重绘，若希望等到整个视图都重绘完毕，可以在 <code>updated</code> 内部调用 <code>vm.$nextTick</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">updated: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>##beforeDestoryed</p>
+<p>实例销毁前调用，此时实例仍完全可用</p>
+<h3 id="destoryed"><a href="#destoryed" class="headerlink" title="destoryed"></a>destoryed</h3><p>实例销毁后调用。该钩子被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁。</p>
+<hr>
+<blockquote>
+<p><strong>哪个生命周期钩子适合做数据请求？</strong></p>
+<ul>
+<li><code>beforeCreate</code> 不适合，此阶段 data 还不存在</li>
+<li><code>created</code> 比较合适，此阶段 data 已经可以访问，考虑到用户体验到话数据尽早请求数据较好</li>
+<li><code>mounted</code> 阶段也可以，但更新 data 后会导致组件重新渲染</li>
+<li><code>updated</code> 不合适，此时更新 data 又会触发 <code>beforeUpdate</code> 和 <code>updated</code> 钩子，造成死循环</li>
+</ul>
+<p><strong>第一次页面加载会触发哪几个钩子？</strong></p>
+<p><code>beforeCreate</code>、<code>created</code>、 <code>beforeMount</code>、<code>mounted</code></p>
+<p><strong>每个周期具体适合哪些场景？</strong></p>
+<ul>
+<li><code>beforeCreate</code>：data、计算属性、watcher、methods 都无法访问，无法操作 DOM，可以用来加 loading 事件</li>
+<li><code>created</code>： 无法操作 DOM，可以做初始化工作、异步请求</li>
+<li><code>beforeMount</code>： 得不到具体的 DOM 元素，但挂载的根节点已经创建，很少用</li>
+<li><code>mounted</code>：组件已经完全挂载，可以执行依赖 DOM 的操作</li>
+<li><code>beforeUpdated</code>：此时 data 已更新、DOM 还未重新渲染，可以手动移除事件监听器</li>
+<li><code>updated</code>：DOM 已重新渲染，可以执行依赖 DOM 的操作</li>
+<li><code>beforeDestory</code>：可用来在实例销毁前做一些提示等用户交互</li>
+<li><code>destory</code>：此时组件实例已完全销毁，无法操作了</li>
+</ul>
+<p><strong>父子组件和兄弟组件的生命周期</strong></p>
+<ul>
+<li>子组件挂载完后父组件才开始挂载</li>
+<li>销毁父组件时会先销毁子组件</li>
+<li>兄弟组件的初始化（<code>mounted</code>之前）是分别进行的，<code>mounted</code>是从上到下依次进行的</li>
+<li>无数据关联时，兄弟组件间的更新和销毁互不关联</li>
+</ul>
+</blockquote>
+<h2 id="与生命周期相关的实例方法"><a href="#与生命周期相关的实例方法" class="headerlink" title="与生命周期相关的实例方法"></a>与生命周期相关的实例方法</h2><h3 id="vm-mount"><a href="#vm-mount" class="headerlink" title="vm.$mount"></a>vm.$mount</h3><ul>
+<li>参数：element 或 selector（若不传参数，则模板将被渲染为文档之外的元素，需要使用原生的 DOM API 将其插入文档）</li>
+<li>返回值：<code>vm</code> - 实例自身（因此可以链式调用其他方法）</li>
+</ul>
+<p>用于手动挂载组件。</p>
+<h3 id="vm-forceUpdate"><a href="#vm-forceUpdate" class="headerlink" title="vm.$forceUpdate"></a>vm.$forceUpdate</h3><p>强制实例重新渲染。</p>
+<p>仅影响实例本身和插入插槽的子组件，而非全部子组件。</p>
+<h3 id="vm-nextTick"><a href="#vm-nextTick" class="headerlink" title="vm.$nextTick"></a>vm.$nextTick</h3><ul>
+<li>参数：回调函数（若不传餐，则在支持 Promise 的环境中会返回 Promise</li>
+</ul>
+<p>传入的回调函数将会在下次 DOM 更新循环之后执行。</p>
+<blockquote>
+<p>Vue 在更新 DOM 时是异步执行的。只要侦听到 data 的变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。避免了不必要的计算和 DOM 操作。在下一个事件循环“tick”中，Vue 刷新队列并执行实际工作。</p>
+</blockquote>
+<h3 id="vm-destory"><a href="#vm-destory" class="headerlink" title="vm.$destory"></a>vm.$destory</h3><p>销毁一个实例，清理该实例与其他实例的连接，解绑该实例的指令和事件监听器。</p>
+<p>会触发 <code>beforeDestory</code> 和 <code>destory</code> 生命周期钩子。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://cn.vuejs.org/v2/guide/instance.html#生命周期图示" target="_blank" rel="noopener">Vue 教程 - 生命周期图示</a></li>
+<li><a href="https://cn.vuejs.org/v2/api/#选项-生命周期钩子" target="_blank" rel="noopener">Vue API - 选项 / 生命周期钩子</a></li>
+<li><a href="https://cn.vuejs.org/v2/api/#实例方法-生命周期" target="_blank" rel="noopener">Vue API - 实例方法 / 生命周期</a></li>
+<li><a href="https://juejin.im/post/5d832b6b5188257ae63eba97" target="_blank" rel="noopener">vue 面试题之一：生命周期函数面试题</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Node.js学习笔记</title>
     <url>/2020/03/27/Node-js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>单纯记录一下学习 Node.js 基础时一些之前没在意或者不了解的知识点，方便以后回顾</p>
