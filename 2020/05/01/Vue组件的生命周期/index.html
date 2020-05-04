@@ -92,8 +92,7 @@
 <p><code>updated</code> 不能保证所有子组件都一起被重绘，若希望等到整个视图都重绘完毕，可以在 <code>updated</code> 内部调用 <code>vm.$nextTick</code></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">updated: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>##beforeDestoryed</p>
-<p>实例销毁前调用，此时实例仍完全可用</p>
+<h3 id="beforeDestoryed"><a href="#beforeDestoryed" class="headerlink" title="beforeDestoryed"></a>beforeDestoryed</h3><p>实例销毁前调用，此时实例仍完全可用</p>
 <h3 id="destoryed"><a href="#destoryed" class="headerlink" title="destoryed"></a>destoryed</h3><p>实例销毁后调用。该钩子被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁。</p>
 <hr>
 <blockquote>
