@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://laylawang17.github.io/"/>
-  <updated>2020-05-04T08:46:03.693Z</updated>
+  <updated>2020-05-05T05:44:06.516Z</updated>
   <id>https://laylawang17.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Element-UI实现内嵌表单的对话框功能踩坑总结</title>
+    <link href="https://laylawang17.github.io/2020/05/05/%E4%BD%BF%E7%94%A8Element-UI%E5%AE%9E%E7%8E%B0%E5%86%85%E5%B5%8C%E8%A1%A8%E5%8D%95%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%8A%9F%E8%83%BD%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93/"/>
+    <id>https://laylawang17.github.io/2020/05/05/%E4%BD%BF%E7%94%A8Element-UI%E5%AE%9E%E7%8E%B0%E5%86%85%E5%B5%8C%E8%A1%A8%E5%8D%95%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%8A%9F%E8%83%BD%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93/</id>
+    <published>2020-05-05T03:33:21.000Z</published>
+    <updated>2020-05-05T05:44:06.516Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近在使用 Element UI 的 Dialog 组件和 Form 组件实现一个点击按钮打开编辑表单对话框的功能时遇到几个坑：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开 Dialog 时无法给 Form 组件加载初始数据&lt;/li&gt;
+&lt;li&gt;关闭表单时想调用 Form 组件的 &lt;code&gt;resetFields&lt;/code&gt; 方法控制台会提示 &lt;code&gt;Cannot read property &amp;#39;resetFields&amp;#39; of undefined&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;点击关闭按钮和遮罩层均无法关闭对话框&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Vue组件的生命周期</title>
@@ -373,25 +395,6 @@
     <summary type="html">
     
       &lt;p&gt;…&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="mysql" scheme="https://laylawang17.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL规范总结</title>
-    <link href="https://laylawang17.github.io/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/"/>
-    <id>https://laylawang17.github.io/2019/04/01/SQL%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</id>
-    <published>2019-04-01T13:23:34.000Z</published>
-    <updated>2020-03-08T14:05:53.695Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;遵循一定的规范有助于提高代码的可读性和可移植性，对 SQL 来说规范中最主要的是命名规范和代码规范，这里给出了一些通用的规范，具体应该遵循的规范需要依据项目要求来确定。&lt;/p&gt;
     
     </summary>
     

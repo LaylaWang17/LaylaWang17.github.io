@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    使用Element-UI实现内嵌表单的对话框功能踩坑总结 |
+    
+    Layla Wang</title>
+  
+    <link rel="shortcut icon" href="/rose.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-使用Element-UI实现内嵌表单的对话框功能踩坑总结" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      使用Element-UI实现内嵌表单的对话框功能踩坑总结
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/05/05/%E4%BD%BF%E7%94%A8Element-UI%E5%AE%9E%E7%8E%B0%E5%86%85%E5%B5%8C%E8%A1%A8%E5%8D%95%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%8A%9F%E8%83%BD%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2020-05-05T03:33:21.000Z" itemprop="datePublished">2020-05-05</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>最近在使用 Element UI 的 Dialog 组件和 Form 组件实现一个点击按钮打开编辑表单对话框的功能时遇到几个坑：</p>
+<ol>
+<li>打开 Dialog 时无法给 Form 组件加载初始数据</li>
+<li>关闭表单时想调用 Form 组件的 <code>resetFields</code> 方法控制台会提示 <code>Cannot read property &#39;resetFields&#39; of undefined</code></li>
+<li>点击关闭按钮和遮罩层均无法关闭对话框</li>
+</ol>
+<a id="more"></a>
+
+<p>出现上述问题的根本原因有两个：</p>
+<ol>
+<li>Element UI 的 Dialog 组件的内容是懒渲染的，即在第一次被打开之前，传入的默认 slot 不会被渲染到 DOM 上。因此，如果需要执行 DOM 操作，或通过 <code>ref</code> 获取相应组件，应在 <code>open</code> 事件回调中进行。</li>
+<li>Element UI 的 Dialog 组件的显示和隐藏默认的实现方式是使用双向绑定的属性 <code>:visible.sync</code> （可以参考 Vue 官方文档中对 <a href="https://cn.vuejs.org/v2/guide/components-custom-events.html#sync-修饰符" target="_blank" rel="noopener">.sync</a> 修饰符的说明），点击对话框右上角的关闭按钮和遮罩层也会默认修改 <code>visible</code> 属性的值，因此如果在基于 Dialog 组件封装自定义对话框组件时如果对 <code>visible</code> 属性使用不当则会导致点击关闭按钮和遮罩层无法隐藏对话框。</li>
+</ol>
+<p><strong>先看下面这段有问题的实现</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; App.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;el-button type&#x3D;&quot;text&quot; @click&#x3D;&quot;handleOpen&quot;&gt;Open Dialog&lt;&#x2F;el-button&gt;</span><br><span class="line">    &lt;my-dialog</span><br><span class="line">      v-bind&#x3D;&quot;receiver&quot;</span><br><span class="line">      :visible&#x3D;&quot;dialogVisible&quot;</span><br><span class="line">      @close&#x3D;&quot;handleClose&quot;</span><br><span class="line">    &gt;&lt;&#x2F;my-dialog&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import MyDialog from &quot;.&#x2F;MyDialog&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    &quot;my-dialog&quot;: MyDialog,</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      receiver: &#123;</span><br><span class="line">        name: &quot;&quot;,</span><br><span class="line">        address: &quot;&quot;,</span><br><span class="line">      &#125;,</span><br><span class="line">      dialogVisible: false,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    handleOpen() &#123;</span><br><span class="line">      this.receiver &#x3D; &#123;</span><br><span class="line">        name: &quot;zhangsan&quot;,</span><br><span class="line">        address: &quot;...&quot;,</span><br><span class="line">      &#125;;</span><br><span class="line">      this.dialogVisible &#x3D; true;</span><br><span class="line">    &#125;,</span><br><span class="line">    handleClose() &#123;</span><br><span class="line">      this.dialogVisible &#x3D; false;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; MyDialog.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-dialog title&#x3D;&quot;收货人信息&quot; :visible&#x3D;&quot;dialogVisible&quot;&gt;</span><br><span class="line">    &lt;el-form :model&#x3D;&quot;form&quot; ref&#x3D;&quot;form&quot;&gt;</span><br><span class="line">      &lt;el-form-item label&#x3D;&quot;姓名&quot; prop&#x3D;&quot;name&quot;&gt;</span><br><span class="line">        &lt;el-input v-model&#x3D;&quot;form.name&quot;&gt;&lt;&#x2F;el-input&gt;</span><br><span class="line">      &lt;&#x2F;el-form-item&gt;</span><br><span class="line">      &lt;el-form-item label&#x3D;&quot;地址&quot; prop&#x3D;&quot;address&quot;&gt;</span><br><span class="line">        &lt;el-input v-model&#x3D;&quot;form.address&quot;&gt;&lt;&#x2F;el-input&gt;</span><br><span class="line">      &lt;&#x2F;el-form-item&gt;</span><br><span class="line">    &lt;&#x2F;el-form&gt;</span><br><span class="line">    &lt;div slot&#x3D;&quot;footer&quot; class&#x3D;&quot;dialog-footer&quot;&gt;</span><br><span class="line">      &lt;el-button @click&#x3D;&quot;handleClose&quot;&gt;取 消&lt;&#x2F;el-button&gt;</span><br><span class="line">      &lt;el-button type&#x3D;&quot;primary&quot; @click&#x3D;&quot;handleClose&quot;&gt;确 定&lt;&#x2F;el-button&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;el-dialog&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  props: [&quot;visible&quot;, &quot;name&quot;, &quot;address&quot;],</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      dialogVisible: this.visible,</span><br><span class="line">      form: &#123;</span><br><span class="line">        name: this.name,</span><br><span class="line">        address: this.address,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    handleClose() &#123;</span><br><span class="line">      this.$refs.form.resetFields();</span><br><span class="line">      this.$emit(&quot;close&quot;);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在上述代码中，基于 Element UI 的 Dialog 组件封装了一个自定义对话框组件 MyDialog。</p>
+<p>该自定义组件内部接受外部传入的 数据 <code>name</code> 和 <code>address</code> 作为 <code>props</code> 并赋给 <code>data</code> 作为表单 <code>model</code> 的初始值，但问题在于，Dialog 中的内容是懒渲染的，此时 Form 组件还未渲染完毕，因此 <code>model</code> 并未接收到数据，解决方式可以通过监听 Dialog 组件的 <code>open</code> 事件，并在其回调中通过 <code>this.$nextTick</code> 来给 <code>data</code> 赋值。</p>
+<p>同理，如果想在 Dialog 组件的 <code>before-close</code> 属性（该属性为对话框关闭前的回调函数）中通过 <code>ref</code> 来引用子组件（如内部的 Form 组件）也会报 <code>Cannot read property &#39;xxx&#39; of undefined</code> 的错误。</p>
+<p>该自定义组件的显示与隐藏通过外部传入的 <code>visible</code> 属性来控制，因此点击对话框右上角的关闭按钮和遮罩层时无法修改 Dialog 的 <code>visible</code> 属性，因此这两种关闭对话框的方式都失效了。解决方法可以将组件的显示与隐藏的控制完全转移到组件内部，内部通过 <code>:visible.sync</code> 这种默认方式实现。</p>
+<p><strong>下面是正确的实现</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; App.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;el-button type&#x3D;&quot;text&quot; @click&#x3D;&quot;handleOpen&quot;&gt;Open Dialog&lt;&#x2F;el-button&gt;</span><br><span class="line">    &lt;my-dialog ref&#x3D;&quot;dialog&quot; v-bind&#x3D;&quot;receiver&quot;&gt;&lt;&#x2F;my-dialog&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import MyDialog from &quot;.&#x2F;MyDialog&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    &quot;my-dialog&quot;: MyDialog,</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      receiver: &#123;</span><br><span class="line">        name: &quot;&quot;,</span><br><span class="line">        address: &quot;&quot;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    handleOpen() &#123;</span><br><span class="line">      this.receiver &#x3D; &#123;</span><br><span class="line">        name: &quot;zhangsan&quot;,</span><br><span class="line">        address: &quot;...&quot;,</span><br><span class="line">      &#125;;</span><br><span class="line">      &#x2F;&#x2F; 让 MyDialog 组件控制自己如何显示</span><br><span class="line">      this.$refs.dialog.handleOpen();</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; MyDialog.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-dialog title&#x3D;&quot;收货人信息&quot; :visible.sync&#x3D;&quot;visible&quot; @open&#x3D;&quot;handleOpen&quot;&gt;</span><br><span class="line">    &lt;el-form :model&#x3D;&quot;form&quot; ref&#x3D;&quot;form&quot;&gt;</span><br><span class="line">      &lt;el-form-item label&#x3D;&quot;姓名&quot; prop&#x3D;&quot;name&quot;&gt;</span><br><span class="line">        &lt;el-input v-model&#x3D;&quot;form.name&quot;&gt;&lt;&#x2F;el-input&gt;</span><br><span class="line">      &lt;&#x2F;el-form-item&gt;</span><br><span class="line">      &lt;el-form-item label&#x3D;&quot;地址&quot; prop&#x3D;&quot;address&quot;&gt;</span><br><span class="line">        &lt;el-input v-model&#x3D;&quot;form.address&quot;&gt;&lt;&#x2F;el-input&gt;</span><br><span class="line">      &lt;&#x2F;el-form-item&gt;</span><br><span class="line">    &lt;&#x2F;el-form&gt;</span><br><span class="line">    &lt;div slot&#x3D;&quot;footer&quot; class&#x3D;&quot;dialog-footer&quot;&gt;</span><br><span class="line">      &lt;el-button @click&#x3D;&quot;handleClose&quot;&gt;取 消&lt;&#x2F;el-button&gt;</span><br><span class="line">      &lt;el-button type&#x3D;&quot;primary&quot; @click&#x3D;&quot;handleClose&quot;&gt;确 定&lt;&#x2F;el-button&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;el-dialog&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  props: [&quot;name&quot;, &quot;address&quot;],</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      visible: false,</span><br><span class="line">      form: &#123;</span><br><span class="line">        name: &quot;&quot;,</span><br><span class="line">        address: &quot;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    handleOpen() &#123;</span><br><span class="line">      this.visible &#x3D; true;</span><br><span class="line">      &#x2F;&#x2F; 给表单赋初值</span><br><span class="line">      this.$nextTick(() &#x3D;&gt; &#123;</span><br><span class="line">        this.form.name &#x3D; this.name;</span><br><span class="line">        this.form.address &#x3D; this.address;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    handleClose() &#123;</span><br><span class="line">      this.$refs.form.resetFields();</span><br><span class="line">      this.visible &#x3D; false;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="https://laylawang17.github.io/2020/05/05/%E4%BD%BF%E7%94%A8Element-UI%E5%AE%9E%E7%8E%B0%E5%86%85%E5%B5%8C%E8%A1%A8%E5%8D%95%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%8A%9F%E8%83%BD%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93/" data-id="ck9thnbq100007r01fr07d84g" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/05/01/Vue%E7%BB%84%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Vue组件的生命周期</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Layla Wang</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/rose-circle-cropped.jpg" alt="Layla Wang"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">首页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
