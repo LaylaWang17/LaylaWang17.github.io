@@ -54,6 +54,8 @@
 <h3 id="beforeDestoryed"><a href="#beforeDestoryed" class="headerlink" title="beforeDestoryed"></a>beforeDestoryed</h3><p>实例销毁前调用，此时实例仍完全可用</p>
 <h3 id="destoryed"><a href="#destoryed" class="headerlink" title="destoryed"></a>destoryed</h3><p>实例销毁后调用。该钩子被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁。</p>
 <hr>
+<p><img src="http://ww1.sinaimg.cn/large/98792392ly1gehnsfan2zj21xe25qwv0.jpg" alt=""></p>
+<hr>
 <blockquote>
 <p><strong>哪个生命周期钩子适合做数据请求？</strong></p>
 <ul>
@@ -104,6 +106,7 @@
 <li><a href="https://cn.vuejs.org/v2/api/#选项-生命周期钩子" target="_blank" rel="noopener">Vue API - 选项 / 生命周期钩子</a></li>
 <li><a href="https://cn.vuejs.org/v2/api/#实例方法-生命周期" target="_blank" rel="noopener">Vue API - 实例方法 / 生命周期</a></li>
 <li><a href="https://juejin.im/post/5d832b6b5188257ae63eba97" target="_blank" rel="noopener">vue 面试题之一：生命周期函数面试题</a></li>
+<li><a href="https://juejin.im/post/5d59f2a451882549be53b170#heading-0" target="_blank" rel="noopener">30 道 Vue 面试题，内含详细讲解（涵盖入门到精通，自测 Vue 掌握程度）</a></li>
 </ul>
 ]]></content>
       <tags>
@@ -520,11 +523,17 @@
       </tags>
   </entry>
   <entry>
-    <title>Vue中计算属性和方法的区别</title>
-    <url>/2020/03/08/Vue%E4%B8%AD%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<ul>
-<li>计算属性：计算属性是基于它们的响应式依赖进行缓存的。只在相关响应式依赖发生改变时它们才会重新求值。</li>
-<li>方法：每当触发重新渲染时，调用方法将总会再次执行函数。</li>
+    <title>Vue中computed、methods、watch的区别</title>
+    <url>/2020/03/08/Vue%E4%B8%ADcomputed%E3%80%81methods%E3%80%81watch%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p><strong>1. computed VS. methods</strong></p>
+<ul>
+<li><code>computed</code>：计算属性是基于它们的响应式依赖进行缓存的。只在相关响应式依赖发生改变时它们才会重新求值，否则在访问时会立即获得原值。</li>
+<li><code>methods</code>：每当触发重新渲染时，调用方法将总会再次执行函数。</li>
+</ul>
+<p><strong>2. computed VS. watch</strong></p>
+<ul>
+<li><code>computed</code> 是为了那些依赖于 <code>props</code> 或 <code>data</code> 的值而存在的，将逻辑从组件模板中剥离出来</li>
+<li><code>watch</code> 更适用于当监听对象发生变化时执行所需的操作这样的场景</li>
 </ul>
 ]]></content>
       <tags>
