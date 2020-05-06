@@ -118,12 +118,20 @@
 <li><code>beforeDestory</code>：可用来在实例销毁前做一些提示等用户交互</li>
 <li><code>destory</code>：此时组件实例已完全销毁，无法操作了</li>
 </ul>
-<p><strong>父子组件和兄弟组件的生命周期</strong></p>
+<p><strong>父子组件和兄弟组件的生命周期的执行顺序</strong></p>
 <ul>
-<li>子组件挂载完后父组件才开始挂载</li>
-<li>销毁父组件时会先销毁子组件</li>
+<li>父子组件<ul>
+<li><strong>创建时</strong>：父组件 beforeCreate –&gt; 父组件 created –&gt; 父组件 beforeMount –&gt; 子组件 beforeCreate –&gt; 子组件 created –&gt; 子组件 beforeMount –&gt; 子组件 mounted –&gt; 父组件 mounted</li>
+<li><strong>子组件更新时</strong>：父组件 beforeUpdate –&gt; 子组件 beforeUpdate –&gt; 子组件 updated –&gt; 父组件 updated</li>
+<li><strong>父组件更新时</strong>：父组件 beforeUpdate –&gt; 父组件 updated</li>
+<li><strong>销毁时</strong>：父组件 beforeDestory –&gt; 子组件 beforeDestory –&gt; 子组件 destroyed –&gt; 父组件 destoryed</li>
+</ul>
+</li>
+<li>兄弟组件<ul>
 <li>兄弟组件的初始化（<code>mounted</code>之前）是分别进行的，<code>mounted</code>是从上到下依次进行的</li>
 <li>无数据关联时，兄弟组件间的更新和销毁互不关联</li>
+</ul>
+</li>
 </ul>
 </blockquote>
 <h2 id="与生命周期相关的实例方法"><a href="#与生命周期相关的实例方法" class="headerlink" title="与生命周期相关的实例方法"></a>与生命周期相关的实例方法</h2><h3 id="vm-mount"><a href="#vm-mount" class="headerlink" title="vm.$mount"></a>vm.$mount</h3><ul>
@@ -134,7 +142,7 @@
 <h3 id="vm-forceUpdate"><a href="#vm-forceUpdate" class="headerlink" title="vm.$forceUpdate"></a>vm.$forceUpdate</h3><p>强制实例重新渲染。</p>
 <p>仅影响实例本身和插入插槽的子组件，而非全部子组件。</p>
 <h3 id="vm-nextTick"><a href="#vm-nextTick" class="headerlink" title="vm.$nextTick"></a>vm.$nextTick</h3><ul>
-<li>参数：回调函数（若不传餐，则在支持 Promise 的环境中会返回 Promise</li>
+<li>参数：回调函数（若不传参，则在支持 Promise 的环境中会返回 Promise）</li>
 </ul>
 <p>传入的回调函数将会在下次 DOM 更新循环之后执行。</p>
 <blockquote>
