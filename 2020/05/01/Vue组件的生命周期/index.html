@@ -24,7 +24,7 @@
   
 <script src="/js/pace.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Layla Wang" type="application/atom+xml">
 </head>
 
 <body>
@@ -79,20 +79,20 @@
 <a id="more"></a>
 
 <h2 id="生命周期图示"><a href="#生命周期图示" class="headerlink" title="生命周期图示"></a>生命周期图示</h2><p><img src="http://ww1.sinaimg.cn/large/98792392ly1gecsippv76j20xc2cftaj.jpg" alt="lifecycle.png"></p>
-<h2 id="常用生命周期钩子"><a href="#常用生命周期钩子" class="headerlink" title="常用生命周期钩子"></a>常用生命周期钩子</h2><h3 id="beforCreate"><a href="#beforCreate" class="headerlink" title="beforCreate"></a>beforCreate</h3><p>实例初始化之后、data 观测和 watch / event 事件回调配置前调用。</p>
-<h3 id="created"><a href="#created" class="headerlink" title="created"></a>created</h3><p>在实例创建完成后立即被调用。此时，实例已完成 data 观测、property 和 method 的计算、watch / event 事件回调。但此时挂载阶段还未开始，因此实例的 <code>$el</code> property 还不可用。</p>
-<h3 id="beforeMount"><a href="#beforeMount" class="headerlink" title="beforeMount"></a>beforeMount</h3><p>在挂载开始前被调用，此时相关的 <code>render</code> 函数首次被调用。</p>
+<h2 id="常用生命周期钩子"><a href="#常用生命周期钩子" class="headerlink" title="常用生命周期钩子"></a>常用生命周期钩子</h2><h3 id="beforCreate"><a href="#beforCreate" class="headerlink" title="beforCreate"></a>beforCreate</h3><p>实例初始化之后、data 观测和 watch / event 事件回调配置前调用，此时数据还不能访问。</p>
+<h3 id="created"><a href="#created" class="headerlink" title="created"></a>created</h3><p>在实例创建完成后立即被调用。此时，实例已完成 data 观测、property 和 method 的计算、watch / event 事件回调，即数据已经可以访问了。但此时挂载阶段还未开始，因此实例的 <code>$el</code> property 还不可用。</p>
+<h3 id="beforeMount"><a href="#beforeMount" class="headerlink" title="beforeMount"></a>beforeMount</h3><p>在挂载开始前被调用，此时相关的 <code>render</code> 函数首次被调用，内存中已存在编译好的模板，但尚未挂载，无法执行 DOM 操作。</p>
 <h3 id="mounted"><a href="#mounted" class="headerlink" title="mounted"></a>mounted</h3><p>实例挂载后调用，此时 <code>el</code> 已被新创建的 <code>vm.$el</code> 替换。</p>
 <p><code>mounted</code> 不能保证所有的子组件也一起被挂载，因此若想等到整个视图都渲染完毕，可以在 <code>mounted</code> 内部调用 <code>vm.$nextTick</code></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mounted: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="beforeUpdated"><a href="#beforeUpdated" class="headerlink" title="beforeUpdated"></a>beforeUpdated</h3><p>data 更新时调用，发生在 virtual DOM 打补丁前，此时可以访问到现有的 DOM，可以用于手动移除事件监听器</p>
+<h3 id="beforeUpdated"><a href="#beforeUpdated" class="headerlink" title="beforeUpdated"></a>beforeUpdated</h3><p>data 更新时调用，发生在 virtual DOM 打补丁前，此时可以访问到新的 data 和旧的 DOM，可以用于手动移除事件监听器。</p>
 <h3 id="updated"><a href="#updated" class="headerlink" title="updated"></a>updated</h3><p>virtual DOM 打补丁后调用。此时组件 DOM 已更新，可以执行依赖 DOM 的操作。</p>
-<p>但应避免在此时更新 state，如有需要应使用 计算属性 或 watcher。</p>
+<p>但应避免在此时更新 state，如有需要应使用 <strong>计算属性</strong> 或 <strong>watcher</strong>。</p>
 <p><code>updated</code> 不能保证所有子组件都一起被重绘，若希望等到整个视图都重绘完毕，可以在 <code>updated</code> 内部调用 <code>vm.$nextTick</code></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">updated: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="beforeDestoryed"><a href="#beforeDestoryed" class="headerlink" title="beforeDestoryed"></a>beforeDestoryed</h3><p>实例销毁前调用，此时实例仍完全可用</p>
+<h3 id="beforeDestoryed"><a href="#beforeDestoryed" class="headerlink" title="beforeDestoryed"></a>beforeDestoryed</h3><p>实例销毁前调用，此时实例仍完全可用。</p>
 <h3 id="destoryed"><a href="#destoryed" class="headerlink" title="destoryed"></a>destoryed</h3><p>实例销毁后调用。该钩子被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁。</p>
 <hr>
 <p><img src="http://ww1.sinaimg.cn/large/98792392ly1gehnsfan2zj21xe25qwv0.jpg" alt=""></p>
@@ -161,7 +161,7 @@
                                                                         
                                     </div>
                                     <footer class="article-footer">
-                                        <a data-url="https://laylawang17.github.io/2020/05/01/Vue%E7%BB%84%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" data-id="ck9s8xmj8002i3001bl7k0k3x" class="article-share-link">
+                                        <a data-url="https://laylawang17.github.io/2020/05/01/Vue%E7%BB%84%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" data-id="ckmez33ji002jp101dsn93ouo" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -214,7 +214,7 @@
 </ul>
     </div>
     <ul class="list-inline">
-      <li>&copy; 2020 Layla Wang</li>
+      <li>&copy; 2021 Layla Wang</li>
       <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
       <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
     </ul>
